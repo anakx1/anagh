@@ -906,14 +906,33 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
   <script>
     // --- 1. LIVE TELEMETRY SUBSYSTEM ---
     let latestTelemetry = null;
+    const REMOTE_EDGE_ENDPOINT = 'https://stated-vernon-prediction-tissue.trycloudflare.com/api/telemetry';
 
     async function fetchTelemetry() {
+      let data = null;
+      let isRemote = false;
+
+      // 1. Try local endpoint first (when served directly from phone)
       try {
         const res = await fetch('/api/telemetry', { cache: 'no-store' });
-        if (!res.ok) throw new Error('Endpoint offline');
-        const data = await res.json();
-        latestTelemetry = data;
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (e) {}
 
+      // 2. If local fails (e.g. hosted on GitHub Pages), query remote phone edge tunnel
+      if (!data && REMOTE_EDGE_ENDPOINT) {
+        try {
+          const res = await fetch(REMOTE_EDGE_ENDPOINT, { cache: 'no-store' });
+          if (res.ok) {
+            data = await res.json();
+            isRemote = true;
+          }
+        } catch (e) {}
+      }
+
+      if (data) {
+        latestTelemetry = data;
         document.getElementById('stat-kernel').innerText = data.kernel || 'Linux 6.1 (aarch64)';
         document.getElementById('stat-platform').innerText = `${data.node} • ${data.arch}`;
         document.getElementById('stat-uptime').innerText = data.uptime ? `${data.uptime}` : 'Active';
@@ -921,14 +940,39 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
         document.getElementById('stat-load').innerText = data.load || '0.85, 0.92, 0.95';
 
         const pingBadge = document.getElementById('telemetry-ping');
-        pingBadge.style.borderColor = 'rgba(16, 185, 129, 0.6)';
-        pingBadge.innerHTML = '● Live Feed (Termux Node)';
-      } catch (err) {
-        // Graceful fallback for static environments
-        document.getElementById('stat-uptime').innerText = 'Online';
-        document.getElementById('stat-memory').innerText = 'Optimal';
+        if (pingBadge) {
+          pingBadge.style.borderColor = 'rgba(16, 185, 129, 0.6)';
+          pingBadge.style.color = '#34d399';
+          pingBadge.innerHTML = isRemote
+            ? '● Live Feed (Remote Android Node)'
+            : '● Live Feed (Local Termux Node)';
+        }
+
+        const statusBar = document.querySelector('.status-bar span');
+        if (statusBar) {
+          statusBar.innerHTML = isRemote
+            ? 'Node: Termux / Android ARM64 • <strong>Live Remote Phone Connected</strong>'
+            : 'Node: Termux / Android ARM64 • <strong>Self-Hosted Live Edge Server</strong>';
+        }
+      } else {
+        // 3. Graceful fallback for when phone is sleeping/offline
+        document.getElementById('stat-kernel').innerText = 'Linux 6.1 (aarch64)';
+        document.getElementById('stat-platform').innerText = 'Termux Mobile Node • aarch64';
+        document.getElementById('stat-uptime').innerText = 'Online (Cloud CDN)';
+        document.getElementById('stat-memory').innerText = 'Standby';
         document.getElementById('stat-load').innerText = '0.74, 0.82, 0.91';
-        document.getElementById('telemetry-ping').innerHTML = '● Edge Node Standby';
+
+        const pingBadge = document.getElementById('telemetry-ping');
+        if (pingBadge) {
+          pingBadge.style.borderColor = 'rgba(234, 179, 8, 0.4)';
+          pingBadge.style.color = '#facc15';
+          pingBadge.innerHTML = '○ Edge Node Standby (Phone Offline)';
+        }
+
+        const statusBar = document.querySelector('.status-bar span');
+        if (statusBar) {
+          statusBar.innerHTML = 'Node: GitHub Global CDN • <strong>24/7 Cloud Host (Edge Standby)</strong>';
+        }
       }
     }
 

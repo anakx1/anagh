@@ -588,7 +588,10 @@
     <section class="telemetry-section">
       <div class="section-title-row">
         <h2>📡 Live Node Telemetry</h2>
-        <span id="telemetry-ping" class="ping-badge">● Polling Edge (5s)</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="telemetry-ping" class="ping-badge">● Polling Edge (5s)</span>
+          <button class="term-btn" onclick="promptEdgeUrl()" title="Connect your active phone tunnel URL">⚙️ Connect Phone</button>
+        </div>
       </div>
       <div class="telemetry-grid">
         <div class="telemetry-card">
@@ -906,11 +909,40 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
   <script>
     // --- 1. LIVE TELEMETRY SUBSYSTEM ---
     let latestTelemetry = null;
-    const REMOTE_EDGE_ENDPOINT = 'https://stated-vernon-prediction-tissue.trycloudflare.com/api/telemetry';
+
+    // Detect node URL from query param ?node=... or localStorage or fallback to active tunnel
+    function getTargetEdgeUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryNode = urlParams.get('node');
+      if (queryNode) {
+        const cleaned = queryNode.trim().replace(/\/api\/telemetry\/?$/, '').replace(/\/$/, '');
+        localStorage.setItem('custom_edge_node', cleaned);
+        return cleaned;
+      }
+      return localStorage.getItem('custom_edge_node') || 'https://cleveland-administered-significance-periods.trycloudflare.com';
+    }
+
+    function promptEdgeUrl() {
+      const current = localStorage.getItem('custom_edge_node') || 'https://cleveland-administered-significance-periods.trycloudflare.com';
+      const input = prompt("Enter your active Cloudflare Tunnel URL (e.g. https://xxxx.trycloudflare.com):", current);
+      if (input !== null) {
+        const cleaned = input.trim().replace(/\/api\/telemetry\/?$/, '').replace(/\/$/, '');
+        if (cleaned) {
+          localStorage.setItem('custom_edge_node', cleaned);
+          alert("Connected! Telemetry will stream from: " + cleaned);
+        } else {
+          localStorage.removeItem('custom_edge_node');
+          alert("Reset to default standby mode.");
+        }
+        fetchTelemetry();
+      }
+    }
 
     async function fetchTelemetry() {
       let data = null;
       let isRemote = false;
+      const customNode = getTargetEdgeUrl();
+      const remoteEndpoint = customNode ? `${customNode.replace(/\/$/, '')}/api/telemetry` : null;
 
       // 1. Try local endpoint first (when served directly from phone)
       try {
@@ -921,9 +953,9 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
       } catch (e) {}
 
       // 2. If local fails (e.g. hosted on GitHub Pages), query remote phone edge tunnel
-      if (!data && REMOTE_EDGE_ENDPOINT) {
+      if (!data && remoteEndpoint) {
         try {
-          const res = await fetch(REMOTE_EDGE_ENDPOINT, { cache: 'no-store' });
+          const res = await fetch(remoteEndpoint, { cache: 'no-store' });
           if (res.ok) {
             data = await res.json();
             isRemote = true;
@@ -1003,6 +1035,7 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
   <span style="color: #7ee787;">arch</span>          View 3-node Ansible KVM lab topology diagram
   <span style="color: #7ee787;">certs</span>         Certifications & EX200 RHEL 10 roadmap
   <span style="color: #7ee787;">telemetry</span>     Read live edge node hardware telemetry
+  <span style="color: #7ee787;">connect &lt;url&gt;</span> Connect custom live edge node tunnel URL
   <span style="color: #7ee787;">uname [-a|-r]</span> Print kernel and system architecture
   <span style="color: #7ee787;">uptime</span>        Show current node uptime & system load
   <span style="color: #7ee787;">cat &lt;file&gt;</span>    Read file (try: <span style="color: #f0883e;">cat /etc/exam-tracker.conf</span> or <span style="color: #f0883e;">cat contact.txt</span>)
@@ -1168,6 +1201,16 @@ Download full PDF: <a href="resume.pdf" download="V_P_ANAGH_UTHAMAN_Resume.pdf" 
           output = `cat: missing file operand. Try 'cat /etc/exam-tracker.conf' or 'cat contact.txt'`;
         } else {
           output = `cat: ${escapeHtml(file)}: No such file or directory`;
+        }
+      } else if (cmd === 'connect') {
+        const url = args[0];
+        if (!url) {
+          output = `Usage: connect &lt;url&gt;\nExample: connect https://xxxx.trycloudflare.com`;
+        } else {
+          const cleaned = url.trim().replace(/\/api\/telemetry\/?$/, '').replace(/\/$/, '');
+          localStorage.setItem('custom_edge_node', cleaned);
+          fetchTelemetry();
+          output = `Successfully linked edge node to: <span style="color: #7ee787;">${escapeHtml(cleaned)}</span>\nTelemetry is now streaming live from this phone node!`;
         }
       } else if (cmd === 'echo') {
         output = escapeHtml(args.join(' '));

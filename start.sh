@@ -40,7 +40,10 @@ echo ""
 echo "=========================================================="
 if [ -n "$PUBLIC_URL" ]; then
     echo "✅ PORTFOLIO IS LIVE ON THE PUBLIC INTERNET!"
-    echo "🔗 URL: $PUBLIC_URL"
+    echo "🔗 Direct Phone Tunnel : $PUBLIC_URL"
+    echo ""
+    echo "🌐 GitHub Pages (1-Click Live Phone Feed):"
+    echo "👉 https://anakx1.github.io/anagh/?node=$PUBLIC_URL"
 else
     echo "⚠️ Tunnel started, but URL could not be parsed immediately."
     echo "Check log: cat $LOG_TUNNEL"

@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V P ANAGH UTHAMAN | Linux & DevOps Engineer</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --heading: #f0f6fc;
+      --accent-red: #ee0000;
+      --accent-orange: #ff9900;
+      --accent-green: #238636;
+      --accent-cyan: #58a6ff;
+      --badge-bg: rgba(56, 189, 248, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    /* Server Badge */
+    .status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      margin-bottom: 2rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.15); }
+    }
+
+    /* Hero */
+    header {
+      margin-bottom: 2.5rem;
+    }
+
+    h1 {
+      color: var(--heading);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--accent-cyan);
+      font-family: ui-monospace, monospace;
+      margin-bottom: 1rem;
+    }
+
+    .bio {
+      font-size: 1.05rem;
+      color: #8b949e;
+      max-width: 720px;
+    }
+
+    .header-links {
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      text-decoration: none;
+      color: #58a6ff;
+      border: 1px solid #30363d;
+      background: #21262d;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: ui-monospace, monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+
+    .social-btn:hover {
+      border-color: #58a6ff;
+      background: #1f2937;
+      color: #79c0ff;
+    }
+
+    .social-btn-primary {
+      color: #10b981;
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.1);
+      font-weight: 600;
+    }
+
+    .social-btn-primary:hover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    /* Live Telemetry Section */
+    .telemetry-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-title-row h2 {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .ping-badge {
+      font-size: 0.75rem;
+      font-family: ui-monospace, monospace;
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .telemetry-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.2s ease;
+    }
+
+    .telemetry-card:hover {
+      border-color: #58a6ff;
+    }
+
+    .telemetry-label {
+      font-size: 0.72rem;
+      font-family: ui-monospace, monospace;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .telemetry-val {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--heading);
+      font-family: ui-monospace, monospace;
+      word-break: break-all;
+    }
+
+    .telemetry-sub {
+      font-size: 0.76rem;
+      color: #6e7681;
+      font-family: ui-monospace, monospace;
+    }
+
+    /* Terminal Window Style */
+    .terminal-card {
+      background: #090d13;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      cursor: text;
+    }
+
+    .terminal-header {
+      background: #161b22;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      user-select: none;
+    }
+
+    .terminal-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .terminal-title {
+      margin-left: 8px;
+      font-size: 0.8rem;
+      color: #8b949e;
+      font-family: ui-monospace, monospace;
+      flex-grow: 1;
+    }
+
+    .terminal-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .term-btn {
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      font-size: 0.7rem;
+      font-family: ui-monospace, monospace;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .term-btn:hover {
+      color: #f0f6fc;
+      border-color: #58a6ff;
+    }
+
+    /* Quick command chips */
+    .term-quick-chips {
+      background: #0d1117;
+      border-bottom: 1px solid #21262d;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      font-size: 0.76rem;
+      font-family: ui-monospace, monospace;
+      color: #8b949e;
+      user-select: none;
+    }
+
+    .term-quick-chips span {
+      white-space: nowrap;
+    }
+
+    .term-chip {
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #7ee787;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.74rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .term-chip:hover {
+      background: #21262d;
+      border-color: #58a6ff;
+      color: #58a6ff;
+    }
+
+    .terminal-body {
+      padding: 1.2rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92rem;
+      color: #e6edf3;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    .prompt-user { color: #58a6ff; font-weight: 600; }
+    .prompt-path { color: #f0883e; }
+    .prompt-sym { color: #7ee787; }
+    .term-cmd { color: #ff7b72; font-weight: bold; }
+    .term-out { color: #8b949e; margin-top: 4px; margin-bottom: 12px; line-height: 1.5; }
+    .term-highlight { color: #58a6ff; font-weight: bold; }
+
+    .term-welcome {
+      color: #8b949e;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #21262d;
+      line-height: 1.5;
+    }
+
+    .terminal-prompt-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .terminal-prompt-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92rem;
+      color: #f0f6fc;
+      caret-color: #58a6ff;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      color: var(--heading);
+      font-size: 1.4rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Grid cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #58a6ff;
+    }
+
+    .card h3 {
+      color: var(--heading);
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-weight: bold;
+    }
+
+    .tag-rh { background: rgba(238, 0, 0, 0.15); color: #ff6b6b; border: 1px solid rgba(238, 0, 0, 0.3); }
+    .tag-aws { background: rgba(255, 153, 0, 0.15); color: #ffb84d; border: 1px solid rgba(255, 153, 0, 0.3); }
+    .tag-active { background: rgba(35, 134, 54, 0.2); color: #56d364; border: 1px solid #238636; }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .skill-pill {
+      background: #21262d;
+      color: #c9d1d9;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: ui-monospace, monospace;
+      border: 1px solid #30363d;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      gap: 8px;
+    }
+
+    .project-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--heading);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .project-title:hover {
+      color: #58a6ff;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: #8b949e;
+      margin-bottom: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .project-footer {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid #21262d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .project-link-btn {
+      color: #58a6ff;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: ui-monospace, monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .project-link-btn:hover {
+      text-decoration: underline;
+    }
+
+    .arch-details {
+      margin-top: 0.85rem;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background: #090d13;
+      overflow: hidden;
+    }
+
+    .arch-details summary {
+      padding: 7px 12px;
+      font-size: 0.78rem;
+      font-family: ui-monospace, monospace;
+      color: #58a6ff;
+      cursor: pointer;
+      user-select: none;
+      background: #161b22;
+      border-bottom: 1px solid #21262d;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      outline: none;
+    }
+
+    .arch-details summary:hover {
+      background: #1f2937;
+      color: #79c0ff;
+    }
+
+    .arch-content {
+      padding: 10px;
+    }
+
+    .arch-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    /* Footer & Connect */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      text-align: center;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Live Edge Node Badge -->
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span>Node: Termux / Android ARM64 • <strong>Self-Hosted Live Edge Server</strong></span>
+    </div>
+
+    <!-- Header / Hero -->
+    <header>
+      <h1>V P ANAGH UTHAMAN</h1>
+      <div class="subtitle">$ whoami && echo "Linux & DevOps Engineer • Enterprise & Cloud Automation"</div>
+      <p class="bio">
+        Passionate Linux systems administrator and cloud engineer specialized in Red Hat Enterprise Linux (RHEL), infrastructure automation, and AWS cloud deployments.
+      </p>
+      <div class="header-links">
+        <a href="resume.pdf" download="V_P_ANAGH_UTHAMAN_Resume.pdf" class="social-btn social-btn-primary">
+          <svg height="16" width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download Resume (PDF)
+        </a>
+        <a href="https://github.com/an9gh" target="_blank" rel="noopener" class="social-btn">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          github.com/an9gh
+        </a>
+        <a href="https://in.linkedin.com/in/anaghvp" target="_blank" rel="noopener" class="social-btn">
+          <svg height="16" width="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.79v8.37H6.46v-8.37M7.86 6.72a1.63 1.63 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63z"></path></svg>
+          linkedin.com/in/anaghvp
+        </a>
+        <a href="mailto:kakarotthebeast1@gmail.com" class="social-btn">
+          <svg height="16" width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          Email Me
+        </a>
+      </div>
+    </header>
+
+    <!-- Option 3: Live System Telemetry Dashboard -->
+    <section class="telemetry-section">
+      <div class="section-title-row">
+        <h2>📡 Live Node Telemetry</h2>
+        <span id="telemetry-ping" class="ping-badge">● Polling Edge (5s)</span>
+      </div>
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <span class="telemetry-label">Kernel & Platform</span>
+          <span class="telemetry-val" id="stat-kernel">Linux 6.1 (aarch64)</span>
+          <span class="telemetry-sub" id="stat-platform">Android Termux Node</span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-label">System Uptime</span>
+          <span class="telemetry-val" id="stat-uptime">Connecting...</span>
+          <span class="telemetry-sub">Continuous session</span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-label">Memory Utilization</span>
+          <span class="telemetry-val" id="stat-memory">Connecting...</span>
+          <span class="telemetry-sub">RAM Usage / Total</span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-label">Load Average (1, 5, 15m)</span>
+          <span class="telemetry-val" id="stat-load">Connecting...</span>
+          <span class="telemetry-sub">CPU Scheduler Load</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Option 2: Truly Interactive Linux Terminal -->
+    <section>
+      <h2>💻 Interactive Terminal CLI</h2>
+      <div class="terminal-card" id="terminal-card">
+        <div class="terminal-header">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">bash — anagh@rhel-lab:~ (Interactive Shell)</span>
+          <div class="terminal-actions">
+            <button class="term-btn" onclick="clearTerminal()">clear</button>
+          </div>
+        </div>
+
+        <!-- Quick click chips for mobile or fast testing -->
+        <div class="term-quick-chips">
+          <span>Quick run:</span>
+          <button class="term-chip" onclick="runChipCmd('help')">help</button>
+          <button class="term-chip" onclick="runChipCmd('whoami')">whoami</button>
+          <button class="term-chip" onclick="runChipCmd('resume')">resume</button>
+          <button class="term-chip" onclick="runChipCmd('skills')">skills</button>
+          <button class="term-chip" onclick="runChipCmd('projects')">projects</button>
+          <button class="term-chip" onclick="runChipCmd('arch')">topology</button>
+          <button class="term-chip" onclick="runChipCmd('certs')">certs</button>
+          <button class="term-chip" onclick="runChipCmd('cat /etc/exam-tracker.conf')">cat tracker</button>
+          <button class="term-chip" onclick="runChipCmd('telemetry')">telemetry</button>
+          <button class="term-chip" onclick="runChipCmd('uname -a')">uname -a</button>
+        </div>
+
+        <div class="terminal-body" id="terminal-body">
+          <div id="terminal-history">
+            <div class="term-welcome">
+[WELCOME] Red Hat Enterprise Linux 10 (Coughlan) - ARM64 Mobile Node<br>
+Logged in as: <strong style="color: #58a6ff;">anagh</strong> (RHCSA & RHCE Track • Cloud & DevOps)<br>
+Type <span class="term-highlight">'help'</span> or tap any button above to execute terminal commands.
+            </div>
+            <div><span class="prompt-user">anagh@rhel</span>:<span class="prompt-path">~</span><span class="prompt-sym">$</span> <span class="term-cmd">cat /etc/exam-tracker.conf</span></div>
+            <div class="term-out">
+[CANDIDATE_PROFILE]<br>
+Name          : V P ANAGH UTHAMAN<br>
+Certification : Red Hat Certified System Administrator (RHCSA) & RHCE<br>
+Target Exam   : EX200 (RHEL v10 Edition)<br>
+Status        : In Active Preparation & Lab Testing 🎯<br>
+Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Container management (Podman)
+            </div>
+          </div>
+
+          <div class="terminal-prompt-row">
+            <span class="prompt-user">anagh@rhel</span>:<span class="prompt-path">~</span><span class="prompt-sym">$</span>
+            <input type="text" id="terminal-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type command here..." />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications & Focus -->
+    <section>
+      <h2>📜 Certifications & Roadmap</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>
+            EX200 — RHEL 10
+            <span class="tag tag-active">Target Exam</span>
+          </h3>
+          <p>Red Hat Certified System Administrator (RHCSA) covering core RHEL 10 management, services, storage, and containerized workflows.</p>
+        </div>
+
+        <div class="card">
+          <h3>
+            RHCSA & RHCE Track
+            <span class="tag tag-rh">Red Hat</span>
+          </h3>
+          <p>Enterprise Linux administration, system recovery, automated configuration management with Ansible, and service hardening.</p>
+        </div>
+
+        <div class="card">
+          <h3>
+            AWS Cloud Architecture
+            <span class="tag tag-aws">Cloud</span>
+          </h3>
+          <p>Designing secure, highly available cloud workloads with EC2, VPC, IAM, S3, RDS, and automated cloud infrastructure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Skills -->
+    <section>
+      <h2>⚡ Technical Skillset</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>🐧 Linux & Systems</h3>
+          <div class="skills-list">
+            <span class="skill-pill">RHEL 8 / 9 / 10</span>
+            <span class="skill-pill">SELinux</span>
+            <span class="skill-pill">systemd</span>
+            <span class="skill-pill">LVM / Storage</span>
+            <span class="skill-pill">Bash Scripting</span>
+            <span class="skill-pill">firewalld & iptables</span>
+            <span class="skill-pill">User & ACL Mgmt</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>☁️ Cloud & DevOps</h3>
+          <div class="skills-list">
+            <span class="skill-pill">AWS (VPC, EC2, IAM)</span>
+            <span class="skill-pill">Ansible Automation</span>
+            <span class="skill-pill">Docker & Podman</span>
+            <span class="skill-pill">CI/CD Pipelines</span>
+            <span class="skill-pill">Git / GitHub</span>
+            <span class="skill-pill">Reverse Proxies</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real GitHub Projects & Lab Highlights -->
+    <section>
+      <h2>🔬 Hands-on Labs & Projects</h2>
+      <div class="grid">
+
+        <!-- Project 1: ansible-works -->
+        <div class="card project-card">
+          <div>
+            <div class="project-header">
+              <a href="https://github.com/an9gh/ansible-works" target="_blank" rel="noopener" class="project-title">
+                <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                ansible-works
+              </a>
+              <span class="tag tag-rh">RHCE Track</span>
+            </div>
+            <p class="project-desc">
+              Multi-node infrastructure automation lab on KVM/virt-manager with 1 Control Node & 2 Managed Nodes. Configured passwordless SSH authentication, privileged sudoers, and playbooks for centralized system state enforcement.
+            </p>
+            <div class="skills-list" style="margin-bottom: 0.85rem;">
+              <span class="skill-pill">Ansible</span>
+              <span class="skill-pill">KVM / virt-manager</span>
+              <span class="skill-pill">SSH Keys</span>
+              <span class="skill-pill">Automation</span>
+            </div>
+
+            <!-- Architecture Topology Diagram -->
+            <details class="arch-details" open>
+              <summary>
+                <svg height="14" width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <span>Topology Blueprint (KVM + 3 VMs)</span>
+              </summary>
+              <div class="arch-content">
+                <svg class="arch-svg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Network boundary -->
+                  <rect x="8" y="8" width="584" height="264" rx="8" fill="#0d1117" stroke="#30363d" stroke-dasharray="4 4" />
+                  <text x="22" y="26" fill="#8b949e" font-family="monospace" font-size="11" font-weight="bold">KVM / virt-manager Subnet (192.168.122.0/24)</text>
+
+                  <!-- Connectors -->
+                  <path d="M 300 115 L 300 142 L 150 142 L 150 166" fill="none" stroke="#58a6ff" stroke-width="2" />
+                  <polygon points="150,172 146,164 154,164" fill="#58a6ff" />
+                  <path d="M 300 115 L 300 142 L 450 142 L 450 166" fill="none" stroke="#58a6ff" stroke-width="2" />
+                  <polygon points="450,172 446,164 454,164" fill="#58a6ff" />
+                  <text x="300" y="136" fill="#7ee787" font-family="monospace" font-size="10" text-anchor="middle">Passwordless SSH (Port 22 • Key-Auth)</text>
+
+                  <!-- Control Node -->
+                  <rect x="190" y="38" width="220" height="74" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="1.5" />
+                  <text x="300" y="58" fill="#58a6ff" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">Ansible Control Node</text>
+                  <text x="300" y="76" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.10 • Ubuntu Server</text>
+                  <text x="300" y="94" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">ansible-playbook | id_ed25519</text>
+
+                  <!-- Managed Node 1 -->
+                  <rect x="35" y="172" width="230" height="84" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5" />
+                  <text x="150" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 1 (ubuntu-node1)</text>
+                  <text x="150" y="210" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.21</text>
+                  <text x="150" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">User: automation (sudo NOPASSWD)</text>
+                  <text x="150" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">Auth: ~/.ssh/authorized_keys</text>
+
+                  <!-- Managed Node 2 -->
+                  <rect x="335" y="172" width="230" height="84" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5" />
+                  <text x="450" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 2 (ubuntu-node2)</text>
+                  <text x="450" y="210" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.22</text>
+                  <text x="450" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">User: automation (sudo NOPASSWD)</text>
+                  <text x="450" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">Auth: ~/.ssh/authorized_keys</text>
+                </svg>
+              </div>
+            </details>
+          </div>
+          <div class="project-footer">
+            <span style="font-size: 0.78rem; color: #8b949e; font-family: monospace;">Python / YAML</span>
+            <a href="https://github.com/an9gh/ansible-works" target="_blank" rel="noopener" class="project-link-btn">
+              View Repo →
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 2: rhel-root-password-recovery -->
+        <div class="card project-card">
+          <div>
+            <div class="project-header">
+              <a href="https://github.com/an9gh/rhel-root-password-recovery" target="_blank" rel="noopener" class="project-title">
+                <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                rhel-root-password-recovery
+              </a>
+              <span class="tag tag-active">RHCSA / EX200</span>
+            </div>
+            <p class="project-desc">
+              Comprehensive emergency recovery procedure for Red Hat Enterprise Linux. Covers bootloader interrupt via GRUB kernel arguments (<code>rd.break</code>), sysroot remounting, chroot environment password reset, and SELinux relabeling.
+            </p>
+            <div class="skills-list" style="margin-bottom: 1rem;">
+              <span class="skill-pill">RHEL 9 / 10</span>
+              <span class="skill-pill">GRUB</span>
+              <span class="skill-pill">SELinux</span>
+              <span class="skill-pill">Troubleshooting</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <span style="font-size: 0.78rem; color: #8b949e; font-family: monospace;">RHEL / SysAdmin</span>
+            <a href="https://github.com/an9gh/rhel-root-password-recovery" target="_blank" rel="noopener" class="project-link-btn">
+              View Repo →
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 3: bash-practice -->
+        <div class="card project-card">
+          <div>
+            <div class="project-header">
+              <a href="https://github.com/an9gh/bash-practice" target="_blank" rel="noopener" class="project-title">
+                <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                bash-practice
+              </a>
+              <span class="tag tag-aws">Automation</span>
+            </div>
+            <p class="project-desc">
+              Hands-on Shell and BASH automation scripts for systems engineering: user administration, environment audits, system health metrics collection, and automated maintenance workflows.
+            </p>
+            <div class="skills-list" style="margin-bottom: 1rem;">
+              <span class="skill-pill">Bash</span>
+              <span class="skill-pill">Shell Scripting</span>
+              <span class="skill-pill">Linux Admin</span>
+              <span class="skill-pill">Cron</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <span style="font-size: 0.78rem; color: #8b949e; font-family: monospace;">Shell</span>
+            <a href="https://github.com/an9gh/bash-practice" target="_blank" rel="noopener" class="project-link-btn">
+              View Repo →
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 4: Android Edge Micro-Server -->
+        <div class="card project-card">
+          <div>
+            <div class="project-header">
+              <span class="project-title">
+                <svg height="18" width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                termux-edge-server
+              </span>
+              <span class="tag tag-active">Self-Hosted Live</span>
+            </div>
+            <p class="project-desc">
+              Linux micro-server hosting this portfolio live from an aarch64 Android device. Features an encrypted Cloudflare Tunnel bypassing CGNAT, Python telemetry daemon, and interactive terminal CLI.
+            </p>
+            <div class="skills-list" style="margin-bottom: 1rem;">
+              <span class="skill-pill">Termux</span>
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">Cloudflare Tunnel</span>
+              <span class="skill-pill">aarch64</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <span style="font-size: 0.78rem; color: #8b949e; font-family: monospace;">Python / Bash</span>
+            <span style="font-size: 0.82rem; color: #10b981; font-family: monospace;">Active Node ●</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="social-links">
+        <a href="resume.pdf" download="V_P_ANAGH_UTHAMAN_Resume.pdf" style="color: #10b981; font-weight: 500;">Resume (PDF)</a>
+        <a href="https://github.com/an9gh" target="_blank" rel="noopener">GitHub (@an9gh)</a>
+        <a href="https://in.linkedin.com/in/anaghvp" target="_blank" rel="noopener">LinkedIn (anaghvp)</a>
+        <a href="mailto:kakarotthebeast1@gmail.com">Email</a>
+      </div>
+      <p>© 2026 V P ANAGH UTHAMAN • Served with 🐧 & ☕ directly from Termux</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // --- 1. LIVE TELEMETRY SUBSYSTEM ---
+    let latestTelemetry = null;
+
+    async function fetchTelemetry() {
+      try {
+        const res = await fetch('/api/telemetry', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Endpoint offline');
+        const data = await res.json();
+        latestTelemetry = data;
+
+        document.getElementById('stat-kernel').innerText = data.kernel || 'Linux 6.1 (aarch64)';
+        document.getElementById('stat-platform').innerText = `${data.node} • ${data.arch}`;
+        document.getElementById('stat-uptime').innerText = data.uptime ? `${data.uptime}` : 'Active';
+        document.getElementById('stat-memory').innerText = data.memory || 'Healthy';
+        document.getElementById('stat-load').innerText = data.load || '0.85, 0.92, 0.95';
+
+        const pingBadge = document.getElementById('telemetry-ping');
+        pingBadge.style.borderColor = 'rgba(16, 185, 129, 0.6)';
+        pingBadge.innerHTML = '● Live Feed (Termux Node)';
+      } catch (err) {
+        // Graceful fallback for static environments
+        document.getElementById('stat-uptime').innerText = 'Online';
+        document.getElementById('stat-memory').innerText = 'Optimal';
+        document.getElementById('stat-load').innerText = '0.74, 0.82, 0.91';
+        document.getElementById('telemetry-ping').innerHTML = '● Edge Node Standby';
+      }
+    }
+
+    fetchTelemetry();
+    setInterval(fetchTelemetry, 5000);
+
+    // --- 2. INTERACTIVE TERMINAL SUBSYSTEM ---
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalHistory = document.getElementById('terminal-history');
+    const terminalBody = document.getElementById('terminal-body');
+    const terminalCard = document.getElementById('terminal-card');
+
+    let commandHistory = [];
+    let historyIndex = -1;
+
+    // Focus input when clicking anywhere on terminal card
+    terminalCard.addEventListener('click', () => {
+      terminalInput.focus();
+    });
+
+    const COMMANDS = {
+      help: () => `
+<strong style="color: #58a6ff;">AVAILABLE COMMANDS:</strong>
+  <span style="color: #7ee787;">whoami</span>        Display engineer profile & mission
+  <span style="color: #7ee787;">resume</span>        Download / view CV & qualifications
+  <span style="color: #7ee787;">skills</span>        List technical competencies (RHEL, Cloud, DevOps)
+  <span style="color: #7ee787;">projects</span>      Hands-on labs and practical achievements
+  <span style="color: #7ee787;">arch</span>          View 3-node Ansible KVM lab topology diagram
+  <span style="color: #7ee787;">certs</span>         Certifications & EX200 RHEL 10 roadmap
+  <span style="color: #7ee787;">telemetry</span>     Read live edge node hardware telemetry
+  <span style="color: #7ee787;">uname [-a|-r]</span> Print kernel and system architecture
+  <span style="color: #7ee787;">uptime</span>        Show current node uptime & system load
+  <span style="color: #7ee787;">cat &lt;file&gt;</span>    Read file (try: <span style="color: #f0883e;">cat /etc/exam-tracker.conf</span> or <span style="color: #f0883e;">cat contact.txt</span>)
+  <span style="color: #7ee787;">clear</span>         Clear terminal screen
+  <span style="color: #7ee787;">date</span>          Display system date & timestamp
+`,
+      whoami: () => `
+<strong>V P ANAGH UTHAMAN</strong>
+Role       : Linux Systems & DevOps Engineer
+Focus      : Enterprise RHEL administration, Cloud Architecture, Automation
+Current    : Intensive prep for Red Hat EX200 (RHEL v10 Edition)
+Socials    : GitHub: <a href="https://github.com/an9gh" target="_blank" style="color: #58a6ff;">@an9gh</a> | LinkedIn: <a href="https://in.linkedin.com/in/anaghvp" target="_blank" style="color: #58a6ff;">anaghvp</a> | Email: <a href="mailto:kakarotthebeast1@gmail.com" style="color: #58a6ff;">kakarotthebeast1@gmail.com</a>
+`,
+      arch: () => `
+<strong style="color: #58a6ff;">📐 ANSIBLE 3-NODE KVM LAB TOPOLOGY:</strong>
+
+  ┌─────────────────────────────────────────────────────────┐
+  │          KVM / virt-manager Subnet (192.168.122.0/24)   │
+  └────────────────────────────┬────────────────────────────┘
+                               │
+              ┌────────────────┴────────────────┐
+              │       Ansible Control Node      │
+              │   • 192.168.122.10 (Ubuntu)     │
+              │   • ansible-playbook            │
+              │   • id_ed25519 (Private Key)    │
+              └────────┬────────────────┬───────┘
+                       │                │
+     Passwordless SSH  │                │  Passwordless SSH
+     Port 22 (Key-Auth)│                │  Port 22 (Key-Auth)
+                       ▼                ▼
+        ┌───────────────────┐      ┌───────────────────┐
+        │  Managed Node 1   │      │  Managed Node 2   │
+        │  192.168.122.21   │      │  192.168.122.22   │
+        │  User: automation │      │  User: automation │
+        │  sudoers NOPASSWD │      │  sudoers NOPASSWD │
+        │  authorized_keys  │      │  authorized_keys  │
+        └───────────────────┘      └───────────────────┘
+
+  Repository: <a href="https://github.com/an9gh/ansible-works" target="_blank" style="color: #58a6ff;">https://github.com/an9gh/ansible-works</a>
+`,
+      resume: () => `
+<strong style="color: #58a6ff;">📄 RESUME / CV OVERVIEW:</strong>
+  Candidate   : V P ANAGH UTHAMAN
+  Role        : Linux Systems & DevOps Engineer
+  Focus       : Enterprise RHEL (8/9/10), AWS Cloud, Ansible Automation
+  Download CV : <a href="resume.pdf" download="V_P_ANAGH_UTHAMAN_Resume.pdf" style="color: #10b981; font-weight: bold; text-decoration: underline;">[ Download V_P_ANAGH_UTHAMAN_Resume.pdf ]</a>
+`,
+      skills: () => `
+<strong>🐧 Linux & Systems:</strong>
+  RHEL (8/9/10), systemd, Storage/LVM, SELinux Policies, Bash Scripting, firewalld
+
+<strong>☁️ Cloud & DevOps:</strong>
+  AWS (EC2, VPC, IAM, S3, RDS), Ansible Automation, Docker/Podman, CI/CD, Git
+`,
+      certs: () => `
+<strong>📜 CERTIFICATIONS & ROADMAP:</strong>
+  [IN PROGRESS] EX200: Red Hat Certified System Administrator (RHEL 10)
+  [TRACK]       RHCE: Red Hat Certified Engineer (Ansible Automation)
+  [TRACK]       AWS Certified Solutions Architect
+`,
+      projects: () => `
+<strong style="color: #58a6ff;">🔬 GITHUB REPOSITORIES & LABS:</strong>
+
+  <span style="color: #7ee787;">1. ansible-works</span> <span style="color: #ff6b6b;">[RHCE Track]</span>
+     Multi-node KVM infrastructure automation (1 Control + 2 Managed Nodes)
+     URL: <a href="https://github.com/an9gh/ansible-works" target="_blank" style="color: #58a6ff;">https://github.com/an9gh/ansible-works</a>
+
+  <span style="color: #7ee787;">2. rhel-root-password-recovery</span> <span style="color: #56d364;">[RHCSA / EX200]</span>
+     Emergency root recovery procedure via GRUB rd.break and SELinux relabeling
+     URL: <a href="https://github.com/an9gh/rhel-root-password-recovery" target="_blank" style="color: #58a6ff;">https://github.com/an9gh/rhel-root-password-recovery</a>
+
+  <span style="color: #7ee787;">3. bash-practice</span> <span style="color: #ffb84d;">[Automation]</span>
+     Linux sysadmin automation scripts, user audits, health checks, cron jobs
+     URL: <a href="https://github.com/an9gh/bash-practice" target="_blank" style="color: #58a6ff;">https://github.com/an9gh/bash-practice</a>
+
+  <span style="color: #7ee787;">4. termux-edge-server</span> <span style="color: #56d364;">[Live Active Node]</span>
+     This active portfolio server running on an Android ARM64 Termux node
+`,
+      telemetry: () => {
+        if (latestTelemetry) {
+          return `
+<strong>📡 LIVE NODE TELEMETRY:</strong>
+  Platform : ${latestTelemetry.platform} (${latestTelemetry.arch})
+  Kernel   : ${latestTelemetry.kernel}
+  Uptime   : ${latestTelemetry.uptime}
+  Memory   : ${latestTelemetry.memory}
+  Load Avg : ${latestTelemetry.load}
+  Status   : ${latestTelemetry.status.toUpperCase()}
+`;
+        }
+        return `Reading hardware telemetry... Run command again in 2 seconds.`;
+      },
+      uname: (args) => {
+        const k = latestTelemetry ? latestTelemetry.kernel : 'Linux 6.1.162-android14-11';
+        const a = latestTelemetry ? latestTelemetry.arch : 'aarch64';
+        if (args.includes('-r')) return k;
+        if (args.includes('-m')) return a;
+        return `${k} #1 SMP PREEMPT aarch64 GNU/Linux (Android Termux Edge Node)`;
+      },
+      uptime: () => {
+        if (latestTelemetry && latestTelemetry.uptime) {
+          return `up ${latestTelemetry.uptime}, load average: ${latestTelemetry.load}`;
+        }
+        return `up 4 hours, load average: 0.92, 0.88, 0.81`;
+      },
+      date: () => new Date().toString(),
+      clear: () => {
+        terminalHistory.innerHTML = '';
+        return null;
+      }
+    };
+
+    function executeCommand(rawInput) {
+      const trimmed = rawInput.trim();
+      if (!trimmed) return;
+
+      commandHistory.push(trimmed);
+      historyIndex = commandHistory.length;
+
+      // Render prompt line
+      const cmdRow = document.createElement('div');
+      cmdRow.innerHTML = `<span class="prompt-user">anagh@rhel</span>:<span class="prompt-path">~</span><span class="prompt-sym">$</span> <span class="term-cmd">${escapeHtml(trimmed)}</span>`;
+      terminalHistory.appendChild(cmdRow);
+
+      const parts = trimmed.split(/\s+/);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+
+      let output = '';
+
+      if (cmd === 'clear') {
+        COMMANDS.clear();
+      } else if (cmd === 'topology') {
+        output = COMMANDS.arch(args);
+      } else if (COMMANDS[cmd]) {
+        output = COMMANDS[cmd](args);
+      } else if (cmd === 'cat') {
+        const file = args[0];
+        if (file === '/etc/exam-tracker.conf' || file === 'tracker') {
+          output = `
+[CANDIDATE_PROFILE]
+Name          : V P ANAGH UTHAMAN
+Certification : Red Hat Certified System Administrator (RHCSA) & RHCE
+Target Exam   : EX200 (RHEL v10 Edition)
+Status        : In Active Preparation & Lab Testing 🎯
+Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Container management (Podman)
+`;
+        } else if (file === 'contact.txt' || file === 'contact') {
+          output = `
+Name     : V P ANAGH UTHAMAN
+GitHub   : https://github.com/an9gh
+LinkedIn : https://in.linkedin.com/in/anaghvp
+Email    : kakarotthebeast1@gmail.com
+Hosting  : Live Termux Edge Mobile Server
+`;
+        } else if (file === 'resume.txt' || file === 'resume' || file === 'cv') {
+          output = `
+V P ANAGH UTHAMAN - Linux Systems & DevOps Engineer
+Certifications: Red Hat RHCSA / RHCE Track, AWS Architecture
+Download full PDF: <a href="resume.pdf" download="V_P_ANAGH_UTHAMAN_Resume.pdf" style="color: #10b981; font-weight: bold;">[ Download resume.pdf ]</a>
+`;
+        } else if (!file) {
+          output = `cat: missing file operand. Try 'cat /etc/exam-tracker.conf' or 'cat contact.txt'`;
+        } else {
+          output = `cat: ${escapeHtml(file)}: No such file or directory`;
+        }
+      } else if (cmd === 'echo') {
+        output = escapeHtml(args.join(' '));
+      } else {
+        output = `<span style="color: #ff7b72;">bash: ${escapeHtml(cmd)}: command not found</span>. Type <span class="term-highlight">'help'</span> for available commands.`;
+      }
+
+      if (output !== null && output !== '') {
+        const outDiv = document.createElement('div');
+        outDiv.className = 'term-out';
+        outDiv.innerHTML = output.trim();
+        terminalHistory.appendChild(outDiv);
+      }
+
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    function runChipCmd(cmd) {
+      terminalInput.value = cmd;
+      executeCommand(cmd);
+      terminalInput.value = '';
+      terminalInput.focus();
+    }
+
+    function clearTerminal() {
+      COMMANDS.clear();
+      terminalInput.value = '';
+      terminalInput.focus();
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+    }
+
+    // Handle Keyboard events: Enter, Up/Down history, Tab complete
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        executeCommand(terminalInput.value);
+        terminalInput.value = '';
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          terminalInput.value = commandHistory[historyIndex] || '';
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          terminalInput.value = commandHistory[historyIndex] || '';
+        } else {
+          historyIndex = commandHistory.length;
+          terminalInput.value = '';
+        }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const current = terminalInput.value.trim().toLowerCase();
+        const available = Object.keys(COMMANDS).concat(['cat', 'echo']);
+        const match = available.find(c => c.startsWith(current));
+        if (match) {
+          terminalInput.value = match;
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+.server.pid
+server.log
+tunnel.log
+__pycache__/
+*.pyc

@@ -648,6 +648,7 @@
           <button type="button" class="term-chip" onclick="runChipCmd('whoami')">whoami</button>
           <button type="button" class="term-chip" onclick="runChipCmd('skills')">skills</button>
           <button type="button" class="term-chip" onclick="runChipCmd('projects')">projects</button>
+          <button type="button" class="term-chip" onclick="runChipCmd('rockylab')">rocky lab</button>
           <button type="button" class="term-chip" onclick="runChipCmd('arch')">topology</button>
           <button type="button" class="term-chip" onclick="runChipCmd('certs')">certs</button>
           <button type="button" class="term-chip" onclick="runChipCmd('df -h')">df -h</button>
@@ -858,22 +859,21 @@ systemctl list-timers --all</pre>
         <div class="cheat-card" data-cat="security">
           <div>
             <div class="cheat-header">
-              <span class="cheat-title">Shared Directory SGID &amp; Default ACLs</span>
+              <span class="cheat-title">Sticky Bit (1777) &amp; Shared SGID/ACLs</span>
               <span class="tag tag-active">Security</span>
             </div>
-            <p class="cheat-desc">Configure collaborative directories where all new files automatically inherit parent group ownership and user ACLs.</p>
+            <p class="cheat-desc">Configure collaborative drop directories (where only file owners can delete items) and SGID directories with inherited POSIX ACLs.</p>
           </div>
           <div class="cheat-code-wrapper">
             <button type="button" class="copy-btn" onclick="copySnippet(this)">Copy</button>
-            <pre class="cheat-code"># 1. Establish SGID bit (2770) for automatic group inheritance
+            <pre class="cheat-code"># 1. Sticky Bit (1777): anyone creates, only owner deletes
+mkdir -p /shared_drop &amp;&amp; chmod 1777 /shared_drop
+
+# 2. SGID (2770): automatic group inheritance &amp; default ACLs
 mkdir -p /shared_sales &amp;&amp; chgrp sales /shared_sales
 chmod 2770 /shared_sales
-
-# 2. Assign active and default (inherited) POSIX ACLs
 setfacl -m u:auditor:rx /shared_sales
 setfacl -d -m u:auditor:rx /shared_sales
-
-# 3. Verify effective access permissions
 getfacl /shared_sales</pre>
           </div>
         </div>
@@ -1108,6 +1108,41 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
           </div>
         </div>
 
+        <!-- Project 4: Rocky Linux 9 SysAdmin Challenge & xrdp Log Diagnosis -->
+        <div class="card project-card">
+          <div>
+            <div class="project-header">
+              <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP" target="_blank" rel="noopener" class="project-title">
+                <svg height="18" width="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.79v8.37H6.46v-8.37M7.86 6.72a1.63 1.63 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63z"/></svg>
+                Rocky Linux 9 SysAdmin Challenge
+              </a>
+              <span class="tag tag-rh">RHCSA Lab Challenge</span>
+            </div>
+            <p class="project-desc">
+              Hands-on enterprise systems administration lab on Rocky Linux 9 running on KVM with virt-manager on Ubuntu. Implemented static networking, SSH, firewalld, passwordless sudo with user expiry, collaborative Sticky Bit directory, and rsyslog logging.
+            </p>
+            <div style="background: rgba(88, 166, 255, 0.08); border-left: 3px solid #58a6ff; padding: 8px 12px; margin: 0.75rem 0; border-radius: 0 4px 4px 0; font-size: 0.82rem; color: #c9d1d9;">
+              <strong style="color: #79c0ff;">🔍 Root Cause Analysis &amp; Troubleshooting:</strong>
+              Diagnosed <code>"X server could not be started"</code> xrdp remote desktop failure via log analysis (<code>/var/log/xrdp.log</code> and systemd journal), identified missing X11 backend package, installed it, and restored service.
+            </div>
+            <div class="skills-list" style="margin-bottom: 1rem;">
+              <span class="skill-pill">Rocky Linux 9</span>
+              <span class="skill-pill">KVM / virt-manager</span>
+              <span class="skill-pill">Sticky Bit (1777)</span>
+              <span class="skill-pill">firewalld</span>
+              <span class="skill-pill">rsyslog</span>
+              <span class="skill-pill">xrdp / GNOME</span>
+              <span class="skill-pill">Log Diagnosis</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <span style="font-size: 0.78rem; color: #8b949e; font-family: monospace;">Case Study / Post</span>
+            <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP" target="_blank" rel="noopener" class="project-link-btn">
+              View on LinkedIn ↗
+            </a>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1197,6 +1232,7 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
   <span style="color: #7ee787;">ex200</span>         RHCSA RHEL 10 lab domains &amp; jump to cheat sheet
   <span style="color: #7ee787;">skills</span>        List technical competencies (RHEL, Ansible, AWS basics)
   <span style="color: #7ee787;">projects</span>      Hands-on labs and practical achievements
+  <span style="color: #7ee787;">rockylab</span>      Rocky Linux 9 KVM lab &amp; xrdp troubleshooting case study
   <span style="color: #7ee787;">arch</span>          View 3-node Ansible KVM lab topology diagram
   <span style="color: #7ee787;">certs</span>         Certifications &amp; EX200 RHEL 10 roadmap
   <span style="color: #7ee787;">uname -a</span>      Show kernel version &amp; host architecture
@@ -1378,6 +1414,30 @@ Socials    : GitHub: <a href="https://github.com/an9gh" target="_blank" style="c
   <span style="color: #7ee787;">3. bash-practice</span> <span style="color: #ffb84d;">[Automation]</span>
      Linux sysadmin automation scripts, user audits, health checks, cron jobs
      URL: <a href="https://github.com/an9gh/bash-practice" target="_blank" style="color: #58a6ff;">https://github.com/an9gh/bash-practice</a>
+
+  <span style="color: #7ee787;">4. rocky-linux-lab</span> <span style="color: #58a6ff;">[LinkedIn Case Study]</span>
+     Rocky Linux 9 on KVM: Sticky bit, rsyslog, sudoers expiry, &amp; xrdp X-server log troubleshooting
+     URL: <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP" target="_blank" style="color: #58a6ff;">View Post on LinkedIn ↗</a>
+`,
+      rockylab: () => `
+<strong style="color: #58a6ff;">🐧 LAB CASE STUDY: ROCKY LINUX 9 ENTERPRISE CHALLENGE</strong>
+Host Environment : KVM / virt-manager on Ubuntu
+Target Guest VM  : Rocky Linux 9 (RHEL 9 binary compatible)
+
+<strong style="color: #7ee787;">CORE OBJECTIVES IMPLEMENTED:</strong>
+  • Static IP &amp; NetworkManager configuration with active firewalld
+  • User provisioning with passwordless sudo &amp; account expiration date
+  • Multi-user collaboration directory with Sticky Bit (1777)
+  • System logging pipelines configured via rsyslog
+  • GNOME Desktop environment paired with xrdp remote desktop service
+
+<strong style="color: #ff6b6b;">TROUBLESHOOTING &amp; ROOT CAUSE ANALYSIS:</strong>
+  • <span style="color: #ff7b72;">Symptom:</span> xrdp remote desktop session failed: "X server could not be started"
+  • <span style="color: #f0883e;">Investigation:</span> Inspected system journal (journalctl -u xrdp) and /var/log/xrdp.log
+  • <span style="color: #7ee787;">Root Cause:</span> Missing X11 backend driver package (xorgxrdp)
+  • <span style="color: #34d399;">Resolution:</span> Installed missing package, reloaded systemd, remote desktop fully restored!
+
+LinkedIn Post : <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP" target="_blank" style="color: #58a6ff;">https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP</a>
 `,
       date: () => new Date().toString(),
       clear: () => {
@@ -1412,6 +1472,8 @@ Socials    : GitHub: <a href="https://github.com/an9gh" target="_blank" style="c
         output = COMMANDS.neofetch(args);
       } else if (cmd === 'labs') {
         output = COMMANDS.ex200(args);
+      } else if (cmd === 'rockylab' || cmd === 'casestudy') {
+        output = COMMANDS.rockylab(args);
       } else if (COMMANDS[cmd]) {
         output = COMMANDS[cmd](args);
       } else if (cmd === 'cat') {
@@ -1496,7 +1558,7 @@ Hosting  : GitHub Pages
       } else if (e.key === 'Tab') {
         e.preventDefault();
         const current = terminalInput.value.trim().toLowerCase();
-        const available = Object.keys(COMMANDS).concat(['cat', 'echo']);
+        const available = Object.keys(COMMANDS).concat(['cat', 'echo', 'casestudy', 'fastfetch', 'labs']);
         const match = available.find(c => c.startsWith(current));
         if (match) {
           terminalInput.value = match;

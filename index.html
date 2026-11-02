@@ -672,7 +672,7 @@ Track         : RHCSA &amp; RHCE (RHCE study completed)<br>
 Training      : RHEL 10 Rapid Track course (completed)<br>
 Target Exam   : EX200 (RHEL v10 Edition)<br>
 Status        : In Active Preparation &amp; Lab Testing 🎯<br>
-Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Container management (Podman)
+Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Bash automation
             </div>
           </div>
 
@@ -729,7 +729,6 @@ Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firew
         <button type="button" class="cheat-tab-btn active" onclick="filterCheat('all', this)">All Objectives</button>
         <button type="button" class="cheat-tab-btn" onclick="filterCheat('storage', this)">Storage &amp; LVM</button>
         <button type="button" class="cheat-tab-btn" onclick="filterCheat('selinux', this)">SELinux Hardening</button>
-        <button type="button" class="cheat-tab-btn" onclick="filterCheat('podman', this)">Podman &amp; Quadlets</button>
         <button type="button" class="cheat-tab-btn" onclick="filterCheat('systemd', this)">systemd &amp; Timers</button>
         <button type="button" class="cheat-tab-btn" onclick="filterCheat('security', this)">Users &amp; ACLs</button>
         <button type="button" class="cheat-tab-btn" onclick="filterCheat('network', this)">firewalld &amp; nmcli</button>
@@ -827,38 +826,6 @@ ausearch -m avc -ts recent
 
 # 3. Generate diagnostic human-readable advice
 sealert -a /var/log/audit/audit.log</pre>
-          </div>
-        </div>
-
-        <!-- Card 5: Podman Quadlets -->
-        <div class="cheat-card" data-cat="podman">
-          <div>
-            <div class="cheat-header">
-              <span class="cheat-title">RHEL 10 systemd Quadlets (Rootless)</span>
-              <span class="tag tag-aws">Podman</span>
-            </div>
-            <p class="cheat-desc">Manage declarative rootless containers natively through systemd unit files using RHEL 10 Quadlet automation.</p>
-          </div>
-          <div class="cheat-code-wrapper">
-            <button type="button" class="copy-btn" onclick="copySnippet(this)">Copy</button>
-            <pre class="cheat-code"># 1. Create Quadlet unit definition in user config
-mkdir -p ~/.config/containers/systemd/
-cat &lt;&lt; 'EOF' &gt; ~/.config/containers/systemd/web.container
-[Container]
-Image=docker.io/library/nginx:alpine
-PublishPort=8080:80
-
-[Service]
-Restart=always
-
-[Install]
-WantedBy=default.target
-EOF
-
-# 2. Reload user daemon, start unit &amp; enable linger
-systemctl --user daemon-reload
-systemctl --user enable --now web.service
-loginctl enable-linger $USER</pre>
           </div>
         </div>
 
@@ -1004,7 +971,6 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
           <div class="skills-list">
             <span class="skill-pill">AWS (VPC, Subnets, Elastic IP, Lambda)</span>
             <span class="skill-pill">Ansible Automation</span>
-            <span class="skill-pill">Podman</span>
             <span class="skill-pill">Git / GitHub</span>
           </div>
         </div>
@@ -1289,10 +1255,9 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
 <strong style="color: #ff6b6b;">🎯 EX200 (RHEL 10) OBJECTIVE DOMAINS:</strong>
   1. Storage &amp; LVM       (pvcreate, vgextend, lvextend -r, Stratis, fstab)
   2. SELinux Hardening   (semanage fcontext, restorecon, getsebool/setsebool)
-  3. Podman Containers   (RHEL 10 systemd Quadlets, rootless container units)
-  4. Systemd Timers      (Replacing cron with OnCalendar=.timer units)
-  5. Firewalld &amp; Network (nmcli static config, permanent zone ports/services)
-  6. Permissions &amp; ACLs  (SGID collaboration directories, POSIX ACLs)
+  3. Systemd Timers      (Replacing cron with OnCalendar=.timer units)
+  4. Firewalld &amp; Network (nmcli static config, permanent zone ports/services)
+  5. Permissions &amp; ACLs  (SGID collaboration directories, POSIX ACLs)
 
 <span style="color: #58a6ff;">[NAVIGATING]</span> Jumped down to inspect the interactive Command Lab &amp; Cheat Sheet below!
 `;
@@ -1390,7 +1355,7 @@ Socials    : GitHub: <a href="https://github.com/an9gh" target="_blank" style="c
   RHEL (8/9/10), systemd, Storage/LVM, SELinux Policies, Bash Scripting, firewalld
 
 <strong>☁️ Cloud & Automation:</strong>
-  AWS (VPC, subnets, Elastic IP, networking basics, Lambda), Ansible Automation, Podman, Git
+  AWS (VPC, subnets, Elastic IP, networking basics, Lambda), Ansible Automation, Git
 `,
       certs: () => `
 <strong>📜 CERTIFICATIONS & ROADMAP:</strong>
@@ -1459,7 +1424,7 @@ Track         : RHCSA & RHCE (RHCE study completed)
 Training      : RHEL 10 Rapid Track course (completed)
 Target Exam   : EX200 (RHEL v10 Edition)
 Status        : In Active Preparation & Lab Testing 🎯
-Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Container management (Podman)
+Focus Areas   : systemd units, Storage (LVM/VDO), SELinux targeted policy, firewalld, Bash automation
 `;
         } else if (file === 'contact.txt' || file === 'contact') {
           output = `

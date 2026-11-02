@@ -643,7 +643,6 @@
         <div class="term-quick-chips">
           <span>Quick run:</span>
           <button type="button" class="term-chip" onclick="runChipCmd('help')">help</button>
-          <button type="button" class="term-chip" onclick="runChipCmd('neofetch')">neofetch</button>
           <button type="button" class="term-chip" onclick="runChipCmd('ex200')">ex200 labs</button>
           <button type="button" class="term-chip" onclick="runChipCmd('whoami')">whoami</button>
           <button type="button" class="term-chip" onclick="runChipCmd('skills')">skills</button>
@@ -651,10 +650,6 @@
           <button type="button" class="term-chip" onclick="runChipCmd('rockylab')">rocky lab</button>
           <button type="button" class="term-chip" onclick="runChipCmd('arch')">topology</button>
           <button type="button" class="term-chip" onclick="runChipCmd('certs')">certs</button>
-          <button type="button" class="term-chip" onclick="runChipCmd('df -h')">df -h</button>
-          <button type="button" class="term-chip" onclick="runChipCmd('free -h')">free -h</button>
-          <button type="button" class="term-chip" onclick="runChipCmd('uname -a')">uname -a</button>
-          <button type="button" class="term-chip" onclick="runChipCmd('uptime')">uptime</button>
           <button type="button" class="term-chip" onclick="runChipCmd('cat /etc/exam-tracker.conf')">cat tracker</button>
         </div>
 
@@ -1210,14 +1205,6 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
 
     let commandHistory = [];
     let historyIndex = -1;
-    const pageStartTime = Date.now();
-
-    function getUptimeString() {
-      const elapsedSeconds = Math.floor((Date.now() - pageStartTime) / 1000);
-      const mins = Math.floor(elapsedSeconds / 60);
-      const secs = elapsedSeconds % 60;
-      return `2 days, 14 hours, ${28 + mins} mins, ${secs} secs`;
-    }
 
     // Focus input when clicking anywhere on terminal card
     terminalCard.addEventListener('click', () => {
@@ -1227,7 +1214,6 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
     const COMMANDS = {
       help: () => `
 <strong style="color: #58a6ff;">AVAILABLE COMMANDS:</strong>
-  <span style="color: #7ee787;">neofetch</span>      Display ASCII logo &amp; system specs
   <span style="color: #7ee787;">whoami</span>        Display profile &amp; mission
   <span style="color: #7ee787;">ex200</span>         RHCSA RHEL 10 lab domains &amp; jump to cheat sheet
   <span style="color: #7ee787;">skills</span>        List technical competencies (RHEL, Ansible, AWS basics)
@@ -1235,52 +1221,12 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
   <span style="color: #7ee787;">rockylab</span>      Rocky Linux 9 KVM lab &amp; xrdp troubleshooting case study
   <span style="color: #7ee787;">arch</span>          View 3-node Ansible KVM lab topology diagram
   <span style="color: #7ee787;">certs</span>         Certifications &amp; EX200 RHEL 10 roadmap
-  <span style="color: #7ee787;">uname -a</span>      Show kernel version &amp; host architecture
-  <span style="color: #7ee787;">df -h</span>         Show mounted filesystem storage &amp; LVM volumes
-  <span style="color: #7ee787;">free -h</span>       Display memory &amp; swap utilization
-  <span style="color: #7ee787;">uptime</span>        Show current session uptime &amp; load average
   <span style="color: #7ee787;">ls -la</span>        List workspace files and directories
   <span style="color: #7ee787;">sudo &lt;cmd&gt;</span>   Execute privileged command
   <span style="color: #7ee787;">history</span>       Show entered command history
   <span style="color: #7ee787;">cat &lt;file&gt;</span>    Read file (e.g. <span style="color: #f0883e;">cat /etc/exam-tracker.conf</span> or <span style="color: #f0883e;">cat contact.txt</span>)
   <span style="color: #7ee787;">clear</span>         Clear terminal screen
   <span style="color: #7ee787;">date</span>          Display current date &amp; timestamp
-`,
-      neofetch: () => `
-<div style="display: flex; gap: 16px; flex-wrap: wrap; font-family: monospace; line-height: 1.35; margin: 4px 0;">
-<pre style="color: #ff6b6b; margin: 0; font-size: 0.78rem; line-height: 1.25;">
-           .---.
-          /     \\
-         | () () |
-          \\  _  /
-           |||||
-          /     \\
-         /       \\
-        (  (   )  )
-         \\_______/
-</pre>
-<div>
-<strong style="color: #ff7b72;">anagh</strong><span style="color: #c9d1d9;">@</span><strong style="color: #58a6ff;">rhel-lab</strong>
-<span style="color: #30363d;">-----------------------------</span><br>
-<span style="color: #58a6ff;">OS</span>       : Red Hat Enterprise Linux 10 (Coughlan) x86_64<br>
-<span style="color: #58a6ff;">Host</span>     : KVM / QEMU Virtual Machine (virt-manager)<br>
-<span style="color: #58a6ff;">Kernel</span>   : 6.11.0-50.el10.x86_64<br>
-<span style="color: #58a6ff;">Uptime</span>   : ${getUptimeString()}<br>
-<span style="color: #58a6ff;">Shell</span>    : bash 5.2.26<br>
-<span style="color: #58a6ff;">Terminal</span> : web-term-v2.4 (HTML5)<br>
-<span style="color: #58a6ff;">CPU</span>      : AMD EPYC / Intel Xeon (4 vCPU) @ 2.80GHz<br>
-<span style="color: #58a6ff;">Memory</span>   : 2140MiB / 7820MiB (27%)<br>
-<span style="color: #58a6ff;">Target</span>   : EX200 RHCSA (RHEL 10 Edition) 🎯<br>
-<div style="margin-top: 6px; display: flex; gap: 5px;">
-  <span style="background: #0d1117; width: 14px; height: 10px; display: inline-block; border: 1px solid #30363d;"></span>
-  <span style="background: #ee0000; width: 14px; height: 10px; display: inline-block;"></span>
-  <span style="background: #238636; width: 14px; height: 10px; display: inline-block;"></span>
-  <span style="background: #ff9900; width: 14px; height: 10px; display: inline-block;"></span>
-  <span style="background: #58a6ff; width: 14px; height: 10px; display: inline-block;"></span>
-  <span style="background: #a371f7; width: 14px; height: 10px; display: inline-block;"></span>
-</div>
-</div>
-</div>
 `,
       ex200: () => {
         setTimeout(() => {
@@ -1297,31 +1243,6 @@ nmcli con up eth0 &amp;&amp; ip route show</pre>
 
 <span style="color: #58a6ff;">[NAVIGATING]</span> Jumped down to inspect the interactive Command Lab &amp; Cheat Sheet below!
 `;
-      },
-      uname: (args) => {
-        if (args && args.includes('-r')) {
-          return `6.11.0-50.el10.x86_64`;
-        }
-        return `Linux rhel-lab.kvm.internal 6.11.0-50.el10.x86_64 #1 SMP PREEMPT_DYNAMIC Red Hat 6.11.0-50 x86_64 GNU/Linux`;
-      },
-      df: () => `
-Filesystem                 Size  Used Avail Use% Mounted on
-devtmpfs                   4.0M     0  4.0M   0% /dev
-tmpfs                      3.9G     0  3.9G   0% /dev/shm
-/dev/mapper/rhel-root       40G   14G   26G  35% /
-/dev/vda1                 1014M  320M  695M  32% /boot
-/dev/mapper/vg_data-lv_app  20G  4.2G   16G  21% /data/lv_app
-/dev/stratis/pool_rhel/fs_docs 15G 1.8G 14G  12% /stratis_docs
-`,
-      free: () => `
-               total        used        free      shared  buff/cache   available
-Mem:           7.8Gi       2.1Gi       3.4Gi        24Mi       2.3Gi       5.4Gi
-Swap:          4.0Gi          0B       4.0Gi
-`,
-      uptime: () => {
-        const d = new Date();
-        const timeStr = d.toTimeString().split(' ')[0];
-        return ` ${timeStr} up ${getUptimeString()},  1 user,  load average: 0.12, 0.08, 0.04`;
       },
       sudo: (args) => {
         const cmdName = (args && args.length) ? escapeHtml(args.join(' ')) : 'command';
@@ -1468,8 +1389,6 @@ LinkedIn Post : <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rock
         COMMANDS.clear();
       } else if (cmd === 'topology') {
         output = COMMANDS.arch(args);
-      } else if (cmd === 'fastfetch') {
-        output = COMMANDS.neofetch(args);
       } else if (cmd === 'labs') {
         output = COMMANDS.ex200(args);
       } else if (cmd === 'rockylab' || cmd === 'casestudy') {
@@ -1558,7 +1477,7 @@ Hosting  : GitHub Pages
       } else if (e.key === 'Tab') {
         e.preventDefault();
         const current = terminalInput.value.trim().toLowerCase();
-        const available = Object.keys(COMMANDS).concat(['cat', 'echo', 'casestudy', 'fastfetch', 'labs']);
+        const available = Object.keys(COMMANDS).concat(['cat', 'echo', 'casestudy', 'labs', 'topology']);
         const match = available.find(c => c.startsWith(current));
         if (match) {
           terminalInput.value = match;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>404 | V P ANAGH UTHAMAN</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+    main { max-width: 520px; }
+    .prompt { color: #58a6ff; }
+    .err { color: #ff7b72; font-size: 1rem; font-weight: normal; margin: 1rem 0; }
+    a { color: #7ee787; }
+    a:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><span class="prompt">anagh@rhel:~$</span> cat <span id="path">this-page</span></p>
+    <h1 class="err">404: No such file or directory</h1>
+    <p><a id="home" href="./">cd ~ (back to the portfolio)</a></p>
+  </main>
+  <script>
+    // On a GitHub Pages project site the home page is /<repo>/, so link there.
+    var parts = location.pathname.split('/').filter(Boolean);
+    document.getElementById('path').textContent = parts.length ? parts[parts.length - 1] : 'this-page';
+    document.getElementById('home').href = parts.length > 1 ? '/' + parts[0] + '/' : '/';
+  </script>
+</body>
+</html>

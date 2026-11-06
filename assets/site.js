@@ -2,9 +2,6 @@
   'use strict';
 
   var EMAIL = ['kakarotthebeast1', 'gmail.com'].join('@');
-  Array.prototype.forEach.call(document.querySelectorAll('.email-link'), function (a) {
-    a.href = 'mailto:' + EMAIL;
-  });
 
   /* ---------- Theme ---------- */
   var root = document.documentElement;
@@ -223,7 +220,7 @@
     return [
       '[CANDIDATE_PROFILE]',
       'Name          : V P ANAGH UTHAMAN',
-      'Track         : RHCSA &amp; RHCE (RHCE study completed)',
+      'Track         : RHCSA &amp; RHCE (RHCE coursework completed)',
       'Training      : RHEL 10 Rapid Track course (completed)',
       'Target Exam   : EX200 (RHEL v10 Edition)',
       'Status        : Active preparation &amp; lab testing',
@@ -284,7 +281,7 @@
       return '<strong class="t-cyan">CERTIFICATIONS &amp; ROADMAP</strong>\n' +
         '  [IN PROGRESS] EX200 - Red Hat Certified System Administrator (RHEL 10)\n' +
         '  [COMPLETED]   RHEL 10 Rapid Track course\n' +
-        '  [STUDIED]     RHCE - Red Hat Certified Engineer (Ansible automation)\n' +
+        '  [COURSEWORK]  RHCE - Red Hat Certified Engineer track (Ansible automation)\n' +
         '  [FOUNDATIONS] AWS - VPC, subnets, Elastic IP, networking basics, Lambda';
     },
     projects: function () {
@@ -343,20 +340,19 @@
     },
     ls: function (args) {
       if (args && (args.indexOf('-la') > -1 || args.indexOf('-l') > -1 || args.indexOf('-a') > -1)) {
-        return 'total 44\n' +
-          'drwxr-xr-x. 4 anagh anagh 4096 Nov  2 16:30 .\n' +
+        return 'total 32\n' +
+          'drwxr-xr-x. 5 anagh anagh 4096 Nov  6 16:23 .\n' +
           'drwxr-xr-x. 3 root  root  4096 Nov  1 00:00 ..\n' +
-          'drwxr-xr-x. 3 anagh anagh 4096 Nov  2 16:18 .github\n' +
-          '-rw-r--r--. 1 anagh anagh   26 Nov  2 15:54 .gitignore\n' +
-          '-rw-r--r--. 1 anagh anagh  321 Nov  2 15:54 .htmlvalidate.json\n' +
-          '-rw-r--r--. 1 anagh anagh 1433 Nov  2 15:54 404.html\n' +
-          '-rw-r--r--. 1 anagh anagh  646 Nov  2 15:54 README.md\n' +
-          '-rw-r--r--. 1 anagh anagh 62360 Nov  2 16:30 index.html\n' +
-          'drwxr-xr-x. 2 anagh anagh 4096 Nov  2 16:18 ansible-works\n' +
-          'drwxr-xr-x. 2 anagh anagh 4096 Nov  2 16:18 bash-practice\n' +
-          'drwxr-xr-x. 2 anagh anagh 4096 Nov  2 16:18 rhel-root-password-recovery';
+          'drwxr-xr-x. 3 anagh anagh 4096 Nov  6 16:23 .github\n' +
+          '-rw-r--r--. 1 anagh anagh   34 Nov  6 16:23 .gitignore\n' +
+          '-rw-r--r--. 1 anagh anagh  321 Nov  6 16:23 .htmlvalidate.json\n' +
+          '-rw-r--r--. 1 anagh anagh 7866 Nov  6 16:23 404.html\n' +
+          '-rw-r--r--. 1 anagh anagh 1061 Nov  6 16:23 README.md\n' +
+          'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 16:23 assets\n' +
+          '-rw-r--r--. 1 anagh anagh 34301 Nov  6 16:23 index.html\n' +
+          '-rw-r--r--. 1 anagh anagh 46774 Nov  6 16:23 lab.html';
       }
-      return '404.html  README.md  index.html  ansible-works  bash-practice  rhel-root-password-recovery';
+      return '404.html  README.md  assets  index.html  lab.html';
     },
     cat: function (args) {
       var file = args && args[0];

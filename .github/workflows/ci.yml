@@ -4,6 +4,13 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -13,4 +20,4 @@ jobs:
         with:
           node-version: 22
       - name: Validate HTML
-        run: npx --yes html-validate@11.17.0 index.html 404.html
+        run: npx --yes html-validate@11.17.0 index.html lab.html 404.html

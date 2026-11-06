@@ -2,3 +2,4 @@
 Thumbs.db
 *.swp
 .build/
+node_modules/

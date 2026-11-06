@@ -64,4 +64,4 @@ Repo **Settings → Pages → Deploy from a branch → `main` / root**.
 
 ## Keep fresh
 
-Update the “Currently” line in `index.html` (and its month) whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Bump the `<lastmod>` dates in `sitemap.xml` when the main pages change. Keep `docs/github-profile-README.md` in sync with the site.
+Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Bump the `<lastmod>` dates in `sitemap.xml` when the main pages change. Keep `docs/github-profile-README.md` in sync with the site.

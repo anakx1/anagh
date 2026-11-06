@@ -283,7 +283,7 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
         <div class="about-grid">
           <div class="about-copy card reveal">
             <p>I&rsquo;m V P Anagh Uthaman, a Linux systems administrator based in Kannur, Kerala. I focus on RHEL administration: systemd, storage with LVM and Stratis, SELinux, firewalld, users and permissions, and Bash/Ansible automation.</p>
-            <p>My lab runs on KVM/virt-manager with Rocky Linux 9 and RHEL 9/10 guests. I document the commands, the failures, and the fix &mdash; including an xrdp/X11 troubleshooting case study, a GRUB <code>rd.break</code> password recovery, and a three-node Ansible automation lab.</p>
+            <p>My lab runs on an Ubuntu KVM/virt-manager host with RHEL 9/10 and Rocky Linux 9 guests. I document the commands, the failures, and the fix &mdash; including an xrdp/X11 troubleshooting case study, a GRUB <code>rd.break</code> password recovery, and a three-node Ansible automation lab.</p>
             <p>I completed the RHCSA Rapid Track (RH199, RHEL 10) and RHCE coursework. I&rsquo;m now preparing for the EX200 exam and looking for Linux and systems administration roles.</p>
             <div class="about-actions">
               <a class="btn btn-primary" href="resume.html">View résumé</a>
@@ -494,7 +494,7 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
                 </svg>
               </a>
             </h3>
-            <p class="project-desc">Multi-node infrastructure automation lab on KVM/virt-manager with one control node and two managed nodes. Passwordless SSH, privileged sudoers, and playbooks for centralized state enforcement.</p>
+            <p class="project-desc">Multi-node infrastructure automation lab on KVM/virt-manager with one RHEL 10 control node and two RHEL-family managed nodes (RHEL 9 and Rocky Linux 9). Passwordless SSH, privileged sudoers, and playbooks for centralized state enforcement.</p>
             <ul class="pill-list pill-list--sm">
               <li class="pill">Ansible</li>
               <li class="pill">KVM / virt-manager</li>
@@ -505,7 +505,7 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
             <details class="topology">
               <summary>View topology blueprint (KVM + 3 VMs)</summary>
               <div class="topology-body">
-                <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ansible lab topology: one control node connected over passwordless SSH to two managed nodes on a KVM subnet">
+                <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ansible lab topology: one RHEL 10 control node connected over passwordless SSH to RHEL 9 and Rocky Linux 9 managed nodes on a KVM subnet">
                   <rect x="8" y="8" width="584" height="264" rx="8" fill="#0d1117" stroke="#30363d" stroke-dasharray="4 4"></rect>
                   <text x="22" y="26" fill="#8b949e" font-family="monospace" font-size="11" font-weight="bold">KVM / virt-manager Subnet (192.168.122.0/24)</text>
                   <path d="M 300 115 L 300 142 L 150 142 L 150 166" fill="none" stroke="#58a6ff" stroke-width="2"></path>
@@ -515,18 +515,18 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
                   <text x="300" y="136" fill="#7ee787" font-family="monospace" font-size="10" text-anchor="middle">Passwordless SSH (Port 22 / Key Auth)</text>
                   <rect x="190" y="38" width="220" height="74" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"></rect>
                   <text x="300" y="58" fill="#58a6ff" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">Ansible Control Node</text>
-                  <text x="300" y="76" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.10 / Ubuntu Server</text>
+                  <text x="300" y="76" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.10 / RHEL 10</text>
                   <text x="300" y="94" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">ansible-playbook / id_ed25519</text>
                   <rect x="35" y="172" width="230" height="84" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5"></rect>
-                  <text x="150" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 1 (ubuntu-node1)</text>
-                  <text x="150" y="210" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.21</text>
-                  <text x="150" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">User: automation (sudo NOPASSWD)</text>
-                  <text x="150" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">Auth: ~/.ssh/authorized_keys</text>
+                  <text x="150" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 1</text>
+                  <text x="150" y="210" fill="#ff6b62" font-family="monospace" font-size="10" text-anchor="middle">rhel-node1 / RHEL 9</text>
+                  <text x="150" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">IP: 192.168.122.21</text>
+                  <text x="150" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">user: automation / sudo NOPASSWD</text>
                   <rect x="335" y="172" width="230" height="84" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5"></rect>
-                  <text x="450" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 2 (ubuntu-node2)</text>
-                  <text x="450" y="210" fill="#c9d1d9" font-family="monospace" font-size="10" text-anchor="middle">IP: 192.168.122.22</text>
-                  <text x="450" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">User: automation (sudo NOPASSWD)</text>
-                  <text x="450" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">Auth: ~/.ssh/authorized_keys</text>
+                  <text x="450" y="192" fill="#f0f6fc" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Managed Node 2</text>
+                  <text x="450" y="210" fill="#f0a53a" font-family="monospace" font-size="10" text-anchor="middle">rocky-node2 / Rocky Linux 9</text>
+                  <text x="450" y="226" fill="#8b949e" font-family="monospace" font-size="9" text-anchor="middle">IP: 192.168.122.22</text>
+                  <text x="450" y="242" fill="#7ee787" font-family="monospace" font-size="9" text-anchor="middle">user: automation / sudo NOPASSWD</text>
                 </svg>
               </div>
             </details>

@@ -311,7 +311,7 @@
     projects: function () {
       return '<strong class="t-cyan">GITHUB REPOSITORIES &amp; LABS</strong>\n\n' +
         '  <span class="t-green">1. ansible-works</span> <span class="t-red">[RHCE track]</span>\n' +
-        '     Multi-node KVM automation (1 control + 2 managed nodes)\n' +
+        '     RHEL-family KVM automation (1 RHEL 10 control + 2 managed nodes)\n' +
         '     <a href="https://github.com/an9gh/ansible-works" target="_blank" rel="noopener">github.com/an9gh/ansible-works</a>\n\n' +
         '  <span class="t-green">2. rhel-root-password-recovery</span> <span class="t-green">[RHCSA / EX200]</span>\n' +
         '     GRUB rd.break recovery and SELinux relabeling\n' +
@@ -348,7 +348,7 @@
         '                               |\n' +
         '              +----------------+----------------+\n' +
         '              |      Ansible Control Node       |\n' +
-        '              |  192.168.122.10 (Ubuntu)        |\n' +
+        '              |  192.168.122.10 (RHEL 10)       |\n' +
         '              |  ansible-playbook / id_ed25519  |\n' +
         '              +--------+----------------+-------+\n' +
         '                       |                |\n' +
@@ -357,6 +357,7 @@
         '                       v                v\n' +
         '        +-------------------+    +-------------------+\n' +
         '        |   Managed Node 1  |    |   Managed Node 2  |\n' +
+        '        |   RHEL 9          |    |   Rocky Linux 9   |\n' +
         '        |   192.168.122.21  |    |   192.168.122.22  |\n' +
         '        |   user: automation|    |   user: automation|\n' +
         '        |   sudo NOPASSWD   |    |   sudo NOPASSWD   |\n' +
@@ -364,8 +365,8 @@
     },
     homelab: function () {
       return '<strong class="t-cyan">HOMELAB</strong>\n' +
-        '  KVM / virt-manager host · Rocky Linux 9 · RHEL 9/10\n' +
-        '  Ansible control + 2 managed nodes · 192.168.122.0/24\n' +
+        '  Ubuntu KVM host · RHEL 10 control + RHEL 9 / Rocky 9 managed nodes\n' +
+        '  192.168.122.0/24 static lab network\n' +
         '  <a href="homelab.html">Open the homelab notes</a>.';
     },
     resume: function () {

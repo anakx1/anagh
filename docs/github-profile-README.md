@@ -30,7 +30,7 @@ I learn by building. My lab runs on KVM/virt-manager with Rocky Linux 9 and RHEL
 
 ### Featured Projects
 
-- [ansible-works](https://github.com/an9gh/ansible-works) — multi-node Ansible lab with one control node and two managed nodes
+- [ansible-works](https://github.com/an9gh/ansible-works) — RHEL-family Ansible lab: RHEL 10 control node plus RHEL 9 and Rocky Linux 9 managed nodes
 - [rhel-root-password-recovery](https://github.com/an9gh/rhel-root-password-recovery) — GRUB `rd.break`, chroot, and SELinux relabeling
 - [bash-practice](https://github.com/an9gh/bash-practice) — shell automation for user administration, audits, and health checks
 - [portfolio](https://github.com/anakx1/anagh) — RHEL labs, homelab notes, résumé, and the EX200 command reference

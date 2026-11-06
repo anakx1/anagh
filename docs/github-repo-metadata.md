@@ -4,7 +4,7 @@ Copy-paste values for the repositories shown on the portfolio. Keep descriptions
 
 ## `an9gh/ansible-works`
 
-- **Description:** Multi-node Ansible lab on KVM: one control node, two managed nodes, passwordless SSH, sudo policy, and repeatable playbooks.
+- **Description:** RHEL-family Ansible lab on KVM: RHEL 10 control node, RHEL 9 and Rocky Linux 9 managed nodes, passwordless SSH, sudo policy, and repeatable playbooks.
 - **Homepage:** <https://anakx1.github.io/anagh/homelab.html>
 - **Topics:** `ansible`, `linux`, `kvm`, `automation`, `rhel`, `homelab`
 

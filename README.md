@@ -3,6 +3,7 @@
 Personal portfolio: RHEL labs, Ansible automation, Bash scripting, and RHCSA (EX200) preparation.
 
 **Live:** <https://anakx1.github.io/anagh/>
+**Contact:** <dev.an9gh@gmail.com>
 
 ![Portfolio preview](assets/og-card.png)
 

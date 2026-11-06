@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var EMAIL = ['kakarotthebeast1', 'gmail.com'].join('@');
+  var EMAIL = ['dev.an9gh', 'gmail.com'].join('@');
 
   /* ---------- Theme ---------- */
   var root = document.documentElement;

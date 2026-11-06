@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#07080b">
+  <meta name="color-scheme" content="dark light">
+  <title>404 | V P Anagh Uthaman</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'light' || stored === 'dark') {
+          theme = stored;
+        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          theme = 'light';
+        }
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    :root {
+      --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --bg: #07080b;
+      --surface: #0e1219;
+      --surface-2: #131923;
+      --border: #202836;
+      --border-2: #2d384a;
+      --heading: #f3f6fb;
+      --text: #c2cbda;
+      --muted: #8792a5;
+      --faint: #5c6779;
+      --red: #ff4438;
+      --red-2: #ff6b62;
+      --green: #3fd07f;
+      --cyan: #5aa9ff;
+      --amber: #f0a53a;
+    }
+
+    [data-theme="light"] {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --surface-2: #f3f5f9;
+      --border: #e0e5ed;
+      --border-2: #ccd4e0;
+      --heading: #0c1119;
+      --text: #3b4656;
+      --muted: #5d6a7d;
+      --faint: #8a95a6;
+      --red: #d61f16;
+      --red-2: #b8160e;
+      --green: #12803d;
+      --cyan: #0a66c2;
+      --amber: #946100;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(720px 420px at 12% -10%, rgba(255, 68, 56, 0.1), transparent 62%),
+        radial-gradient(680px 420px at 100% 0%, rgba(90, 169, 255, 0.07), transparent 58%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      width: min(560px, 100%);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 2rem;
+      color: var(--heading);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(140deg, var(--red-2), #8f0d07);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      box-shadow: 0 8px 22px -10px var(--red);
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .terminal {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 0.8rem;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tdot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .tdot-r { background: #ff5f56; }
+    .tdot-y { background: #ffbd2e; }
+    .tdot-g { background: #27c93f; }
+
+    .terminal-title {
+      margin-left: 0.45rem;
+      color: var(--faint);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .terminal-body {
+      padding: 1.4rem 1.25rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+
+    .p-user { color: var(--cyan); font-weight: 600; }
+    .p-path { color: var(--amber); }
+    .p-sym { color: var(--green); }
+    .cmd { color: var(--red-2); font-weight: 600; }
+
+    h1 {
+      margin: 0.85rem 0 0.35rem;
+      color: var(--heading);
+      font-family: var(--font-sans);
+      font-size: clamp(1.35rem, 4vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .hint {
+      margin: 0 0 1.4rem;
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--border-2);
+      border-radius: 9px;
+      background: var(--surface-2);
+      color: var(--heading);
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--red);
+      color: var(--red-2);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      border-color: transparent;
+      background: linear-gradient(180deg, var(--red-2), var(--red));
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      color: #fff;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .foot {
+      margin-top: 1.5rem;
+      color: var(--faint);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="brand" href="./" aria-label="V P Anagh Uthaman — home">
+      <span class="brand-mark" aria-hidden="true">AU</span>
+      <span class="brand-text">Anagh <span>Uthaman</span></span>
+    </a>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="tdot tdot-r" aria-hidden="true"></span>
+        <span class="tdot tdot-y" aria-hidden="true"></span>
+        <span class="tdot tdot-g" aria-hidden="true"></span>
+        <span class="terminal-title">bash &mdash; anagh@rhel-lab</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="p-user">anagh@rhel</span>:<span class="p-path">~</span><span class="p-sym">$</span> <span class="cmd">cat <span id="path">this-page</span></span></div>
+        <h1>404 &mdash; No such file or directory</h1>
+        <p class="hint">The path you requested does not exist on this host. It may have moved, or the URL may be mistyped.</p>
+        <div class="actions">
+          <a class="btn btn-primary" id="home" href="./">cd ~ &mdash; back to the portfolio</a>
+          <a class="btn" href="https://github.com/an9gh" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <p class="foot">exit code 1 &middot; V P Anagh Uthaman</p>
+      </div>
+    </div>
+  </main>
+  <script>
+    var parts = location.pathname.split('/').filter(Boolean);
+    document.getElementById('path').textContent = parts.length ? parts[parts.length - 1] : 'this-page';
+    document.getElementById('home').href = parts.length > 1 ? '/' + parts[0] + '/' : '/';
+  </script>
+</body>
+</html>

@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EX200 Command Lab | V P Anagh Uthaman</title>
+  <meta name="description" content="Interactive RHCSA EX200 (RHEL 10) command lab: essential tools, shell scripting, storage and LVM, SELinux, systemd, users, networking, packages, and processes.">
+  <meta name="author" content="V P Anagh Uthaman">
+  <meta name="theme-color" content="#07080b">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://anakx1.github.io/anagh/lab.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EX200 Command Lab | V P Anagh Uthaman">
+  <meta property="og:description" content="Interactive RHCSA EX200 (RHEL 10) command lab: essentials, scripting, storage, SELinux, systemd, users, networking, packages, and processes.">
+  <meta property="og:url" content="https://anakx1.github.io/anagh/lab.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var theme = 'dark';
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'light' || stored === 'dark') {
+          theme = stored;
+        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          theme = 'light';
+        }
+      } catch (e) {}
+      root.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="V P Anagh Uthaman — home">
+        <span class="brand-mark" aria-hidden="true">AU</span>
+        <span class="brand-text">Anagh <span>Uthaman</span></span>
+      </a>
+
+          <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="index.html#certs">Certifications</a>
+        <a href="lab.html" class="is-active" aria-current="page">Command Lab</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+          </svg>
+        </button>
+
+        <a class="btn btn-sm btn-ghost nav-github" href="https://github.com/an9gh" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+          </svg>
+          GitHub
+        </a>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section section--lab section--page" id="lab">
+      <div class="container">
+        <nav class="breadcrumb reveal" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">Command Lab</span>
+        </nav>
+        <div class="section-head section-head--row reveal">
+          <div>
+            <p class="kicker">02 &mdash; Command Lab</p>
+            <h1>EX200 cheat sheet</h1>
+            <p>A working reference for the RHEL 10 exam objectives: essential tools, shell scripting, storage, SELinux, systemd, users, networking, packages, and processes. Filter by domain or copy a snippet.</p>
+          </div>
+          <span class="badge badge-red">RHCSA core objectives</span>
+        </div>
+
+        <div class="tabs reveal" role="group" aria-label="Filter commands by domain">
+          <button class="tab is-active" type="button" data-cat="all" aria-pressed="true">All <span>45</span></button>
+          <button class="tab" type="button" data-cat="essentials" aria-pressed="false">Essentials <span>5</span></button>
+          <button class="tab" type="button" data-cat="storage" aria-pressed="false">Storage &amp; LVM <span>9</span></button>
+          <button class="tab" type="button" data-cat="selinux" aria-pressed="false">SELinux <span>4</span></button>
+          <button class="tab" type="button" data-cat="systemd" aria-pressed="false">systemd &amp; Boot <span>8</span></button>
+          <button class="tab" type="button" data-cat="users" aria-pressed="false">Users <span>3</span></button>
+          <button class="tab" type="button" data-cat="security" aria-pressed="false">Security <span>3</span></button>
+          <button class="tab" type="button" data-cat="network" aria-pressed="false">Networking <span>7</span></button>
+          <button class="tab" type="button" data-cat="packages" aria-pressed="false">Packages <span>3</span></button>
+          <button class="tab" type="button" data-cat="processes" aria-pressed="false">Processes <span>3</span></button>
+        </div>
+
+        <p class="lab-note reveal">
+          Examples use placeholder device names and hostnames. Confirm your environment with
+          <code>lsblk</code>, <code>ip -br addr</code>, and <code>nmcli device status</code> before running
+          destructive commands.
+        </p>
+
+        <div class="cheat-grid">
+          <article class="cheat-card card reveal" data-cat="essentials">
+            <div class="cheat-head">
+              <h3>Redirection, pipes &amp; text search</h3>
+              <span class="badge badge-cyan">Essentials</span>
+            </div>
+            <p class="cheat-desc">Redirect output and errors, chain commands, and mine logs with regular expressions.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Redirection, pipes &amp; text search commands">Copy</button>
+              <pre><code># Separate standard output and standard error
+cmd &gt; out.log 2&gt; err.log
+
+# Append output, discard errors, pipe into a pager
+cmd &gt;&gt; out.log 2&gt;/dev/null
+ps aux | grep &#x27;[s]shd&#x27;
+
+# Recursive, case-insensitive regex search with line numbers
+grep -RniE &#x27;error|failed&#x27; /var/log/</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="essentials">
+            <div class="cheat-head">
+              <h3>Find, archive &amp; compress</h3>
+              <span class="badge badge-cyan">Essentials</span>
+            </div>
+            <p class="cheat-desc">Locate files by name or age, then create, inspect, and extract compressed archives.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Find, archive &amp; compress commands">Copy</button>
+              <pre><code># Find files by name, type, and age
+find /var/log -type f -name &quot;*.log&quot; -mtime +7
+
+# Create and extract a gzip tarball
+tar -czvf backup.tar.gz /etc /home
+tar -xzvf backup.tar.gz -C /restore
+
+# List archive contents without extracting
+tar -tzvf backup.tar.gz | head</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="essentials">
+            <div class="cheat-head">
+              <h3>Links &amp; standard permissions</h3>
+              <span class="badge badge-cyan">Essentials</span>
+            </div>
+            <p class="cheat-desc">Create hard and symbolic links and set ownership plus ugo/rwx permissions.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Links &amp; standard permissions commands">Copy</button>
+              <pre><code># Hard link (same filesystem) and symbolic link
+ln /data/report.txt /data/report-hard
+ln -s /data/report.txt /data/report-soft
+
+# Symbolic and octal permissions
+chmod u=rw,g=r,o= /data/report.txt
+chmod 640 /data/report.txt
+chown anagh:devops /data/report.txt
+
+# Verify
+ls -l /data/report.txt /data/report-soft</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="essentials">
+            <div class="cheat-head">
+              <h3>Simple shell script</h3>
+              <span class="badge badge-cyan">Essentials</span>
+            </div>
+            <p class="cheat-desc">Combine arguments, tests, conditionals, loops, and command substitution in one script.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Simple shell script commands">Copy</button>
+              <pre><code>#!/bin/bash
+# /usr/local/bin/check-service.sh
+svc=&quot;${1:?usage: check-service.sh SERVICE}&quot;
+if systemctl is-active --quiet &quot;$svc&quot;; then
+  echo &quot;$svc is running&quot;
+else
+  echo &quot;$svc is down&quot; &gt;&amp;2
+  exit 1
+fi
+
+for host in node1 node2; do
+  ping -c1 -W1 &quot;$host&quot; &gt;/dev/null &amp;&amp; echo &quot;$host ok&quot;
+done
+
+echo &quot;checked on $(date +%F)&quot;</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="essentials">
+            <div class="cheat-head">
+              <h3>vi &amp; vim essentials</h3>
+              <span class="badge badge-cyan">Essentials</span>
+            </div>
+            <p class="cheat-desc">Move between command and insert mode, save or abandon edits, and make bulk substitutions.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy vi and vim commands">Copy</button>
+              <pre><code>vi /etc/hosts
+
+i              # insert before the cursor
+Esc            # return to command mode
+:w             # write changes
+:wq            # write and quit
+:q!            # quit without saving
+
+dd             # delete the current line
+yy             # yank (copy) the current line
+p              # paste below
+/pattern       # search forward
+n              # jump to the next match
+:%s/old/new/g  # replace every match in the file</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>Partition disks (parted &amp; fdisk)</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Create a GPT label and partition, then refresh the kernel view before formatting.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy disk partitioning commands">Copy</button>
+              <pre><code># Inspect disks and create a GPT partition table
+lsblk
+parted -s /dev/sdb mklabel gpt
+parted -s /dev/sdb mkpart app xfs 1MiB 5GiB
+
+# Or use the interactive fdisk workflow
+fdisk /dev/sdb
+
+# Re-read the table and verify
+partprobe /dev/sdb
+lsblk -f</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>LVM from scratch</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Build a volume group and logical volumes, then verify the physical volume, volume group, and logical volume stack.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy LVM from scratch commands">Copy</button>
+              <pre><code># Create physical volumes, a volume group, and logical volumes
+pvcreate /dev/sdb /dev/sdc
+vgcreate vg_data /dev/sdb /dev/sdc
+lvcreate -L 10G -n lv_app vg_data
+lvcreate -l 100%FREE -n lv_logs vg_data
+
+# Verify the stack
+pvs &amp;&amp; vgs &amp;&amp; lvs</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>LVM volume expansion</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Extend a logical volume on the fly and grow the XFS or EXT4 filesystem automatically with <code>-r</code>.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy LVM volume expansion commands">Copy</button>
+              <pre><code># 1. Initialize a PV and add it to the existing volume group
+pvcreate /dev/sdb1
+vgextend vg_data /dev/sdb1
+
+# 2. Extend the LV by +5G and grow the filesystem simultaneously
+lvextend -r -L +5G /dev/vg_data/lv_app
+
+# 3. Verify free space and the block-device stack
+df -hT /data/lv_app &amp;&amp; lsblk -f</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>LVM snapshots</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Capture a point-in-time copy of a logical volume, inspect it read-only, then remove it.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy LVM snapshot commands">Copy</button>
+              <pre><code># Create a snapshot sized for the expected changed blocks
+lvcreate -L 1G -s -n lv_app_snap /dev/vg_data/lv_app
+
+# Mount read-only to inspect or back up
+mkdir -p /mnt/snap
+mount -o ro /dev/vg_data/lv_app_snap /mnt/snap
+ls /mnt/snap
+
+# Remove when finished
+umount /mnt/snap
+lvremove /dev/vg_data/lv_app_snap</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>Create &amp; mount filesystems</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Format XFS and EXT4 devices, mount them, and confirm the mount point and UUID.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Create &amp; mount filesystems commands">Copy</button>
+              <pre><code># Make an XFS or EXT4 filesystem
+mkfs.xfs /dev/vg_data/lv_app
+mkfs.ext4 /dev/sdb2
+
+# Mount and verify
+mkdir -p /data/lv_app
+mount /dev/vg_data/lv_app /data/lv_app
+findmnt /data/lv_app
+blkid /dev/vg_data/lv_app</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>Persistent UUID mount &amp; Stratis</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Configure fail-safe persistent mounting via UUID in <code>/etc/fstab</code> and manage next-gen Stratis pools.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Persistent UUID mount &amp; Stratis commands">Copy</button>
+              <pre><code># 1. Retrieve the UUID for the block device
+UUID=$(blkid -s UUID -o value /dev/vg_data/lv_app)
+
+# 2. Add a persistent fstab entry with systemd nofail
+echo &quot;UUID=${UUID} /data/lv_app xfs defaults,nofail 0 0&quot; &gt;&gt; /etc/fstab
+systemctl daemon-reload &amp;&amp; mount -a
+
+# 3. Install/start Stratis, then create a pool and filesystem
+dnf -y install stratisd stratis-cli
+systemctl enable --now stratisd
+stratis pool create pool_rhel /dev/sdd
+stratis fs create pool_rhel fs_docs
+stratis fs list</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>Swap space</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Create and activate swap on a logical volume, then persist it by UUID.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Swap space commands">Copy</button>
+              <pre><code># Create and activate a 2G swap logical volume
+lvcreate -L 2G -n lv_swap vg_data
+mkswap /dev/vg_data/lv_swap
+swapon /dev/vg_data/lv_swap
+
+# Persist by UUID in /etc/fstab
+echo &quot;UUID=$(blkid -s UUID -o value /dev/vg_data/lv_swap) none swap defaults 0 0&quot; &gt;&gt; /etc/fstab
+swapon --show &amp;&amp; free -h
+
+# Remove: disable swap and delete the matching fstab line
+swapoff /dev/vg_data/lv_swap
+sed -i '\| none swap defaults |d' /etc/fstab</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>Persistent NFS mount</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Install the NFS client, test the export, mount it, and add a resilient <code>_netdev</code> fstab entry.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Persistent NFS mount commands">Copy</button>
+              <pre><code># Install the client and query server exports
+dnf -y install nfs-utils
+showmount -e server.example.com
+
+# Mount manually
+mkdir -p /mnt/share
+mount -t nfs server.example.com:/exports/share /mnt/share
+
+# Persist across boots; _netdev waits for the network
+echo &quot;server.example.com:/exports/share /mnt/share nfs defaults,_netdev 0 0&quot; &gt;&gt; /etc/fstab
+mount -a &amp;&amp; findmnt /mnt/share
+
+# Unmount when no longer needed
+umount /mnt/share</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>NFS server export</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Share a directory with a lab subnet, re-export without a reboot, and open the firewall.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy NFS server export commands">Copy</button>
+              <pre><code># Install and enable the NFS server
+dnf -y install nfs-utils
+systemctl enable --now nfs-server
+
+# Export a directory (no_root_squash is lab-only)
+mkdir -p /exports/share
+chmod 2770 /exports/share
+echo "/exports/share 192.168.122.0/24(rw,sync,no_root_squash)" &gt; /etc/exports
+exportfs -rav
+showmount -e localhost
+
+# Open the firewall for NFS clients
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --reload</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="selinux">
+            <div class="cheat-head">
+              <h3>SELinux custom path contexts</h3>
+              <span class="badge badge-green">SELinux</span>
+            </div>
+            <p class="cheat-desc">Define persistent file-context rules in the SELinux policy database with <code>semanage</code>, then relabel the hierarchy.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy SELinux custom path contexts commands">Copy</button>
+              <pre><code># 1. Register a persistent policy context rule
+semanage fcontext -a -t httpd_sys_content_t &quot;/custom_web(/.*)?&quot;
+
+# 2. Recursively apply the label from the policy database
+restorecon -Rv /custom_web
+
+# 3. Inspect the active SELinux security context
+ls -ldZ /custom_web</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="selinux">
+            <div class="cheat-head">
+              <h3>SELinux booleans &amp; AVC audits</h3>
+              <span class="badge badge-green">SELinux</span>
+            </div>
+            <p class="cheat-desc">Toggle policy switches persistently with <code>-P</code> and extract human-readable remediation advice from audit logs.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy SELinux booleans &amp; AVC audits commands">Copy</button>
+              <pre><code># 1. Search for and toggle a boolean persistently
+getsebool -a | grep httpd_can_network
+setsebool -P httpd_can_network_connect 1
+
+# 2. Query recent AVC denial events
+ausearch -m avc -ts recent
+
+# 3. Generate human-readable diagnostic advice
+sealert -a /var/log/audit/audit.log</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="selinux">
+            <div class="cheat-head">
+              <h3>SELinux modes &amp; status</h3>
+              <span class="badge badge-green">SELinux</span>
+            </div>
+            <p class="cheat-desc">Switch between enforcing and permissive at runtime and persist the mode across reboots.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy SELinux modes &amp; status commands">Copy</button>
+              <pre><code># Inspect and switch at runtime
+getenforce
+sestatus
+setenforce 0          # permissive until reboot
+setenforce 1          # enforcing
+
+# Persist across reboots
+sed -i &#x27;s/^SELINUX=.*/SELINUX=enforcing/&#x27; /etc/selinux/config
+grep &#x27;^SELINUX=&#x27; /etc/selinux/config</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="selinux">
+            <div class="cheat-head">
+              <h3>Inspect SELinux contexts</h3>
+              <span class="badge badge-green">SELinux</span>
+            </div>
+            <p class="cheat-desc">Read file and process labels and confirm the policy mapping before relabeling.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Inspect SELinux contexts commands">Copy</button>
+              <pre><code># File, process, and policy mappings
+ls -Z /var/www/html
+ps -eZ | grep httpd
+semanage fcontext -l | grep /var/www
+
+# Apply the policy definition to disk
+restorecon -Rv /var/www/html
+ls -ldZ /var/www/html</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Enable &amp; start services</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Control unit state, enable services at boot, and inspect running units.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Enable &amp; start services commands">Copy</button>
+              <pre><code>systemctl status sshd
+systemctl enable --now sshd
+systemctl is-enabled sshd
+systemctl restart sshd
+systemctl list-units --type=service --state=running</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Targets &amp; default boot</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Set and switch the systemd default target without changing installed packages.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Targets &amp; default boot commands">Copy</button>
+              <pre><code>systemctl get-default
+systemctl set-default multi-user.target
+systemctl isolate multi-user.target
+systemctl list-units --type=target</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Journal &amp; persistent logs</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Query the journal by boot, unit, priority, and time; make logs survive a reboot.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Journal &amp; persistent logs commands">Copy</button>
+              <pre><code># Query recent boot and unit logs
+journalctl -b -p err
+journalctl -u sshd --since today
+journalctl -f
+
+# Persist journals across reboots
+mkdir -p /var/log/journal
+systemctl restart systemd-journald
+journalctl --disk-usage</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Boot recovery (rd.break)</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Interrupt boot, remount sysroot read-write, reset the root password, and trigger an SELinux relabel.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Boot recovery (rd.break) commands">Copy</button>
+              <pre><code># 1. At the GRUB menu, edit the kernel line and append:
+rd.break
+
+# 2. At the switch-root prompt:
+mount -o remount,rw /sysroot
+chroot /sysroot
+passwd root
+touch /.autorelabel
+exit
+exit</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Kernel &amp; bootloader (grubby)</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Inspect and change the default kernel and kernel command-line arguments with <code>grubby</code>.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Kernel &amp; bootloader (grubby) commands">Copy</button>
+              <pre><code># Inspect the default kernel and all boot entries
+grubby --default-kernel
+grubby --info=ALL
+
+# Add or remove kernel arguments across all entries
+grubby --update-kernel=ALL --args=&quot;audit=1&quot;
+grubby --remove-args=&quot;audit=1&quot; --update-kernel=ALL</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>systemd calendar timers</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Schedule precise, journal-logged maintenance with a <code>.timer</code> and matching <code>.service</code> unit.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy systemd calendar timers commands">Copy</button>
+              <pre><code># 1. Timer unit configuration (/etc/systemd/system/backup.timer)
+# [Timer]
+# OnCalendar=*-*-* 02:00:00
+# Persistent=true
+# [Install]
+# WantedBy=timers.target
+
+# 2. The matching backup.service supplies the command to run
+systemctl daemon-reload
+systemctl enable --now backup.timer
+systemctl list-timers --all</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Time sync &amp; timezone</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Enable chrony, inspect its NTP sources, and set the system timezone.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Time sync &amp; timezone commands">Copy</button>
+              <pre><code>dnf -y install chrony
+systemctl enable --now chronyd
+chronyc sources -v
+
+timedatectl set-timezone Asia/Kolkata
+timedatectl set-ntp true
+timedatectl status</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="systemd">
+            <div class="cheat-head">
+              <h3>Cron &amp; at jobs</h3>
+              <span class="badge badge-cyan">systemd</span>
+            </div>
+            <p class="cheat-desc">Schedule recurring jobs with cron and one-time jobs with at, then inspect or remove them.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Cron and at job commands">Copy</button>
+              <pre><code># User crontab: minute hour day month weekday command
+crontab -e
+crontab -l
+30 2 * * * /usr/local/bin/backup.sh
+
+# System-wide drop-in job
+echo "0 3 * * 1 /usr/local/bin/weekly.sh" &gt; /etc/cron.d/weekly
+
+# One-time job
+echo "/usr/local/bin/maintenance.sh" | at 23:00
+atq
+atrm JOB_ID</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="users">
+            <div class="cheat-head">
+              <h3>Account expiry &amp; sudoers policy</h3>
+              <span class="badge badge-amber">Users</span>
+            </div>
+            <p class="cheat-desc">Create enterprise users with strict password aging and dedicated <code>/etc/sudoers.d/</code> permissions.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Account expiry &amp; sudoers policy commands">Copy</button>
+              <pre><code># 1. Provision a user with a secondary group and expiry date
+useradd -G devops -e 2026-12-31 -c &quot;Anagh VP&quot; anagh
+passwd anagh
+
+# 2. Enforce a 90-day password aging policy and inspect it
+chage -M 90 -W 7 -I 14 anagh &amp;&amp; chage -l anagh
+
+# 3. Grant validated sudo access via a drop-in file
+echo &quot;%devops ALL=(ALL) NOPASSWD: /usr/bin/systemctl&quot; &gt; /etc/sudoers.d/99-devops
+chmod 440 /etc/sudoers.d/99-devops
+visudo -c -f /etc/sudoers.d/99-devops</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="users">
+            <div class="cheat-head">
+              <h3>Groups &amp; membership</h3>
+              <span class="badge badge-amber">Users</span>
+            </div>
+            <p class="cheat-desc">Create groups, add users, and verify effective group membership.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Groups &amp; membership commands">Copy</button>
+              <pre><code>groupadd devops
+useradd -m -G devops -s /bin/bash anagh
+id anagh
+usermod -aG wheel anagh
+gpasswd -d anagh devops
+getent group devops
+
+# Lock or unlock an account without deleting it
+usermod -L anagh
+usermod -U anagh</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="users">
+            <div class="cheat-head">
+              <h3>SSH key authentication</h3>
+              <span class="badge badge-amber">Users</span>
+            </div>
+            <p class="cheat-desc">Generate an ed25519 key, install it on the remote host, and enforce key-only login.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy SSH key authentication commands">Copy</button>
+              <pre><code># Generate a key and copy it to the remote account
+ssh-keygen -t ed25519 -N &quot;&quot; -f ~/.ssh/id_ed25519
+ssh-copy-id anagh@server.example.com
+
+# Log in with the installed key
+ssh anagh@server.example.com
+
+# On the server: correct permissions
+chmod 700 ~/.ssh &amp;&amp; chmod 600 ~/.ssh/authorized_keys
+
+# Disable password auth, validate, and reload
+echo &quot;PasswordAuthentication no&quot; &gt; /etc/ssh/sshd_config.d/50-no-password.conf
+sshd -t &amp;&amp; systemctl reload sshd</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="security">
+            <div class="cheat-head">
+              <h3>Sticky bit, SGID &amp; POSIX ACLs</h3>
+              <span class="badge badge-amber">Security</span>
+            </div>
+            <p class="cheat-desc">Build collaborative drop directories where only owners can delete files, plus SGID directories with inherited ACLs.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Sticky bit, SGID &amp; POSIX ACLs commands">Copy</button>
+              <pre><code># 1. Sticky Bit (1777): anyone creates, only owner deletes
+mkdir -p /shared_drop &amp;&amp; chmod 1777 /shared_drop
+
+# 2. SGID (2770): automatic group inheritance &amp; default ACLs
+mkdir -p /shared_sales &amp;&amp; chgrp sales /shared_sales
+chmod 2770 /shared_sales
+setfacl -m u:auditor:rx /shared_sales
+setfacl -d -m u:auditor:rx /shared_sales
+getfacl /shared_sales</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="security">
+            <div class="cheat-head">
+              <h3>Default permissions (umask)</h3>
+              <span class="badge badge-amber">Security</span>
+            </div>
+            <p class="cheat-desc">Read and set the umask, then confirm the resulting default modes for files and directories.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Default permissions (umask) commands">Copy</button>
+              <pre><code># Show the current shell umask
+umask
+
+# Set it for the current shell and persist it for a user
+umask 027
+echo &quot;umask 027&quot; &gt;&gt; ~/.bashrc
+
+# Verify: files start at 666 and directories at 777
+touch /tmp/umask-test &amp;&amp; ls -l /tmp/umask-test
+mkdir -p /tmp/umask-dir &amp;&amp; ls -ld /tmp/umask-dir</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="security">
+            <div class="cheat-head">
+              <h3>Audit special permissions</h3>
+              <span class="badge badge-amber">Security</span>
+            </div>
+            <p class="cheat-desc">Locate setuid binaries and setgid directories that can affect privilege and collaboration.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Audit special permissions commands">Copy</button>
+              <pre><code># Find setuid files and setgid directories (single filesystem)
+find / -xdev -perm -4000 -type f
+find / -xdev -perm -2000 -type d
+
+# Verify a known setuid binary and its ownership
+ls -l /usr/bin/passwd</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>Persistent firewalld rules</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Open application ports and services persistently across reboot, then reload the firewall without dropping connections.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Persistent firewalld rules commands">Copy</button>
+              <pre><code># 1. Allow standard services and a custom TCP port range
+firewall-cmd --permanent --zone=public --add-service={http,https}
+firewall-cmd --permanent --zone=public --add-port=8080-8085/tcp
+
+# 2. Reload running rules without dropping connections
+firewall-cmd --reload
+
+# 3. Confirm the active zone configuration
+firewall-cmd --zone=public --list-all</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>nmcli static addressing</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Configure a static IPv4 profile with gateway and DNS, then apply it through NetworkManager.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy nmcli static addressing commands">Copy</button>
+              <pre><code># 1. Configure a static IP address, gateway, and DNS servers
+nmcli con mod eth0 ipv4.addresses 192.168.122.50/24
+nmcli con mod eth0 ipv4.gateway 192.168.122.1
+nmcli con mod eth0 ipv4.dns &quot;8.8.8.8 1.1.1.1&quot;
+nmcli con mod eth0 ipv4.method manual
+
+# 2. Re-activate the profile and inspect the route table
+nmcli con up eth0 &amp;&amp; ip route show</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>Hostname &amp; local resolution</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Set a persistent hostname and add local name resolution through <code>/etc/hosts</code>.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Hostname &amp; local resolution commands">Copy</button>
+              <pre><code>hostnamectl set-hostname node1.lab.example.com
+hostnamectl status
+
+echo &quot;192.168.122.50 node1.lab.example.com node1&quot; &gt;&gt; /etc/hosts
+getent hosts node1</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>firewalld zones &amp; rich rules</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Inspect active zones and add a source-scoped rich rule, then reload and verify.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy firewalld zones &amp; rich rules commands">Copy</button>
+              <pre><code>firewall-cmd --get-active-zones
+firewall-cmd --permanent --add-rich-rule=&#x27;rule family=&quot;ipv4&quot; source address=&quot;192.168.122.0/24&quot; service name=&quot;ssh&quot; accept&#x27;
+firewall-cmd --reload
+firewall-cmd --list-all</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>Connectivity &amp; sockets</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Verify addresses, routes, listening sockets, and basic reachability.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Connectivity &amp; sockets commands">Copy</button>
+              <pre><code>ip -br addr
+ip route
+ss -tulpn
+ping -c2 1.1.1.1</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>Secure file transfer</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Copy files with scp, mirror directories with rsync, or open an interactive SFTP session.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy secure file transfer commands">Copy</button>
+              <pre><code># Copy a file or directory over SSH
+scp report.tar.gz anagh@server.example.com:/home/anagh/
+scp -r /data/reports anagh@server.example.com:/srv/
+
+# Mirror changes, preserving permissions and timestamps
+rsync -av /data/reports/ anagh@server.example.com:/srv/reports/
+
+# Interactive SFTP session
+sftp anagh@server.example.com</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="network">
+            <div class="cheat-head">
+              <h3>Web server (httpd)</h3>
+              <span class="badge badge-cyan">Network</span>
+            </div>
+            <p class="cheat-desc">Install Apache, publish a test page, confirm the SELinux label, and allow HTTP through firewalld.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy web server commands">Copy</button>
+              <pre><code># Install and start the web server
+dnf -y install httpd
+systemctl enable --now httpd
+
+# Publish content and verify the SELinux context
+echo "hello from $(hostname)" &gt; /var/www/html/index.html
+restorecon -Rv /var/www/html
+curl http://localhost
+
+# Open the firewall
+firewall-cmd --permanent --add-service=http
+firewall-cmd --reload</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="packages">
+            <div class="cheat-head">
+              <h3>DNF install, update &amp; remove</h3>
+              <span class="badge badge-red">Packages</span>
+            </div>
+            <p class="cheat-desc">Query repositories, install and update packages, and verify what is installed.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy DNF install, update &amp; remove commands">Copy</button>
+              <pre><code>dnf repolist
+dnf -y install httpd
+dnf -y update
+dnf -y remove httpd
+rpm -qa | grep httpd</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="packages">
+            <div class="cheat-head">
+              <h3>Local repository</h3>
+              <span class="badge badge-red">Packages</span>
+            </div>
+            <p class="cheat-desc">Define a local BaseOS repository and refresh DNF metadata.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Local repository commands">Copy</button>
+              <pre><code># /etc/yum.repos.d/local.repo
+[local-baseos]
+name=Local BaseOS
+baseurl=file:///mnt/repo/BaseOS
+enabled=1
+# Lab only: use gpgcheck=1 with a gpgkey for signed repos
+gpgcheck=0
+
+dnf clean all &amp;&amp; dnf repolist
+dnf -y install &lt;package&gt;</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="packages">
+            <div class="cheat-head">
+              <h3>Kernel update &amp; bootloader</h3>
+              <span class="badge badge-red">Packages</span>
+            </div>
+            <p class="cheat-desc">Update the kernel package, confirm the default kernel, and reboot cleanly.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Kernel update &amp; bootloader commands">Copy</button>
+              <pre><code>dnf -y update kernel
+grubby --default-kernel
+uname -r
+
+# Reboot to run the new kernel
+systemctl reboot</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="processes">
+            <div class="cheat-head">
+              <h3>Inspect &amp; signal processes</h3>
+              <span class="badge badge-green">Processes</span>
+            </div>
+            <p class="cheat-desc">Find resource-heavy or matching processes and terminate them gracefully or forcefully.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Inspect &amp; signal processes commands">Copy</button>
+              <pre><code>ps aux --sort=-%cpu | head
+ps -eo pid,user,ni,pcpu,pmem,comm --sort=-pcpu | head
+pgrep -a sshd
+
+kill -15 PID        # graceful
+kill -9 PID         # forceful
+pkill -TERM httpd</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="processes">
+            <div class="cheat-head">
+              <h3>nice, renice &amp; tuned</h3>
+              <span class="badge badge-green">Processes</span>
+            </div>
+            <p class="cheat-desc">Adjust process scheduling priority and apply a system-wide performance tuning profile.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy nice, renice &amp; tuned commands">Copy</button>
+              <pre><code>nice -n 10 command
+renice -n -5 -p PID     # negative values require root
+
+tuned-adm list
+tuned-adm active
+tuned-adm profile throughput-performance</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="processes">
+            <div class="cheat-head">
+              <h3>Resource &amp; disk usage</h3>
+              <span class="badge badge-green">Processes</span>
+            </div>
+            <p class="cheat-desc">Check CPU, memory, filesystem, and directory usage during troubleshooting.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy Resource &amp; disk usage commands">Copy</button>
+              <pre><code>vmstat 1 5
+free -h
+df -hT
+du -sh /var/* | sort -h | tail</code></pre>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 V P Anagh Uthaman</p>
+      <p class="mono-dim">Built with plain HTML, CSS &amp; JS &middot; Hosted on GitHub Pages</p>
+      <a class="back-top" href="#main">Back to top &uarr;</a>
+    </div>
+  </footer>
+
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>V P Anagh Uthaman — Linux Systems Administration</title>
-  <meta name="description" content="Portfolio of V P Anagh Uthaman: RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, and RHCSA (EX200) preparation.">
+  <meta name="description" content="Portfolio of V P Anagh Uthaman: RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, RH199 completion, and RHCSA (EX200) preparation.">
   <meta name="author" content="V P Anagh Uthaman">
   <meta name="theme-color" content="#07080b">
   <meta name="color-scheme" content="dark light">
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="V P Anagh Uthaman">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="V P Anagh Uthaman — Linux Systems Administration">
-  <meta property="og:description" content="RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, and RHCSA (EX200) preparation.">
+  <meta property="og:description" content="RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, RH199 completion, and RHCSA (EX200) preparation.">
   <meta property="og:url" content="https://anakx1.github.io/anagh/">
   <meta property="og:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta property="og:image:type" content="image/png">
@@ -22,7 +22,7 @@
   <meta property="og:image:alt" content="V P Anagh Uthaman — Linux Systems Administration portfolio">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="V P Anagh Uthaman — Linux Systems Administration">
-  <meta name="twitter:description" content="RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, and RHCSA (EX200) preparation.">
+  <meta name="twitter:description" content="RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, RH199 completion, and RHCSA (EX200) preparation.">
   <meta name="twitter:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta name="twitter:image:alt" content="V P Anagh Uthaman — Linux Systems Administration portfolio">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
@@ -30,7 +30,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
   <script>
     (function () {
       var root = document.documentElement;
@@ -55,7 +55,7 @@
     "url": "https://anakx1.github.io/anagh/",
     "image": "https://anakx1.github.io/anagh/assets/og-card.png",
     "jobTitle": "Linux Systems Administrator",
-    "description": "Linux systems administrator preparing for RHCSA (EX200), with hands-on RHEL, SELinux, systemd, Ansible, and Bash automation labs.",
+    "description": "Linux systems administrator with RHCSA Rapid Track (RH199) completion, preparing for RHCSA (EX200), and hands-on RHEL, SELinux, systemd, Ansible, and Bash automation labs.",
     "email": "dev.an9gh@gmail.com",
     "knowsAbout": ["Red Hat Enterprise Linux", "SELinux", "systemd", "Ansible", "Bash", "AWS"],
     "sameAs": ["https://github.com/an9gh", "https://in.linkedin.com/in/anaghvp"]
@@ -74,10 +74,12 @@
       </a>
 
       <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
         <a href="#certs">Certifications</a>
         <a href="lab.html">Command Lab</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="homelab.html">Homelab</a>
         <a href="#contact">Contact</a>
       </nav>
 
@@ -119,9 +121,9 @@
           <p class="hero-role reveal"><span class="prompt-mark">$</span> whoami <span class="arrow">&rarr;</span> <strong>Linux Systems Administrator</strong></p>
 
           <p class="hero-bio reveal">
-            Linux systems administrator in training, preparing for the Red Hat <strong>RHCSA (EX200)</strong>.
-            RHCE coursework completed. I build hands-on RHEL, Ansible, and Bash automation labs, with AWS
-            networking foundations and DevOps tooling as the next step.
+            Linux systems administrator based in Kannur, Kerala, preparing for the Red Hat <strong>RHCSA (EX200)</strong>.
+            RHCSA Rapid Track (RH199, RHEL 10) and RHCE coursework completed. I build hands-on RHEL, Ansible, and Bash
+            automation labs, with AWS networking foundations and DevOps tooling as the next step.
           </p>
 
           <div class="hero-actions reveal">
@@ -132,6 +134,7 @@
               </svg>
               Explore the command lab
             </a>
+            <a class="btn btn-ghost" href="resume.html">Résumé</a>
             <a class="btn btn-ghost" href="#contact">Get in touch</a>
           </div>
 
@@ -194,8 +197,9 @@
                   <div class="term-cmdline"><span class="p-user">anagh@rhel</span><span class="p-sep">:</span><span class="p-path">~</span><span class="p-sym">$</span> <span class="term-cmd">cat /etc/exam-tracker.conf</span></div>
                   <div class="term-out">[CANDIDATE_PROFILE]
 Name          : V P ANAGH UTHAMAN
-Track         : RHCSA &amp; RHCE (RHCE coursework completed)
-Training      : RHEL 10 Rapid Track course (completed)
+Track         : Linux Systems Administration / RHCSA (EX200) candidate
+Training      : RHCSA Rapid Track (RH199) Ver. 10 (completed)
+Certification : RHCE coursework completed
 Target Exam   : EX200 (RHEL v10 Edition)
 Status        : Active preparation &amp; lab testing
 Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firewalld, Bash automation</div>
@@ -253,8 +257,8 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
             <span class="stat-label">RHEL generations</span>
           </div>
           <div class="stat reveal">
-            <span class="stat-value">4<span class="unit">+</span></span>
-            <span class="stat-label">Hands-on labs</span>
+            <span class="stat-value">4</span>
+            <span class="stat-label">Featured labs</span>
           </div>
           <div class="stat reveal">
             <span class="stat-value">EX200</span>
@@ -268,10 +272,57 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
       </div>
     </section>
 
+    <section class="section" id="about" data-spy>
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">01 &mdash; About</p>
+          <h2>Linux, labs, and the why behind the fix</h2>
+          <p>I learn by building systems, breaking them, and documenting the repair.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-copy card reveal">
+            <p>I&rsquo;m V P Anagh Uthaman, a Linux systems administrator based in Kannur, Kerala. I focus on RHEL administration: systemd, storage with LVM and Stratis, SELinux, firewalld, users and permissions, and Bash/Ansible automation.</p>
+            <p>My lab runs on KVM/virt-manager with Rocky Linux 9 and RHEL 9/10 guests. I document the commands, the failures, and the fix &mdash; including an xrdp/X11 troubleshooting case study, a GRUB <code>rd.break</code> password recovery, and a three-node Ansible automation lab.</p>
+            <p>I completed the RHCSA Rapid Track (RH199, RHEL 10) and RHCE coursework. I&rsquo;m now preparing for the EX200 exam and looking for Linux and systems administration roles.</p>
+            <div class="about-actions">
+              <a class="btn btn-primary" href="resume.html">View résumé</a>
+              <a class="btn btn-ghost" href="homelab.html">Explore the homelab</a>
+            </div>
+          </div>
+
+          <aside class="about-facts card reveal" aria-label="Quick profile">
+            <dl class="fact-list">
+              <div>
+                <dt>Based in</dt>
+                <dd>Kannur, Kerala, India</dd>
+              </div>
+              <div>
+                <dt>Focus</dt>
+                <dd>RHEL 10 &middot; SELinux &middot; systemd &middot; LVM &middot; Ansible &middot; Bash</dd>
+              </div>
+              <div>
+                <dt>Training</dt>
+                <dd>RHCSA Rapid Track (RH199, RHEL 10) completed</dd>
+              </div>
+              <div>
+                <dt>Next</dt>
+                <dd>RHCSA EX200 &middot; RHCE EX294</dd>
+              </div>
+              <div>
+                <dt>Open to</dt>
+                <dd>Linux and systems administration roles</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="certs" data-spy>
       <div class="container">
         <div class="section-head reveal">
-          <p class="kicker">01 &mdash; Certifications</p>
+          <p class="kicker">02 &mdash; Certifications</p>
           <h2>Certification roadmap</h2>
           <p>Focused on enterprise Linux administration, with automation and cloud fundamentals building on top.</p>
         </div>
@@ -289,11 +340,12 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
             </div>
             <h3>EX200 &mdash; RHCSA</h3>
             <p class="cert-sub">Red Hat Enterprise Linux 10</p>
-            <p class="cert-desc">Core RHEL administration: services, storage, SELinux, networking, users, and containerized workflows. RHEL 10 Rapid Track course completed.</p>
+            <p class="cert-desc">Core RHEL administration: services, storage, SELinux, networking, users, and containerized workflows. RHCSA Rapid Track (RH199) &mdash; Ver. 10 completed.</p>
             <ul class="meta-list">
-              <li>In active preparation</li>
-              <li>RHEL 10</li>
+              <li>EX200 in preparation</li>
+              <li>RH199 completed</li>
             </ul>
+            <p class="cert-credential"><a class="text-link" href="https://www.linkedin.com/posts/anaghvp_rhcsa-redhat-linux-share-7511116312618639361-bZvK/" target="_blank" rel="noopener">View RH199 credential &nearr;</a></p>
           </article>
 
           <article class="cert-card card reveal">
@@ -340,7 +392,7 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
     <section class="section" id="skills" data-spy>
       <div class="container">
         <div class="section-head reveal">
-          <p class="kicker">03 &mdash; Skills</p>
+          <p class="kicker">04 &mdash; Skills</p>
           <h2>Technical skillset</h2>
           <p>Systems administration fundamentals backed by hands-on labs, automation, and troubleshooting practice.</p>
         </div>
@@ -416,7 +468,7 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
     <section class="section" id="projects" data-spy>
       <div class="container">
         <div class="section-head reveal">
-          <p class="kicker">04 &mdash; Projects</p>
+          <p class="kicker">05 &mdash; Projects</p>
           <h2>Hands-on labs &amp; projects</h2>
           <p>Real repositories and lab write-ups: automation, recovery, scripting, and enterprise administration on RHEL-family systems.</p>
         </div>
@@ -592,13 +644,14 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
     <section class="section" id="contact" data-spy>
       <div class="container">
         <div class="cta reveal">
-          <p class="kicker">05 &mdash; Contact</p>
+          <p class="kicker">06 &mdash; Contact</p>
           <h2>Let&rsquo;s build something reliable.</h2>
           <p>I&rsquo;m preparing for the RHCSA (EX200) and open to Linux and systems administration roles, labs, and collaborations.</p>
           <div class="cta-actions">
             <a class="btn btn-primary email-link" href="mailto:dev.an9gh@gmail.com">Email me</a>
             <a class="btn btn-ghost" href="https://github.com/an9gh" target="_blank" rel="noopener me">GitHub</a>
             <a class="btn btn-ghost" href="https://in.linkedin.com/in/anaghvp" target="_blank" rel="noopener me">LinkedIn</a>
+            <a class="btn btn-ghost" href="resume.html">Résumé</a>
           </div>
           <p class="cta-email"><a href="mailto:dev.an9gh@gmail.com">dev.an9gh@gmail.com</a></p>
         </div>

@@ -1,7 +1,7 @@
 {
   "name": "V P Anagh Uthaman — Linux Systems Administration",
   "short_name": "Anagh Uthaman",
-  "description": "Portfolio of V P Anagh Uthaman: RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, and RHCSA (EX200) preparation.",
+  "description": "Portfolio of V P Anagh Uthaman: RHEL labs, SELinux, systemd, Ansible automation, Bash scripting, RH199 completion, and RHCSA (EX200) preparation.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -25,6 +25,26 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Command Lab",
+      "short_name": "Lab",
+      "description": "EX200 command reference and practice lab",
+      "url": "./lab.html"
+    },
+    {
+      "name": "Homelab",
+      "short_name": "Homelab",
+      "description": "KVM lab topology, inventory, and case studies",
+      "url": "./homelab.html"
+    },
+    {
+      "name": "Résumé",
+      "short_name": "Résumé",
+      "description": "Linux systems administration résumé",
+      "url": "./resume.html"
     }
   ]
 }

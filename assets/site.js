@@ -117,9 +117,13 @@
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ---------- Command lab tabs ---------- */
+  /* ---------- Command lab tabs and search ---------- */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
   var cheatCards = Array.prototype.slice.call(document.querySelectorAll('.cheat-card'));
+  var labSearch = document.getElementById('lab-search');
+  var labCount = document.getElementById('lab-count');
+  var labEmpty = document.getElementById('lab-empty');
+  var activeCat = 'all';
 
   var cheatCounts = {};
   cheatCards.forEach(function (card) {
@@ -133,20 +137,36 @@
     count.textContent = cat === 'all' ? cheatCards.length : (cheatCounts[cat] || 0);
   });
 
+  function applyLabFilter() {
+    var query = labSearch ? labSearch.value.trim().toLowerCase() : '';
+    var shown = 0;
+
+    cheatCards.forEach(function (card) {
+      var catMatch = activeCat === 'all' || card.getAttribute('data-cat') === activeCat;
+      var textMatch = !query || card.textContent.toLowerCase().indexOf(query) > -1;
+      var show = catMatch && textMatch;
+      card.classList.toggle('is-hidden', !show);
+      if (show) shown++;
+    });
+
+    if (labCount) labCount.textContent = 'Showing ' + shown + ' of ' + cheatCards.length;
+    if (labEmpty) labEmpty.hidden = shown !== 0;
+  }
+
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      var cat = tab.getAttribute('data-cat');
+      activeCat = tab.getAttribute('data-cat');
       tabs.forEach(function (t) {
         var active = t === tab;
         t.classList.toggle('is-active', active);
         t.setAttribute('aria-pressed', String(active));
       });
-      cheatCards.forEach(function (card) {
-        var show = cat === 'all' || card.getAttribute('data-cat') === cat;
-        card.classList.toggle('is-hidden', !show);
-      });
+      applyLabFilter();
     });
   });
+
+  if (labSearch) labSearch.addEventListener('input', applyLabFilter);
+  if (cheatCards.length) applyLabFilter();
 
   /* ---------- Copy snippets ---------- */
   Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function (btn) {
@@ -220,8 +240,9 @@
     return [
       '[CANDIDATE_PROFILE]',
       'Name          : V P ANAGH UTHAMAN',
-      'Track         : RHCSA &amp; RHCE (RHCE coursework completed)',
-      'Training      : RHEL 10 Rapid Track course (completed)',
+      'Track         : Linux Systems Administration / RHCSA (EX200) candidate',
+      'Training      : RHCSA Rapid Track (RH199) Ver. 10 (completed)',
+      'Certification : RHCE coursework completed',
       'Target Exam   : EX200 (RHEL v10 Edition)',
       'Status        : Active preparation &amp; lab testing',
       'Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firewalld, Bash automation'
@@ -237,6 +258,8 @@
         '  <span class="t-green">projects</span>   hands-on labs and repos\n' +
         '  <span class="t-green">rockylab</span>   Rocky Linux 9 case study\n' +
         '  <span class="t-green">arch</span>       Ansible 3-node topology\n' +
+        '  <span class="t-green">homelab</span>    lab topology &amp; inventory\n' +
+        '  <span class="t-green">resume</span>     résumé page &amp; print\n' +
         '  <span class="t-green">certs</span>      certification roadmap\n' +
         '  <span class="t-green">ls -la</span>     workspace files\n' +
         '  <span class="t-green">cat &lt;file&gt;</span> read a file (try <span class="t-amber">/etc/exam-tracker.conf</span>)\n' +
@@ -247,7 +270,7 @@
     },
     whoami: function () {
       return '<strong>V P ANAGH UTHAMAN</strong>\n' +
-        'Role    : Linux Systems Administrator (in training)\n' +
+        'Role    : Linux Systems Administrator\n' +
         'Focus   : RHEL administration, Bash &amp; Ansible automation, AWS networking basics\n' +
         'Current : Intensive preparation for Red Hat EX200 (RHEL v10 Edition)\n' +
         'GitHub  : <a href="https://github.com/an9gh" target="_blank" rel="noopener">github.com/an9gh</a>\n' +
@@ -280,7 +303,8 @@
     certs: function () {
       return '<strong class="t-cyan">CERTIFICATIONS &amp; ROADMAP</strong>\n' +
         '  [IN PROGRESS] EX200 - Red Hat Certified System Administrator (RHEL 10)\n' +
-        '  [COMPLETED]   RHEL 10 Rapid Track course\n' +
+        '  [COMPLETED]   RHCSA Rapid Track (RH199) - Ver. 10\n' +
+        '                <a href="https://www.linkedin.com/posts/anaghvp_rhcsa-redhat-linux-share-7511116312618639361-bZvK/" target="_blank" rel="noopener">View RH199 credential</a>\n' +
         '  [COURSEWORK]  RHCE - Red Hat Certified Engineer track (Ansible automation)\n' +
         '  [FOUNDATIONS] AWS - VPC, subnets, Elastic IP, networking basics, Lambda';
     },
@@ -338,21 +362,38 @@
         '        |   sudo NOPASSWD   |    |   sudo NOPASSWD   |\n' +
         '        +-------------------+    +-------------------+';
     },
+    homelab: function () {
+      return '<strong class="t-cyan">HOMELAB</strong>\n' +
+        '  KVM / virt-manager host · Rocky Linux 9 · RHEL 9/10\n' +
+        '  Ansible control + 2 managed nodes · 192.168.122.0/24\n' +
+        '  <a href="homelab.html">Open the homelab notes</a>.';
+    },
+    resume: function () {
+      return '<strong class="t-cyan">RÉSUMÉ</strong>\n' +
+        '  Linux systems administration · RHCSA (EX200) candidate\n' +
+        '  <a href="resume.html">Open the résumé</a> (Print / Save as PDF).';
+    },
     ls: function (args) {
       if (args && (args.indexOf('-la') > -1 || args.indexOf('-l') > -1 || args.indexOf('-a') > -1)) {
-        return 'total 32\n' +
-          'drwxr-xr-x. 5 anagh anagh 4096 Nov  6 16:23 .\n' +
+        return 'total 48\n' +
+          'drwxr-xr-x. 7 anagh anagh 4096 Nov  6 17:30 .\n' +
           'drwxr-xr-x. 3 root  root  4096 Nov  1 00:00 ..\n' +
-          'drwxr-xr-x. 3 anagh anagh 4096 Nov  6 16:23 .github\n' +
-          '-rw-r--r--. 1 anagh anagh   34 Nov  6 16:23 .gitignore\n' +
-          '-rw-r--r--. 1 anagh anagh  321 Nov  6 16:23 .htmlvalidate.json\n' +
-          '-rw-r--r--. 1 anagh anagh 7866 Nov  6 16:23 404.html\n' +
-          '-rw-r--r--. 1 anagh anagh 1061 Nov  6 16:23 README.md\n' +
-          'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 16:23 assets\n' +
-          '-rw-r--r--. 1 anagh anagh 34301 Nov  6 16:23 index.html\n' +
-          '-rw-r--r--. 1 anagh anagh 46774 Nov  6 16:23 lab.html';
+          'drwxr-xr-x. 3 anagh anagh 4096 Nov  6 17:30 .github\n' +
+          '-rw-r--r--. 1 anagh anagh   68 Nov  6 17:30 .gitignore\n' +
+          '-rw-r--r--. 1 anagh anagh  321 Nov  6 17:30 .htmlvalidate.json\n' +
+          '-rw-r--r--. 1 anagh anagh 7866 Nov  6 17:30 404.html\n' +
+          '-rw-r--r--. 1 anagh anagh 1622 Nov  6 17:30 README.md\n' +
+          'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 17:30 assets\n' +
+          'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 17:30 docs\n' +
+          '-rw-r--r--. 1 anagh anagh 21401 Nov  6 17:30 homelab.html\n' +
+          '-rw-r--r--. 1 anagh anagh 38443 Nov  6 17:30 index.html\n' +
+          '-rw-r--r--. 1 anagh anagh 48280 Nov  6 17:30 lab.html\n' +
+          '-rw-r--r--. 1 anagh anagh 8511 Nov  6 17:30 resume.html\n' +
+          'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 17:30 scripts\n' +
+          '-rw-r--r--. 1 anagh anagh  771 Nov  6 17:30 site.webmanifest\n' +
+          '-rw-r--r--. 1 anagh anagh  446 Nov  6 17:30 sitemap.xml';
       }
-      return '404.html  README.md  assets  index.html  lab.html';
+      return '404.html  README.md  assets  docs  homelab.html  index.html  lab.html  resume.html  scripts  site.webmanifest  sitemap.xml';
     },
     cat: function (args) {
       var file = args && args[0];

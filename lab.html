@@ -30,7 +30,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
   <script>
     (function () {
       var root = document.documentElement;
@@ -60,10 +60,12 @@
       </a>
 
       <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="index.html#about">About</a>
         <a href="index.html#certs">Certifications</a>
         <a href="lab.html" class="is-active" aria-current="page">Command Lab</a>
         <a href="index.html#skills">Skills</a>
         <a href="index.html#projects">Projects</a>
+        <a href="homelab.html">Homelab</a>
         <a href="index.html#contact">Contact</a>
       </nav>
 
@@ -104,7 +106,7 @@
         </nav>
         <div class="section-head section-head--row reveal">
           <div>
-            <p class="kicker">02 &mdash; Command Lab</p>
+            <p class="kicker">03 &mdash; Command Lab</p>
             <h1>EX200 cheat sheet</h1>
             <p>A working reference for the RHEL 10 exam objectives: essential tools, shell scripting, storage, SELinux, systemd, users, networking, packages, and processes. Filter by domain or copy a snippet.</p>
           </div>
@@ -123,6 +125,14 @@
           <button class="tab" type="button" data-cat="packages" aria-pressed="false">Packages <span>3</span></button>
           <button class="tab" type="button" data-cat="processes" aria-pressed="false">Processes <span>3</span></button>
         </div>
+
+        <div class="lab-tools reveal">
+          <label class="sr-only" for="lab-search">Search commands</label>
+          <input class="lab-search" id="lab-search" type="search" placeholder="Search commands, tools, or tasks..." autocomplete="off">
+          <p class="lab-count" id="lab-count" aria-live="polite">Showing 45 of 45</p>
+        </div>
+
+        <p class="lab-empty" id="lab-empty" hidden>No commands match that search.</p>
 
         <p class="lab-note reveal">
           Examples use placeholder device names and hostnames. Confirm your environment with

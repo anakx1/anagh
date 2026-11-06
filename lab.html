@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; manifest-src 'self'; object-src 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EX200 Command Lab | V P Anagh Uthaman</title>
   <meta name="description" content="Interactive RHCSA EX200 (RHEL 10) command lab: essential tools, shell scripting, storage and LVM, SELinux, systemd, users, networking, packages, and processes.">
@@ -31,22 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
-  <script>
-    (function () {
-      var root = document.documentElement;
-      root.classList.add('js');
-      var theme = 'dark';
-      try {
-        var stored = localStorage.getItem('theme');
-        if (stored === 'light' || stored === 'dark') {
-          theme = stored;
-        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-          theme = 'light';
-        }
-      } catch (e) {}
-      root.setAttribute('data-theme', theme);
-    })();
-  </script>
+  <script src="assets/theme.js"></script>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>

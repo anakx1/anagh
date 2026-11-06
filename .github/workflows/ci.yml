@@ -22,12 +22,14 @@ jobs:
       - name: Validate HTML
         run: npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html
       - name: Check JavaScript syntax
-        run: node --check assets/site.js && node --check assets/resume.js
+        run: node --check assets/site.js && node --check assets/resume.js && node --check assets/theme.js
       - name: Check Python helper syntax
-        run: python3 -m py_compile scripts/check_links.py
+        run: python3 -m py_compile scripts/check_links.py scripts/check_csp.py
       - name: Validate metadata
         run: |
           python3 -m json.tool site.webmanifest >/dev/null
           python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
       - name: Check local links and anchors
         run: python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
+      - name: Check CSP and referrer policy
+        run: python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html

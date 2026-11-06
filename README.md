@@ -15,11 +15,12 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, and LVM extend failure
 - `resume.html` — print-friendly résumé (use “Print / Save as PDF”)
 - `404.html` — themed not-found page
-- `assets/styles.css`, `assets/site.js` — shared styles and behavior
+- `assets/styles.css`, `assets/site.js`, `assets/theme.js` — shared styles and behavior
 - `assets/resume.css`, `assets/resume.js` — résumé layout and print action
 - `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
 - `scripts/check_links.py` — local link, asset, and anchor checker
+- `scripts/check_csp.py` — CSP, referrer-policy, and inline-hash checker
 - `docs/github-profile-README.md` — ready-to-copy GitHub profile README for `an9gh`
 - `docs/github-profile-settings.md` — matching GitHub bio, website, email, and pinned-repo settings
 - `docs/github-repo-metadata.md` — repository descriptions, homepages, and topics
@@ -39,13 +40,27 @@ python3 -m http.server 8000
 
 ```bash
 npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html
-node --check assets/site.js && node --check assets/resume.js
+node --check assets/site.js && node --check assets/resume.js && node --check assets/theme.js
 python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
+python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html
 python3 -m json.tool site.webmanifest >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
 ```
 
 Use Node 22+ (html-validate 11 requires it). The same checks run on every push via GitHub Actions (`.github/workflows/ci.yml`).
+
+## Security policy
+
+GitHub Pages does not allow custom HTTP response headers, so each page includes a meta Content-Security-Policy:
+
+- scripts are same-origin only (`script-src 'self'`), with no `'unsafe-inline'`
+- styles and fonts are limited to the site plus `fonts.googleapis.com` / `fonts.gstatic.com`
+- images allow same-origin and `data:` URLs; objects, frames, media, and workers are blocked
+- `base-uri` and `form-action` are restricted to the site
+
+The shared theme bootstrap lives in `assets/theme.js` so the main pages do not need inline scripts. `404.html` stays self-contained because GitHub Pages can serve it from arbitrary paths; its inline style and scripts use SHA-256 CSP hashes. `scripts/check_csp.py` verifies those hashes and the referrer policy.
+
+The referrer policy is `strict-origin-when-cross-origin`, so cross-origin links receive only the origin and no path.
 
 ## GitHub profile
 

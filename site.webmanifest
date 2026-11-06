@@ -45,6 +45,12 @@
       "short_name": "Résumé",
       "description": "Linux systems administration résumé",
       "url": "./resume.html"
+    },
+    {
+      "name": "Writing",
+      "short_name": "Writing",
+      "description": "xrdp, SELinux, and LVM lab write-ups",
+      "url": "./writing.html"
     }
   ]
 }

@@ -9,9 +9,10 @@ Personal portfolio: RHEL labs, Ansible automation, Bash scripting, and RHCSA (EX
 
 A static site with no build step, no dependencies, hosted on GitHub Pages:
 
-- `index.html` — portfolio (hero, about, certifications, skills, projects, contact)
+- `index.html` — portfolio (hero, about, certifications, skills, projects, selected writing, contact)
 - `lab.html` — interactive EX200 command lab and cheat sheet with category filters and search
 - `homelab.html` — KVM lab topology, VM inventory, practice areas, and case studies
+- `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, and LVM extend failure
 - `resume.html` — print-friendly résumé (use “Print / Save as PDF”)
 - `404.html` — themed not-found page
 - `assets/styles.css`, `assets/site.js` — shared styles and behavior
@@ -30,15 +31,16 @@ python3 -m http.server 8000
 # portfolio: http://localhost:8000
 # command lab: http://localhost:8000/lab.html
 # homelab: http://localhost:8000/homelab.html
+# writing: http://localhost:8000/writing.html
 # résumé: http://localhost:8000/resume.html
 ```
 
 ## Check before pushing
 
 ```bash
-npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html
+npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html
 node --check assets/site.js && node --check assets/resume.js
-python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html
+python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
 python3 -m json.tool site.webmanifest >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
 ```
@@ -64,4 +66,4 @@ Repo **Settings → Pages → Deploy from a branch → `main` / root**.
 
 ## Keep fresh
 
-Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Bump the `<lastmod>` dates in `sitemap.xml` when the main pages change. Keep `docs/github-profile-README.md` in sync with the site.
+Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Add new entries to `writing.html` and the Selected writing section in `index.html` when a lab produces a reusable lesson. Bump the `<lastmod>` dates in `sitemap.xml` when the main pages change. Keep `docs/github-profile-README.md` in sync with the site.

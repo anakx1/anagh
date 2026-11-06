@@ -79,6 +79,7 @@
         <a href="lab.html">Command Lab</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#writing">Writing</a>
         <a href="homelab.html">Homelab</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -641,10 +642,61 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
       </div>
     </section>
 
+    <section class="section" id="writing" data-spy>
+      <div class="container">
+        <div class="section-head section-head--row reveal">
+          <div>
+            <p class="kicker">05 &mdash; Selected writing</p>
+            <h2>Lessons from the lab</h2>
+            <p>Short, evidence-first write-ups: symptom, diagnosis, root cause, fix, and the check that prevents a repeat.</p>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="writing.html">Read all writing &rarr;</a>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card card reveal">
+            <div class="project-top">
+              <span class="badge badge-red">Troubleshooting</span>
+            </div>
+            <h3 class="project-title"><a href="writing.html#xrdp">xrdp: &ldquo;X server could not be started&rdquo;</a></h3>
+            <p class="project-desc">A running RDP service can still fail when the session starts. The fix was a missing X11 backend package, found by reading the systemd journal and <code>/var/log/xrdp.log</code> together.</p>
+            <div class="project-foot">
+              <span class="mono-dim">Rocky Linux 9</span>
+              <a class="text-link" href="writing.html#xrdp">Read the write-up &rarr;</a>
+            </div>
+          </article>
+
+          <article class="project-card card reveal">
+            <div class="project-top">
+              <span class="badge badge-amber">SELinux</span>
+            </div>
+            <h3 class="project-title"><a href="writing.html#selinux-avc">SELinux denied it. Now what?</a></h3>
+            <p class="project-desc">Read the AVC, identify the source and target contexts, and choose the smallest fix: relabel, boolean, or port label. <code>setenforce 0</code> is a test, not a solution.</p>
+            <div class="project-foot">
+              <span class="mono-dim">RHEL 9 / targeted policy</span>
+              <a class="text-link" href="writing.html#selinux-avc">Read the write-up &rarr;</a>
+            </div>
+          </article>
+
+          <article class="project-card card reveal">
+            <div class="project-top">
+              <span class="badge badge-green">Storage</span>
+            </div>
+            <h3 class="project-title"><a href="writing.html#lvm-extend">The LVM extend that didn&rsquo;t take</a></h3>
+            <p class="project-desc"><code>lvextend</code> can succeed while <code>df -h</code> stays flat. The gap is usually the filesystem or the PV underneath. A four-layer check finds it.</p>
+            <div class="project-foot">
+              <span class="mono-dim">LVM / XFS</span>
+              <a class="text-link" href="writing.html#lvm-extend">Read the write-up &rarr;</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="contact" data-spy>
       <div class="container">
         <div class="cta reveal">
-          <p class="kicker">05 &mdash; Contact</p>
+          <p class="kicker">06 &mdash; Contact</p>
           <h2>Let&rsquo;s build something reliable.</h2>
           <p>I&rsquo;m preparing for the RHCSA (EX200) and open to Linux and systems administration roles, labs, and collaborations.</p>
           <div class="cta-actions">

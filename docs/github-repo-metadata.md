@@ -22,7 +22,7 @@ Copy-paste values for the repositories shown on the portfolio. Keep descriptions
 
 ## `anakx1/anagh`
 
-- **Description:** Linux systems administration portfolio: RHEL labs, homelab notes, résumé, and an interactive EX200 command reference.
+- **Description:** Linux systems administration portfolio: RHEL labs, homelab notes, selected write-ups, résumé, and an interactive EX200 command reference.
 - **Homepage:** <https://anakx1.github.io/anagh/>
 - **Topics:** `portfolio`, `linux`, `rhel`, `rhcsa`, `ansible`, `github-pages`
 

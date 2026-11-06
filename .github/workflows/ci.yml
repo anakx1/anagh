@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 22
       - name: Validate HTML
-        run: npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html
+        run: npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html
       - name: Check JavaScript syntax
         run: node --check assets/site.js && node --check assets/resume.js
       - name: Check Python helper syntax
@@ -30,4 +30,4 @@ jobs:
           python3 -m json.tool site.webmanifest >/dev/null
           python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
       - name: Check local links and anchors
-        run: python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html
+        run: python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html

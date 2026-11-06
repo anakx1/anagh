@@ -1692,6 +1692,12 @@ code {
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .nav-github {
+    display: none;
+  }
+}
+
 @media (max-width: 980px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1720,7 +1726,7 @@ code {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1000px) {
   .nav-links {
     position: fixed;
     top: var(--nav-h);
@@ -2085,5 +2091,164 @@ code {
 
   .lab-topology {
     padding: 0.5rem;
+  }
+}
+
+/* ---------- Writing page ---------- */
+.writing-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 1.5rem;
+}
+
+.writing-toc a {
+  padding: 0.38rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-decoration: none;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.writing-toc a:hover {
+  color: var(--heading);
+  border-color: var(--border-2);
+  text-decoration: none;
+}
+
+.post {
+  max-width: 860px;
+  margin-inline: auto;
+  padding: 1.6rem;
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
+
+.post + .post {
+  margin-top: 1rem;
+}
+
+.post-head {
+  margin-bottom: 1.1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-kicker {
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post h2 {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+.post-deck {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.post code {
+  padding: 0.08rem 0.32rem;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.86em;
+}
+
+.post-body h3 {
+  margin: 1.25rem 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.post-body p,
+.post-body li {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+.post-body p {
+  margin: 0.55rem 0 0;
+}
+
+.post-body ul,
+.post-body ol {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.post-body li + li {
+  margin-top: 0.3rem;
+}
+
+.post-body pre {
+  margin: 0.7rem 0 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #0b0f14;
+  color: #d7e2ea;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post pre code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.post-body p.post-note {
+  margin: 1rem 0 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(240, 165, 58, 0.28);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  background: var(--amber-soft);
+  color: var(--text) !important;
+}
+
+.post-body p.post-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1.1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-body p.post-related a {
+  color: var(--red-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+
+.post-body p.post-related a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .post {
+    padding: 1.15rem;
+  }
+
+  .post h2 {
+    font-size: 1.22rem;
   }
 }

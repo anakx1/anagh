@@ -259,6 +259,7 @@
         '  <span class="t-green">rockylab</span>   Rocky Linux 9 case study\n' +
         '  <span class="t-green">arch</span>       Ansible 3-node topology\n' +
         '  <span class="t-green">homelab</span>    lab topology &amp; inventory\n' +
+        '  <span class="t-green">writing</span>    selected lab write-ups\n' +
         '  <span class="t-green">resume</span>     résumé page &amp; print\n' +
         '  <span class="t-green">certs</span>      certification roadmap\n' +
         '  <span class="t-green">ls -la</span>     workspace files\n' +
@@ -369,6 +370,11 @@
         '  192.168.122.0/24 static lab network\n' +
         '  <a href="homelab.html">Open the homelab notes</a>.';
     },
+    writing: function () {
+      return '<strong class="t-cyan">SELECTED WRITING</strong>\n' +
+        '  xrdp session failure · SELinux AVC denial · LVM extend failure\n' +
+        '  <a href="writing.html">Open the lab write-ups</a>.';
+    },
     resume: function () {
       return '<strong class="t-cyan">RÉSUMÉ</strong>\n' +
         '  Linux systems administration · RHCSA (EX200) candidate\n' +
@@ -376,7 +382,7 @@
     },
     ls: function (args) {
       if (args && (args.indexOf('-la') > -1 || args.indexOf('-l') > -1 || args.indexOf('-a') > -1)) {
-        return 'total 48\n' +
+        return 'total 56\n' +
           'drwxr-xr-x. 7 anagh anagh 4096 Nov  6 17:30 .\n' +
           'drwxr-xr-x. 3 root  root  4096 Nov  1 00:00 ..\n' +
           'drwxr-xr-x. 3 anagh anagh 4096 Nov  6 17:30 .github\n' +
@@ -392,9 +398,10 @@
           '-rw-r--r--. 1 anagh anagh 8511 Nov  6 17:30 resume.html\n' +
           'drwxr-xr-x. 2 anagh anagh 4096 Nov  6 17:30 scripts\n' +
           '-rw-r--r--. 1 anagh anagh  771 Nov  6 17:30 site.webmanifest\n' +
-          '-rw-r--r--. 1 anagh anagh  446 Nov  6 17:30 sitemap.xml';
+          '-rw-r--r--. 1 anagh anagh  446 Nov  6 17:30 sitemap.xml\n' +
+          '-rw-r--r--. 1 anagh anagh 18100 Nov  6 17:30 writing.html';
       }
-      return '404.html  README.md  assets  docs  homelab.html  index.html  lab.html  resume.html  scripts  site.webmanifest  sitemap.xml';
+      return '404.html  README.md  assets  docs  homelab.html  index.html  lab.html  resume.html  scripts  site.webmanifest  sitemap.xml  writing.html';
     },
     cat: function (args) {
       var file = args && args[0];

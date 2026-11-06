@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Writing | V P Anagh Uthaman</title>
+  <meta name="description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures: symptom, evidence, root cause, fix, and prevention.">
+  <meta name="author" content="V P Anagh Uthaman">
+  <meta name="theme-color" content="#07080b">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://anakx1.github.io/anagh/writing.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="V P Anagh Uthaman">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Selected Writing | V P Anagh Uthaman">
+  <meta property="og:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures: symptom, evidence, root cause, fix, and prevention.">
+  <meta property="og:url" content="https://anakx1.github.io/anagh/writing.html">
+  <meta property="og:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Selected Writing | V P Anagh Uthaman">
+  <meta name="twitter:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures.">
+  <meta name="twitter:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
+  <meta name="twitter:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var theme = 'dark';
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'light' || stored === 'dark') {
+          theme = stored;
+        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          theme = 'light';
+        }
+      } catch (e) {}
+      root.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="V P Anagh Uthaman — home">
+        <span class="brand-mark" aria-hidden="true">AU</span>
+        <span class="brand-text">Anagh <span>Uthaman</span></span>
+      </a>
+
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="index.html#about">About</a>
+        <a href="index.html#certs">Certifications</a>
+        <a href="lab.html">Command Lab</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="writing.html" class="is-active" aria-current="page">Writing</a>
+        <a href="homelab.html">Homelab</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+          </svg>
+        </button>
+
+        <a class="btn btn-sm btn-ghost nav-github" href="https://github.com/an9gh" target="_blank" rel="noopener me">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+          </svg>
+          GitHub
+        </a>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section section--lab section--page" id="writing">
+      <div class="container">
+        <nav class="breadcrumb reveal" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">Selected writing</span>
+        </nav>
+
+        <div class="section-head reveal">
+          <p class="kicker">Selected writing</p>
+          <h1>Lessons from the lab</h1>
+          <p>Short write-ups from the point where a service, a policy, or a filesystem stopped behaving. Each one follows the same path: symptom, evidence, root cause, fix, and the check that prevents a repeat.</p>
+        </div>
+
+        <nav class="writing-toc reveal" aria-label="Selected writing">
+          <a href="#xrdp">01 &middot; xrdp session failure</a>
+          <a href="#selinux-avc">02 &middot; SELinux AVC denial</a>
+          <a href="#lvm-extend">03 &middot; LVM extend failure</a>
+        </nav>
+
+        <article class="post card reveal" id="xrdp">
+          <header class="post-head">
+            <p class="post-kicker">Troubleshooting &middot; Rocky Linux 9</p>
+            <h2>xrdp: &ldquo;X server could not be started&rdquo;</h2>
+            <p class="post-deck">The xrdp service was active, the RDP connection was accepted, and the session still failed. The useful evidence was in the session log, not the unit status.</p>
+          </header>
+          <div class="post-body">
+            <h3>Symptom</h3>
+            <p>A remote desktop login reached the session handoff, then failed with <code>X server could not be started</code>. A quick <code>systemctl status xrdp</code> showed the daemon running, which made the failure look like a desktop or authentication problem.</p>
+
+            <h3>Evidence</h3>
+            <pre><code>systemctl status xrdp --no-pager
+journalctl -u xrdp -b --no-pager | tail -n 60
+tail -n 80 /var/log/xrdp.log
+rpm -q xrdp xorgxrdp</code></pre>
+            <p>The journal showed the session failing at the X server handoff. The xrdp log identified the missing backend, and the package query confirmed <code>xorgxrdp</code> was not installed.</p>
+
+            <h3>Root cause</h3>
+            <p>xrdp was installed without the Xorg backend. The daemon could accept connections, but it had no X server backend to start the desktop session.</p>
+
+            <h3>Fix</h3>
+            <pre><code>sudo dnf install -y xorgxrdp
+sudo systemctl restart xrdp
+sudo systemctl status xrdp --no-pager</code></pre>
+            <p>Reconnect with the RDP client and verify the desktop session starts. If it still fails, check <code>~/.xsession-errors</code> and confirm the desktop session package is installed before changing SELinux or firewalld.</p>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li>&ldquo;Active&rdquo; is not the same as &ldquo;working&rdquo;. Check the log at the point of failure, not just the unit state.</li>
+              <li>On RHEL and Rocky Linux, <code>xrdp</code> and <code>xorgxrdp</code> are separate packages.</li>
+              <li>Read the systemd journal and the application log together: one gives the service view, the other gives the session view.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="https://www.linkedin.com/posts/anaghvp_linux-rhcsa-rockylinux-activity-7519253979063549952-A6JP" target="_blank" rel="noopener">Full case study on LinkedIn &nearr;</a>
+              <a href="homelab.html">Homelab notes</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="post card reveal" id="selinux-avc">
+          <header class="post-head">
+            <p class="post-kicker">SELinux &middot; RHEL 9</p>
+            <h2>SELinux denied it. Now what?</h2>
+            <p class="post-deck">A repeatable triage path for AVC denials: confirm enforcement, find the denial, read the source/target/class, then apply the smallest permanent fix.</p>
+          </header>
+          <div class="post-body">
+            <h3>1. Confirm the mode</h3>
+            <pre><code>getenforce
+sestatus</code></pre>
+            <p>Do not start with <code>setenforce 0</code>. If you need permissive mode to test a hypothesis, set it temporarily and put it back as part of the test.</p>
+
+            <h3>2. Find the denial</h3>
+            <pre><code>sudo ausearch -m AVC,USER_AVC -ts recent
+sudo ausearch -m AVC -ts recent | audit2allow -w
+sudo sealert -a /var/log/audit/audit.log</code></pre>
+            <p><code>sealert</code> is available when <code>setroubleshoot-server</code> is installed. The important fields are the source context, target context, and object class. For example: <code>httpd_t</code> trying to read a file labeled <code>var_t</code> instead of <code>httpd_sys_content_t</code>.</p>
+
+            <h3>3. Inspect labels, not just permissions</h3>
+            <pre><code>ls -Zd /var/www/html /web
+ps -eZ | grep httpd
+sudo semanage fcontext -l | grep -E '/web|/var/www'</code></pre>
+            <p>Standard Linux permissions can be correct while the SELinux label is wrong. If the service account can read the file with <code>sudo -u apache cat /web/index.html</code> but the web request is denied, start with labels.</p>
+
+            <h3>4. Choose the smallest fix</h3>
+            <p><strong>Wrong file label:</strong> add a persistent file-context rule, then relabel the tree.</p>
+            <pre><code>sudo semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
+sudo restorecon -Rv /web</code></pre>
+            <p><strong>Boolean:</strong> enable only the capability the service needs.</p>
+            <pre><code>sudo getsebool -a | grep httpd
+sudo setsebool -P httpd_can_network_connect on</code></pre>
+            <p><strong>Non-standard port:</strong> label the port instead of disabling the policy.</p>
+            <pre><code>sudo semanage port -a -t http_port_t -p tcp 8080
+sudo semanage port -l | grep http_port_t</code></pre>
+
+            <h3>5. Verify and document</h3>
+            <pre><code>sudo ausearch -m AVC -ts recent
+sudo systemctl restart httpd
+curl -I http://localhost:8080</code></pre>
+            <p class="post-note"><strong>Do not ship:</strong> <code>setenforce 0</code>, <code>chmod 777</code>, or a broad custom policy when a label or boolean solves the problem. <code>audit2allow</code> is for a genuinely custom policy, not for fixing mislabeled files.</p>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li>SELinux is a labeling system. The denial tells you which source context was denied access to which target context and class.</li>
+              <li>Persistent fixes use <code>semanage</code> plus <code>restorecon</code>; a one-off <code>chcon</code> is useful for testing, not for configuration management.</li>
+              <li>Disabling enforcement hides the evidence. Use permissive mode briefly to confirm, then return to enforcing.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="homelab.html">Homelab notes</a>
+              <a href="https://github.com/an9gh/rhel-root-password-recovery" target="_blank" rel="noopener">SELinux relabel in the recovery repo &nearr;</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="post card reveal" id="lvm-extend">
+          <header class="post-head">
+            <p class="post-kicker">Storage &middot; LVM / XFS</p>
+            <h2>The LVM extend that didn&rsquo;t take</h2>
+            <p class="post-deck"><code>lvextend</code> can return success while <code>df -h</code> stays flat. Check the stack from disk to filesystem before resizing again.</p>
+          </header>
+          <div class="post-body">
+            <h3>The failure pattern</h3>
+            <p>Either <code>lvextend</code> reports success and <code>df -h</code> shows the old size, or it fails with <code>insufficient free space</code>. Both are layer problems: the logical volume, the volume group, the physical volume, or the filesystem.</p>
+
+            <h3>1. Map the stack</h3>
+            <pre><code>lsblk
+sudo pvs
+sudo vgs
+sudo lvs
+df -hT</code></pre>
+            <p>Read it bottom-up: disk &rarr; partition &rarr; physical volume &rarr; volume group &rarr; logical volume &rarr; filesystem. <code>df</code> is the final proof, not <code>lvextend</code>.</p>
+
+            <h3>2. Check free extents</h3>
+            <pre><code>sudo vgs
+sudo lvs -o lv_name,vg_name,lv_size,seg_size,seg_count</code></pre>
+            <p>If <code>VFree</code> is zero, the volume group has no room. Expand the underlying disk or partition and run <code>pvresize</code>, or add another physical volume.</p>
+
+            <h3>3. Grow the LV and filesystem together</h3>
+            <pre><code>sudo lvextend -r -L +10G /dev/vg/lv
+df -hT /mountpoint</code></pre>
+            <p>The <code>-r</code> flag calls the filesystem grow tool. If you omit it, grow the filesystem explicitly:</p>
+            <pre><code># XFS
+sudo xfs_growfs /mountpoint
+
+# ext4
+sudo resize2fs /dev/vg/lv</code></pre>
+
+            <h3>4. If the disk was expanded, resize the PV too</h3>
+            <pre><code>sudo growpart /dev/vda 3
+sudo pvresize /dev/vda3
+sudo lvextend -r -l +100%FREE /dev/vg/lv
+df -hT /mountpoint</code></pre>
+            <p>Confirm the device and partition number with <code>lsblk</code> first. <code>growpart</code> and <code>pvresize</code> are the steps people skip when a hypervisor disk was enlarged.</p>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li><code>lvextend</code> changes the logical volume; it does not always grow the filesystem. <code>-r</code> is the safer habit.</li>
+              <li>Always run <code>df -hT</code> after the resize. The command that returns success is not the command that proves capacity.</li>
+              <li>Take a snapshot before destructive storage work, and record the before/after output for the ticket or write-up.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="homelab.html">Homelab notes</a>
+              <a href="lab.html">Storage commands in the lab &nearr;</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 V P Anagh Uthaman</p>
+      <p class="mono-dim">Built with plain HTML, CSS &amp; JS &middot; Hosted on GitHub Pages</p>
+      <a class="back-top" href="#main">Back to top &uarr;</a>
+    </div>
+  </footer>
+
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

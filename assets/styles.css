@@ -1679,7 +1679,43 @@ code {
   text-decoration: none;
 }
 
+/* ---------- No-JS fallback ---------- */
+html:not(.js) .term-chips,
+html:not(.js) .term-clear,
+html:not(.js) .term-input-row,
+html:not(.js) .term-js-hint,
+html:not(.js) .tabs,
+html:not(.js) .lab-tools {
+  display: none;
+}
+
+.noscript-note {
+  margin: 0 0 1.5rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(240, 165, 58, 0.28);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  background: var(--amber-soft);
+  color: var(--text);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noscript-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.terminal-body .noscript-note {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
 /* ---------- Reveal ---------- */
+/* Progressive enhancement: theme.js adds .js before styles.css loads. Without
+   JavaScript, .reveal content keeps its normal visible styles. */
 .js .reveal {
   opacity: 0;
   transform: translateY(18px);

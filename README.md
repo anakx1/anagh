@@ -78,6 +78,10 @@ Inter and JetBrains Mono are self-hosted as variable WOFF2 subsets in `assets/fo
 python3 scripts/make_maskable_icon.py
 ```
 
+## Progressive enhancement
+
+`assets/theme.js` adds the `js` class before `styles.css` loads. `.reveal` content is only hidden under `.js .reveal`, so it remains visible when JavaScript is disabled. The terminal hides its chips, clear button, and input row without JavaScript and shows a `<noscript>` note linking to the Command Lab. The Command Lab hides its filter controls without JavaScript, shows all command cards, and displays a `<noscript>` note.
+
 ## GitHub profile
 
 `docs/github-profile-README.md` contains the corrected profile README: RHCSA Rapid Track (RH199) completion, EX200 preparation, RHCE coursework, the portfolio link, and `dev.an9gh@gmail.com`.

@@ -33,3 +33,5 @@ jobs:
         run: python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
       - name: Check CSP and referrer policy
         run: python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html
+      - name: Check self-hosted font assets
+        run: test -s assets/fonts/inter-latin-var.woff2 && test -s assets/fonts/jetbrains-mono-latin-var.woff2 && grep -q 'font-display: swap' assets/fonts.css

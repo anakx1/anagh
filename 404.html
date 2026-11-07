@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nGrfvbAILI8zjFjNrFjFitnCpv/VjzWH81HtkH+A5bk=' 'sha256-Ijh6OqclXbUCSlA0QwT8YAXa2WYBg7hVdQ3FHDnjmnM='; style-src 'self' https://fonts.googleapis.com 'sha256-Vq2h3vEc4gkGkYSXz9UkSHAu61X6V15YqagP7MfdqrM='; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; manifest-src 'self'; object-src 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nGrfvbAILI8zjFjNrFjFitnCpv/VjzWH81HtkH+A5bk=' 'sha256-Ijh6OqclXbUCSlA0QwT8YAXa2WYBg7hVdQ3FHDnjmnM='; style-src 'self' 'sha256-BzfwckgRqmB46hwkQI3PMFS89WJk0KIejALMdXiQUXc='; font-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <!-- This page stays self-contained because GitHub Pages can serve 404.html from arbitrary paths. Update the CSP hashes if the inline style or scripts change. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,7 @@
   <meta name="color-scheme" content="dark light">
   <title>404 | V P Anagh Uthaman</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="preload" href="/anagh/assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <script>
     (function () {
       var theme = 'dark';
@@ -29,6 +27,25 @@
     })();
   </script>
   <style>
+    /* Root-absolute URLs keep fonts working when GitHub Pages serves this page at an arbitrary path. */
+    @font-face {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url("/anagh/assets/fonts/inter-latin-var.woff2") format("woff2");
+      unicode-range: U+20-7E, U+A9, U+B7, U+C1, U+C9, U+CD, U+D3, U+DA, U+DD, U+E1, U+E9, U+ED, U+F3, U+FA, U+FD, U+106-107, U+139-13A, U+143-144, U+154-155, U+15A-15B, U+179-17A, U+1F4-1F5, U+301, U+1E30-1E31, U+1E3E-1E3F, U+1E54-1E55, U+1E82-1E83, U+2013-2014, U+2019, U+201C-201D, U+2026, U+2190-2193, U+2197;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url("/anagh/assets/fonts/jetbrains-mono-latin-var.woff2") format("woff2");
+      unicode-range: U+20-7E, U+A9, U+B7, U+C1, U+C9, U+CD, U+D3, U+DA, U+DD, U+E1, U+E9, U+ED, U+F3, U+FA, U+FD, U+106-107, U+139-13A, U+143-144, U+154-155, U+15A-15B, U+179-17A, U+1F4-1F5, U+301, U+1E30-1E31, U+1E3E-1E3F, U+1E54-1E55, U+1E82-1E83, U+2013-2014, U+2019, U+201C-201D, U+2026, U+2190-2193, U+2197;
+    }
+
     :root {
       --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;

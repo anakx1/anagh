@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlparse
 
 
 SKIP_SCHEMES = {"http", "https", "mailto", "tel", "data", "javascript"}
+SITE_BASE = "/anagh/"
 
 
 class PageParser(HTMLParser):
@@ -61,7 +62,9 @@ def check_page(path: Path, parsed: dict[Path, PageParser]) -> list[str]:
         target_fragment = parsed_url.fragment
 
         if parsed_url.path:
-            if parsed_url.path.startswith("/"):
+            if parsed_url.path.startswith(SITE_BASE):
+                target_path = Path(parsed_url.path[len(SITE_BASE):] or ".")
+            elif parsed_url.path.startswith("/"):
                 target_path = path.parent / parsed_url.path.lstrip("/")
             else:
                 target_path = path.parent / unquote(parsed_url.path)

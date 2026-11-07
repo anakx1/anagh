@@ -24,7 +24,7 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check assets/site.js && node --check assets/resume.js && node --check assets/theme.js
       - name: Check Python helper syntax
-        run: python3 -m py_compile scripts/check_links.py scripts/check_csp.py
+        run: python3 -m py_compile scripts/check_links.py scripts/check_csp.py scripts/make_maskable_icon.py
       - name: Validate metadata
         run: |
           python3 -m json.tool site.webmanifest >/dev/null
@@ -38,3 +38,8 @@ jobs:
           test -s assets/fonts/inter-latin-var.woff2
           test -s assets/fonts/jetbrains-mono-latin-var.woff2
           grep -q 'font-display: swap' assets/fonts.css
+      - name: Check app icon assets
+        run: |
+          test -s assets/icon-192.png
+          test -s assets/icon-512.png
+          test -s assets/icon-maskable-512.png

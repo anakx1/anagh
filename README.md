@@ -18,10 +18,11 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `assets/styles.css`, `assets/site.js`, `assets/theme.js` — shared styles and behavior
 - `assets/fonts.css`, `assets/fonts/*.woff2`, `assets/fonts/LICENSE-*.txt` — self-hosted Inter and JetBrains Mono subsets
 - `assets/resume.css`, `assets/resume.js` — résumé layout and print action
-- `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons
+- `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons (including the padded maskable icon)
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
 - `scripts/check_links.py` — local link, asset, and anchor checker
 - `scripts/check_csp.py` — CSP, referrer-policy, and inline-hash checker
+- `scripts/make_maskable_icon.py` — regenerates the padded maskable icon from `icon-512.png` (requires Pillow)
 - `docs/github-profile-README.md` — ready-to-copy GitHub profile README for `an9gh`
 - `docs/github-profile-settings.md` — matching GitHub bio, website, email, and pinned-repo settings
 - `docs/github-repo-metadata.md` — repository descriptions, homepages, and topics
@@ -45,6 +46,7 @@ node --check assets/site.js && node --check assets/resume.js && node --check ass
 python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
 python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html
 test -s assets/fonts/inter-latin-var.woff2 && test -s assets/fonts/jetbrains-mono-latin-var.woff2 && grep -q 'font-display: swap' assets/fonts.css
+test -s assets/icon-maskable-512.png
 python3 -m json.tool site.webmanifest >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
 ```
@@ -67,6 +69,14 @@ The referrer policy is `strict-origin-when-cross-origin`, so cross-origin links 
 ## Fonts
 
 Inter and JetBrains Mono are self-hosted as variable WOFF2 subsets in `assets/fonts/`. The subsets cover printable ASCII, Latin-1 accents, typographic punctuation, and the arrows used in the UI. Both use `font-display: swap`; Inter is preloaded on every page. `404.html` uses root-absolute font URLs because it can be served from arbitrary paths. Both families are licensed under the SIL Open Font License 1.1; the license texts are in `assets/fonts/`.
+
+## App icons
+
+`assets/icon-512.png` remains the standard `any` icon. `assets/icon-maskable-512.png` is the dedicated maskable icon: it keeps the full-bleed red gradient and scales the “AU” lettering to 76% of its original size, leaving 82px of margin inside Android’s central 80% safe zone. Regenerate it with:
+
+```bash
+python3 scripts/make_maskable_icon.py
+```
 
 ## GitHub profile
 

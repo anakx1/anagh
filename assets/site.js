@@ -220,6 +220,8 @@
     });
   }
 
+  // out() is for trusted, static command output. Anything derived from user
+  // input must be escaped with escapeHtml() before it reaches this function.
   function out(html) {
     var el = document.createElement('div');
     el.className = 'term-out';

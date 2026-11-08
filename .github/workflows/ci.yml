@@ -24,7 +24,7 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check assets/site.js && node --check assets/resume.js && node --check assets/theme.js
       - name: Check Python helper syntax
-        run: python3 -m py_compile scripts/check_links.py scripts/check_csp.py scripts/make_maskable_icon.py
+        run: python3 -m py_compile scripts/check_links.py scripts/check_csp.py scripts/make_maskable_icon.py scripts/summarize_lighthouse.py
       - name: Validate metadata
         run: |
           python3 -m json.tool site.webmanifest >/dev/null
@@ -62,6 +62,9 @@ jobs:
           node-version: 22
       - name: Run Lighthouse CI
         run: npx --yes @lhci/cli@0.16.0 autorun --config=.lighthouserc.json
+      - name: Summarize Lighthouse scores
+        if: always()
+        run: python3 scripts/summarize_lighthouse.py
       - name: Upload Lighthouse reports
         if: always()
         uses: actions/upload-artifact@v4

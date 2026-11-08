@@ -12,7 +12,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `index.html` — portfolio (hero, about, certifications, skills, projects, selected writing, contact)
 - `lab.html` — interactive EX200 command lab and cheat sheet with category filters and search
 - `homelab.html` — KVM lab topology, VM inventory, practice areas, and case studies
-- `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, and LVM extend failure
+- `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, LVM extend failure, SSH/firewalld hardening, and a custom web root/port on RHEL
 - `resume.html` — print-friendly résumé (use “Print / Save as PDF”)
 - `404.html` — themed not-found page
 - `assets/styles.css`, `assets/site.js`, `assets/theme.js` — shared styles and behavior

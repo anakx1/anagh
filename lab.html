@@ -101,10 +101,10 @@
         </div>
 
         <div class="tabs reveal" role="group" aria-label="Filter commands by domain">
-          <button class="tab is-active" type="button" data-cat="all" aria-pressed="true">All <span>45</span></button>
+          <button class="tab is-active" type="button" data-cat="all" aria-pressed="true">All <span>48</span></button>
           <button class="tab" type="button" data-cat="essentials" aria-pressed="false">Essentials <span>5</span></button>
-          <button class="tab" type="button" data-cat="storage" aria-pressed="false">Storage &amp; LVM <span>9</span></button>
-          <button class="tab" type="button" data-cat="selinux" aria-pressed="false">SELinux <span>4</span></button>
+          <button class="tab" type="button" data-cat="storage" aria-pressed="false">Storage &amp; LVM <span>11</span></button>
+          <button class="tab" type="button" data-cat="selinux" aria-pressed="false">SELinux <span>5</span></button>
           <button class="tab" type="button" data-cat="systemd" aria-pressed="false">systemd &amp; Boot <span>8</span></button>
           <button class="tab" type="button" data-cat="users" aria-pressed="false">Users <span>3</span></button>
           <button class="tab" type="button" data-cat="security" aria-pressed="false">Security <span>3</span></button>
@@ -120,7 +120,7 @@
         <div class="lab-tools reveal">
           <label class="sr-only" for="lab-search">Search commands</label>
           <input class="lab-search" id="lab-search" type="search" placeholder="Search commands, tools, or tasks..." autocomplete="off">
-          <p class="lab-count" id="lab-count" aria-live="polite">Showing 45 of 45</p>
+          <p class="lab-count" id="lab-count" aria-live="polite">Showing 48 of 48</p>
         </div>
 
         <p class="lab-empty" id="lab-empty" hidden>No commands match that search.</p>
@@ -447,22 +447,95 @@ firewall-cmd --reload</code></pre>
             </div>
           </article>
 
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>AutoFS indirect mount</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Watch one parent directory and resolve keys below it. The master drop-in points to a map file; explicit keys or a wildcard recipe define each mount.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy AutoFS indirect mount commands">Copy</button>
+              <pre><code># Master drop-in: /etc/auto.master.d/indir.autofs
+/external    /etc/auto.indir
+
+# Map file: /etc/auto.indir
+south    -fstype=nfs,rw    serverb:/shares/south
+west     -fstype=nfs,ro    serverb:/shares/west
+
+# Wildcard shortcut: &amp; expands to the key
+*        -fstype=nfs,rw    serverb:/shares/&amp;
+
+# Install, enable, and verify the loaded map
+dnf -y install autofs nfs-utils
+systemctl enable --now autofs
+automount -m
+
+# Trigger and verify an active mount
+cd /external/south
+findmnt /external/south
+df -hT</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>AutoFS direct mount</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">Mount a single standalone path without taking over its parent directory. The map file must use the full absolute path.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy AutoFS direct mount commands">Copy</button>
+              <pre><code># Master drop-in: /etc/auto.master.d/direct.autofs
+/-    /etc/auto.direct
+
+# Map file: /etc/auto.direct (absolute path required)
+/var/db_backups    -fstype=nfs,rw    serverb:/backups/db
+
+# Enable and verify the loaded map
+systemctl enable --now autofs
+automount -m
+
+# Trigger and verify the direct mount
+cd /var/db_backups
+findmnt /var/db_backups
+df -hT</code></pre>
+            </div>
+          </article>
+
           <article class="cheat-card card reveal" data-cat="selinux">
             <div class="cheat-head">
               <h3>SELinux custom path contexts</h3>
               <span class="badge badge-green">SELinux</span>
             </div>
-            <p class="cheat-desc">Define persistent file-context rules in the SELinux policy database with <code>semanage</code>, then relabel the hierarchy.</p>
+            <p class="cheat-desc">Inspect the current label, register a permanent file-context rule in the SELinux policy database with <code>semanage</code>, then relabel the hierarchy.</p>
             <div class="code">
               <button class="copy-btn" type="button" aria-label="Copy SELinux custom path contexts commands">Copy</button>
-              <pre><code># 1. Register a persistent policy context rule
-semanage fcontext -a -t httpd_sys_content_t &quot;/custom_web(/.*)?&quot;
+              <pre><code># 1. Inspect the current label
+ls -lZd /web/http
 
-# 2. Recursively apply the label from the policy database
-restorecon -Rv /custom_web
+# 2. Register a persistent policy context rule
+semanage fcontext -a -t httpd_sys_content_t &quot;/web/http(/.*)?&quot;
 
-# 3. Inspect the active SELinux security context
-ls -ldZ /custom_web</code></pre>
+# 3. Recursively apply the label from the policy database
+restorecon -Rv /web/http
+ls -ldZ /web/http</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="selinux">
+            <div class="cheat-head">
+              <h3>SELinux port labels</h3>
+              <span class="badge badge-green">SELinux</span>
+            </div>
+            <p class="cheat-desc">Allow a service to bind a non-standard port by adding the port to the matching SELinux port type.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy SELinux port labels commands">Copy</button>
+              <pre><code># Check the ports currently allowed for httpd
+semanage port -l | grep http_port_t
+
+# Add a custom HTTP port permanently
+semanage port -a -t http_port_t -p tcp 8282
+semanage port -l | grep http_port_t</code></pre>
             </div>
           </article>
 
@@ -471,12 +544,18 @@ ls -ldZ /custom_web</code></pre>
               <h3>SELinux booleans &amp; AVC audits</h3>
               <span class="badge badge-green">SELinux</span>
             </div>
-            <p class="cheat-desc">Toggle policy switches persistently with <code>-P</code> and extract human-readable remediation advice from audit logs.</p>
+            <p class="cheat-desc">Toggle policy switches persistently with <code>-P</code>, including NFS home directories and httpd access to NFS or databases, then extract remediation advice from audit logs.</p>
             <div class="code">
               <button class="copy-btn" type="button" aria-label="Copy SELinux booleans &amp; AVC audits commands">Copy</button>
               <pre><code># 1. Search for and toggle a boolean persistently
 getsebool -a | grep httpd_can_network
 setsebool -P httpd_can_network_connect 1
+
+# Common exam booleans
+setsebool -P use_nfs_home_dirs on
+setsebool -P httpd_use_nfs on
+setsebool -P httpd_enable_homedirs on
+setsebool -P httpd_can_network_connect_db on
 
 # 2. Query recent AVC denial events
 ausearch -m avc -ts recent
@@ -527,16 +606,25 @@ ls -ldZ /var/www/html</code></pre>
 
           <article class="cheat-card card reveal" data-cat="systemd">
             <div class="cheat-head">
-              <h3>Enable &amp; start services</h3>
+              <h3>Enable, start &amp; reload services</h3>
               <span class="badge badge-cyan">systemd</span>
             </div>
-            <p class="cheat-desc">Control unit state, enable services at boot, and inspect running units.</p>
+            <p class="cheat-desc">Control unit state, enable services at boot, distinguish reload from restart, and verify the active state and logs.</p>
             <div class="code">
-              <button class="copy-btn" type="button" aria-label="Copy Enable &amp; start services commands">Copy</button>
+              <button class="copy-btn" type="button" aria-label="Copy Enable, start &amp; reload services commands">Copy</button>
               <pre><code>systemctl status sshd
 systemctl enable --now sshd
 systemctl is-enabled sshd
+
+# Reload re-reads configuration; restart stops and starts the unit
+systemctl reload sshd
 systemctl restart sshd
+systemctl reload-or-restart sshd
+
+# Verify state and recent logs
+systemctl is-active sshd
+systemctl show -p ActiveState,SubState sshd
+journalctl -u sshd -b --no-pager | tail -n 20
 systemctl list-units --type=service --state=running</code></pre>
             </div>
           </article>
@@ -910,12 +998,12 @@ sftp anagh@server.example.com</code></pre>
 
           <article class="cheat-card card reveal" data-cat="network">
             <div class="cheat-head">
-              <h3>Web server (httpd)</h3>
+              <h3>Web server (httpd) exam checklist</h3>
               <span class="badge badge-cyan">Network</span>
             </div>
-            <p class="cheat-desc">Install Apache, publish a test page, confirm the SELinux label, and allow HTTP through firewalld.</p>
+            <p class="cheat-desc">Install Apache, publish a test page, and complete all four layers for a custom document root and port: httpd config, SELinux file context, SELinux port, and firewalld.</p>
             <div class="code">
-              <button class="copy-btn" type="button" aria-label="Copy web server commands">Copy</button>
+              <button class="copy-btn" type="button" aria-label="Copy web server exam checklist commands">Copy</button>
               <pre><code># Install and start the web server
 dnf -y install httpd
 systemctl enable --now httpd
@@ -927,7 +1015,29 @@ curl http://localhost
 
 # Open the firewall
 firewall-cmd --permanent --add-service=http
-firewall-cmd --reload</code></pre>
+firewall-cmd --reload
+
+# Custom root and port: all four layers
+# 1. Apache config (/etc/httpd/conf/httpd.conf)
+# Listen 8282
+# DocumentRoot "/web/http"
+# &lt;Directory "/web/http"&gt;
+#     Require all granted
+# &lt;/Directory&gt;
+
+# 2. SELinux file context
+semanage fcontext -a -t httpd_sys_content_t "/web/http(/.*)?"
+restorecon -Rv /web/http
+
+# 3. SELinux port
+semanage port -a -t http_port_t -p tcp 8282
+
+# 4. Firewall and service
+firewall-cmd --permanent --add-port=8282/tcp
+firewall-cmd --reload
+systemctl enable --now httpd
+systemctl restart httpd
+curl http://localhost:8282</code></pre>
             </div>
           </article>
 

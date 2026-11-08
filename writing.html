@@ -6,7 +6,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selected Writing | V P Anagh Uthaman</title>
-  <meta name="description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures: symptom, evidence, root cause, fix, and prevention.">
+  <meta name="description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port: symptom, evidence, root cause, fix, and prevention.">
   <meta name="author" content="V P Anagh Uthaman">
   <meta name="theme-color" content="#07080b">
   <meta name="color-scheme" content="dark light">
@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="V P Anagh Uthaman">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="Selected Writing | V P Anagh Uthaman">
-  <meta property="og:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures: symptom, evidence, root cause, fix, and prevention.">
+  <meta property="og:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port: symptom, evidence, root cause, fix, and prevention.">
   <meta property="og:url" content="https://anakx1.github.io/anagh/writing.html">
   <meta property="og:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta property="og:image:type" content="image/png">
@@ -24,7 +24,7 @@
   <meta property="og:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Selected Writing | V P Anagh Uthaman">
-  <meta name="twitter:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, and LVM extend failures.">
+  <meta name="twitter:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port.">
   <meta name="twitter:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta name="twitter:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
@@ -102,6 +102,8 @@
           <a href="#xrdp">01 &middot; xrdp session failure</a>
           <a href="#selinux-avc">02 &middot; SELinux AVC denial</a>
           <a href="#lvm-extend">03 &middot; LVM extend failure</a>
+          <a href="#ssh-firewalld">04 &middot; SSH and firewalld hardening</a>
+          <a href="#custom-web-root">05 &middot; Custom web root and port</a>
         </nav>
 
         <article class="post card reveal" id="xrdp">
@@ -249,6 +251,138 @@ df -hT /mountpoint</code></pre>
             <p class="post-related">
               <a href="homelab.html">Homelab notes</a>
               <a href="lab.html">Storage commands in the lab &nearr;</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="post card reveal" id="ssh-firewalld">
+          <header class="post-head">
+            <p class="post-kicker">Hardening &middot; RHEL 9</p>
+            <h2>SSH and firewalld hardening</h2>
+            <p class="post-deck">Key-only SSH is more than setting <code>PasswordAuthentication no</code>. The effective sshd policy, the firewall, and the SELinux port label all have to agree with the port clients use.</p>
+          </header>
+          <div class="post-body">
+            <h3>Symptom</h3>
+            <p>On a RHEL 9 guest, SSH can be reachable while the effective policy is still broader than the intended key-only, non-root access. The service looks healthy, so the gap is easy to miss unless the sshd policy, listening socket, firewall zone, and SELinux port label are checked together.</p>
+
+            <h3>Evidence</h3>
+            <pre><code>sudo sshd -T | grep -Ei '^(port|permitrootlogin|passwordauthentication|kbdinteractiveauthentication|pubkeyauthentication|allowusers)'
+sudo ss -tlnp | grep sshd
+sudo firewall-cmd --list-all
+sudo semanage port -l | grep ssh_port_t</code></pre>
+            <p><code>sshd -T</code> prints the effective configuration after includes, so it is the check that matters. <code>ss</code> shows the listening socket, <code>firewall-cmd --list-all</code> shows the active zone, and <code>semanage port -l</code> shows whether SELinux allows sshd to bind the chosen port.</p>
+
+            <h3>Root cause</h3>
+            <p>The common root cause is a partial change: sshd_config is edited but not reloaded, the firewall still allows the old service, or SELinux has no label for the new port. Any one of those leaves the guest either more open than intended or unreachable on the new port.</p>
+
+            <h3>Fix</h3>
+            <p>Confirm key-based access works for the account that should retain access. Keep a second SSH session open before reloading sshd; it is the recovery path if the new policy locks you out.</p>
+            <pre><code>install -d -m 700 ~/.ssh
+vi ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+sudo restorecon -Rv ~/.ssh</code></pre>
+            <p>Add an explicit drop-in. RHEL 9 includes <code>/etc/ssh/sshd_config.d/*.conf</code>, so keep the policy small and readable:</p>
+            <pre><code>sudo vi /etc/ssh/sshd_config.d/50-hardening.conf</code></pre>
+            <pre><code>PubkeyAuthentication yes
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PermitRootLogin no
+AllowUsers anagh</code></pre>
+            <p>Replace <code>anagh</code> with the account that should be allowed. If the port is changing, add <code>Port 2222</code> to the same drop-in; otherwise keep the default port. Validate the file before touching the running service:</p>
+            <pre><code>sudo sshd -t</code></pre>
+            <p>If the SSH port changes, update SELinux and firewalld before reloading sshd. The example uses port <code>2222</code>; use the port you actually configured.</p>
+            <pre><code>sudo semanage port -a -t ssh_port_t -p tcp 2222
+sudo semanage port -l | grep ssh_port_t</code></pre>
+            <p>If the port is already defined, replace <code>-a</code> with <code>-m</code>. Then move the firewall rule from the default <code>ssh</code> service to the new port and reload:</p>
+            <pre><code>sudo firewall-cmd --permanent --remove-service=ssh
+sudo firewall-cmd --permanent --add-port=2222/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all</code></pre>
+            <p>If you keep SSH on port 22, add the service instead of a port:</p>
+            <pre><code>sudo firewall-cmd --permanent --add-service=ssh
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all</code></pre>
+            <p>Reload sshd only after the port is allowed by SELinux and firewalld. Keep the second session open until a fresh connection succeeds. The verification below assumes port <code>2222</code>; substitute <code>22</code> if you kept the default.</p>
+            <pre><code>sudo systemctl reload sshd
+sudo sshd -T | grep -Ei '^(port|permitrootlogin|passwordauthentication|kbdinteractiveauthentication|pubkeyauthentication|allowusers)'
+sudo ss -tlnp | grep ':2222'
+sudo firewall-cmd --list-all
+ssh -p 2222 anagh@host</code></pre>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li><code>sshd -T</code> is the effective configuration; the file on disk is only one input after includes are applied.</li>
+              <li>Keep a second session open until a new SSH policy has been tested from a fresh connection.</li>
+              <li>SSH hardening is three layers: sshd policy, firewalld, and SELinux port labels. A change to one layer has to be checked against the other two.</li>
+              <li>Use <code>sshd -t</code> before a reload and verify with <code>ss -tlnp</code> after it; a service that reports active is not proof that the intended port is listening.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="homelab.html">Homelab notes</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="post card reveal" id="custom-web-root">
+          <header class="post-head">
+            <p class="post-kicker">Apache &middot; RHEL 10</p>
+            <h2>Custom web root and port on RHEL: the four layers</h2>
+            <p class="post-deck">Moving Apache to <code>/web/http</code> on port <code>8282</code> is four changes: httpd config, SELinux file context, SELinux port, and firewalld. Missing one layer leaves the other three looking correct.</p>
+          </header>
+          <div class="post-body">
+            <h3>Symptom</h3>
+            <p>The new document root or port is not live even though one layer has been changed. A 403 from <code>/web/http</code>, a connection failure on <code>8282</code>, or the default page still answering means at least one of the remaining layers still points at the old path or port.</p>
+
+            <h3>Evidence</h3>
+            <pre><code>sudo httpd -t
+grep -nE '^(Listen|DocumentRoot)' /etc/httpd/conf/httpd.conf
+ls -ldZ /web/http
+sudo semanage fcontext -l | grep /web/http
+sudo semanage port -l | grep http_port_t
+sudo firewall-cmd --list-all
+sudo ss -tlnp | grep ':8282'
+curl -I http://localhost:8282</code></pre>
+
+            <h3>Root cause</h3>
+            <p>The four layers are independent. <code>httpd.conf</code> controls the path and port Apache asks for, the SELinux file context controls file access, <code>semanage port</code> controls whether httpd may bind <code>8282</code>, and firewalld controls whether clients can reach it. Changing one layer does not update the other three.</p>
+
+            <h3>Fix</h3>
+            <p>Create the custom document root and update both the listening port and the directory policy in <code>httpd.conf</code>:</p>
+            <pre><code>sudo mkdir -p /web/http
+sudo vi /etc/httpd/conf/httpd.conf</code></pre>
+            <pre><code>Listen 8282
+DocumentRoot "/web/http"
+&lt;Directory "/web/http"&gt;
+    Require all granted
+&lt;/Directory&gt;</code></pre>
+            <p>Register the SELinux file context, then apply it from the policy database:</p>
+            <pre><code>sudo semanage fcontext -a -t httpd_sys_content_t "/web/http(/.*)?"
+sudo restorecon -Rv /web/http
+ls -ldZ /web/http</code></pre>
+            <p>Allow httpd to bind the custom port:</p>
+            <pre><code>sudo semanage port -a -t http_port_t -p tcp 8282
+sudo semanage port -l | grep http_port_t</code></pre>
+            <p>Open the port in firewalld, validate the Apache configuration, and restart the service:</p>
+            <pre><code>sudo firewall-cmd --permanent --add-port=8282/tcp
+sudo firewall-cmd --reload
+sudo httpd -t
+sudo systemctl enable --now httpd
+sudo systemctl restart httpd
+curl http://localhost:8282</code></pre>
+            <p>Verify the listener and the active firewall zone:</p>
+            <pre><code>sudo ss -tlnp | grep ':8282'
+sudo firewall-cmd --list-all</code></pre>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li>A custom web root and port is four layers, not one config file: httpd, SELinux file context, SELinux port, and firewalld.</li>
+              <li><code>semanage fcontext</code> only registers the policy; <code>restorecon</code> applies the label to disk.</li>
+              <li><code>semanage port</code> and firewalld are separate controls. Both must allow the new port before the service is reachable.</li>
+              <li>Validate with <code>httpd -t</code> before restarting, then verify with <code>curl</code>, <code>ss -tlnp</code>, and <code>firewall-cmd --list-all</code>.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="homelab.html">Homelab notes</a>
             </p>
           </div>
         </article>

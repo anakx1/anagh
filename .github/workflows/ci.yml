@@ -28,7 +28,12 @@ jobs:
       - name: Validate metadata
         run: |
           python3 -m json.tool site.webmanifest >/dev/null
+          python3 -m json.tool .lighthouserc.json >/dev/null
           python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
+          if grep -qE '<(lastmod|changefreq|priority)>' sitemap.xml; then
+            echo "sitemap.xml should contain only <loc> entries" >&2
+            exit 1
+          fi
       - name: Check local links and anchors
         run: python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
       - name: Check CSP and referrer policy
@@ -43,3 +48,22 @@ jobs:
           test -s assets/icon-192.png
           test -s assets/icon-512.png
           test -s assets/icon-maskable-512.png
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: validate
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.16.0 autorun --config=.lighthouserc.json
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          if-no-files-found: ignore

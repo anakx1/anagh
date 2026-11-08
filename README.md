@@ -20,6 +20,8 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `assets/resume.css`, `assets/resume.js` — résumé layout and print action
 - `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons (including the padded maskable icon)
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
+- `.lighthouserc.json` — Lighthouse CI assertions for accessibility, performance, best practices, and SEO
+- `.github/workflows/ci.yml` — HTML, JS, Python, link, CSP, font, icon, sitemap, and Lighthouse checks
 - `scripts/check_links.py` — local link, asset, and anchor checker
 - `scripts/check_csp.py` — CSP, referrer-policy, and inline-hash checker
 - `scripts/make_maskable_icon.py` — regenerates the padded maskable icon from `icon-512.png` (requires Pillow)
@@ -48,10 +50,22 @@ python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.ht
 test -s assets/fonts/inter-latin-var.woff2 && test -s assets/fonts/jetbrains-mono-latin-var.woff2 && grep -q 'font-display: swap' assets/fonts.css
 test -s assets/icon-maskable-512.png
 python3 -m json.tool site.webmanifest >/dev/null
+python3 -m json.tool .lighthouserc.json >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
+! grep -qE '<(lastmod|changefreq|priority)>' sitemap.xml
 ```
 
 Use Node 22+ (html-validate 11 requires it). The same checks run on every push via GitHub Actions (`.github/workflows/ci.yml`).
+
+## CI
+
+The workflow runs on every push and pull request. The validation job checks HTML, JavaScript syntax, Python helpers, local links and anchors, CSP hashes, referrer policy, self-hosted fonts, app icons, and that `sitemap.xml` contains only `<loc>` entries.
+
+A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, and résumé pages. Accessibility fails below `0.9`; performance fails below `0.6`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact.
+
+## Sitemap
+
+`sitemap.xml` intentionally contains only `<loc>` entries. Google ignores `changefreq` and `priority`, and `lastmod` is not maintained by hand. The CI check rejects those elements so stale dates cannot creep back in.
 
 ## Security policy
 
@@ -101,4 +115,4 @@ Repo **Settings → Pages → Deploy from a branch → `main` / root**.
 
 ## Keep fresh
 
-Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Add new entries to `writing.html` and the Selected writing section in `index.html` when a lab produces a reusable lesson. Bump the `<lastmod>` dates in `sitemap.xml` when the main pages change. Keep `docs/github-profile-README.md` in sync with the site.
+Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Add new entries to `writing.html` and the Selected writing section in `index.html` when a lab produces a reusable lesson. When you add or remove a page, update `sitemap.xml`; keep it to `<loc>` entries only. Keep `docs/github-profile-README.md` in sync with the site.

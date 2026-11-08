@@ -2,6 +2,7 @@
 Thumbs.db
 *.swp
 .build/
+.lighthouseci/
 node_modules/
 __pycache__/
 *.pyc

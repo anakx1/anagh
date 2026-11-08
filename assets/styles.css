@@ -51,7 +51,7 @@
   --heading: #0c1119;
   --text: #3b4656;
   --muted: #5d6a7d;
-  --faint: #66707e;
+  --faint: #626c79;
   --red: #d61f16;
   --red-2: #b8160e;
   --red-soft: rgba(214, 31, 22, 0.08);
@@ -1048,7 +1048,7 @@ code {
 }
 
 [data-theme="light"] .badge-red {
-  color: var(--red);
+  color: var(--red-2);
   border-color: rgba(214, 31, 22, 0.25);
 }
 
@@ -1056,6 +1056,11 @@ code {
   color: var(--green);
   background: var(--green-soft);
   border-color: rgba(63, 208, 127, 0.28);
+}
+
+[data-theme="light"] .badge-green {
+  color: #0d6b32;
+  border-color: rgba(18, 128, 61, 0.22);
 }
 
 .badge-cyan {
@@ -1203,7 +1208,7 @@ code {
 }
 
 [data-theme="light"] .tab.is-active {
-  color: var(--red);
+  color: var(--red-2);
 }
 
 .tab.is-active span {

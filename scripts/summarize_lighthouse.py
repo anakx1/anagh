@@ -7,6 +7,7 @@ import glob
 import json
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 CATEGORIES = ("performance", "accessibility", "best-practices", "seo")
 
@@ -44,6 +45,18 @@ def main() -> int:
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         Path(summary_path).write_text(summary + "\n", encoding="utf-8")
+
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        parts = []
+        for url, categories in sorted(rows):
+            path = urlparse(url).path or "/"
+            parts.append(
+                f"{path} P{score(categories, 'performance')} "
+                f"A{score(categories, 'accessibility')}"
+            )
+        message = " | ".join(parts) if parts else "No reports found"
+        print(f"::notice title=Lighthouse scores::{message}")
+
     return 0
 
 

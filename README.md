@@ -26,7 +26,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `scripts/check_links.py` — local link, asset, and anchor checker
 - `scripts/check_csp.py` — CSP, referrer-policy, and inline-hash checker
 - `scripts/make_maskable_icon.py` — regenerates the padded maskable icon from `icon-512.png` (requires Pillow)
-- `scripts/summarize_lighthouse.py` — writes the Lighthouse CI score table to the workflow summary
+- `scripts/summarize_lighthouse.py` — writes the Lighthouse CI score table to the workflow summary and a compact notice annotation
 - `docs/github-profile-README.md` — ready-to-copy GitHub profile README for `an9gh`
 - `docs/github-profile-settings.md` — matching GitHub bio, website, email, and pinned-repo settings
 - `docs/github-repo-metadata.md` — repository descriptions, homepages, and topics
@@ -64,7 +64,9 @@ Use Node 22+ (html-validate 11 requires it). The same checks run on every push v
 
 The workflow runs on every push and pull request. The validation job checks HTML, JavaScript syntax, Python helpers, local links and anchors, CSP hashes, referrer policy, self-hosted fonts, app icons, and that `sitemap.xml` contains only `<loc>` entries.
 
-A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, and résumé pages. Performance fails below `0.9`; accessibility fails below `0.95`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact.
+A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, and résumé pages. Performance fails below `0.9`; accessibility fails below `0.95`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact, and a score table is written to the workflow summary.
+
+On screens `900px` wide and narrower the hero terminal is hidden so the mobile page avoids the terminal's paint cost; the Command Lab remains the mobile interface for the same commands.
 
 ## Sitemap
 

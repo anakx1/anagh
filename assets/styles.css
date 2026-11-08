@@ -1732,6 +1732,13 @@ html:not(.js) .lab-tools {
   transform: none;
 }
 
+/* Mobile performance: the interactive terminal is desktop/tablet only. */
+@media (max-width: 900px) {
+  .hero-terminal {
+    display: none;
+  }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1120px) {
   .nav-github {

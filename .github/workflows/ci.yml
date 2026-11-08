@@ -30,6 +30,8 @@ jobs:
           python3 -m json.tool site.webmanifest >/dev/null
           python3 -m json.tool .lighthouserc.json >/dev/null
           python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
+          test -s LICENSE
+          test -s LICENSE-CONTENT.md
           if grep -qE '<(lastmod|changefreq|priority)>' sitemap.xml; then
             echo "sitemap.xml should contain only <loc> entries" >&2
             exit 1

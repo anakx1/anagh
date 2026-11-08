@@ -22,6 +22,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
 - `.lighthouserc.json` — Lighthouse CI assertions for accessibility, performance, best practices, and SEO
 - `.github/workflows/ci.yml` — HTML, JS, Python, link, CSP, font, icon, sitemap, and Lighthouse checks
+- `LICENSE`, `LICENSE-CONTENT.md` — MIT code license and all-rights-reserved personal-content notice
 - `scripts/check_links.py` — local link, asset, and anchor checker
 - `scripts/check_csp.py` — CSP, referrer-policy, and inline-hash checker
 - `scripts/make_maskable_icon.py` — regenerates the padded maskable icon from `icon-512.png` (requires Pillow)
@@ -53,6 +54,7 @@ python3 -m json.tool site.webmanifest >/dev/null
 python3 -m json.tool .lighthouserc.json >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
 ! grep -qE '<(lastmod|changefreq|priority)>' sitemap.xml
+test -s LICENSE && test -s LICENSE-CONTENT.md
 ```
 
 Use Node 22+ (html-validate 11 requires it). The same checks run on every push via GitHub Actions (`.github/workflows/ci.yml`).
@@ -96,6 +98,14 @@ python3 scripts/make_maskable_icon.py
 
 `assets/theme.js` adds the `js` class before `styles.css` loads. `.reveal` content is only hidden under `.js .reveal`, so it remains visible when JavaScript is disabled. The terminal hides its chips, clear button, and input row without JavaScript and shows a `<noscript>` note linking to the Command Lab. The Command Lab hides its filter controls without JavaScript, shows all command cards, and displays a `<noscript>` note.
 
+## License
+
+The source code — HTML, CSS, JavaScript, Python, and shell scripts — is released under the MIT License; see `LICENSE`.
+
+The personal content — résumé, writing, site copy, images, icons, and branding — is © 2026 V P Anagh Uthaman, all rights reserved; see `LICENSE-CONTENT.md`.
+
+Third-party fonts remain under the SIL Open Font License 1.1; see `assets/fonts/LICENSE-*.txt`.
+
 ## GitHub profile
 
 `docs/github-profile-README.md` contains the corrected profile README: RHCSA Rapid Track (RH199) completion, EX200 preparation, RHCE coursework, the portfolio link, and `dev.an9gh@gmail.com`.
@@ -112,6 +122,8 @@ The current SSH key on this machine is authenticated as `anakx1`, so the profile
 ## Deploy
 
 Repo **Settings → Pages → Deploy from a branch → `main` / root**.
+
+The site uses the default `anakx1.github.io/anagh` URL, so no `CNAME` file is committed. Add a `CNAME` only if you adopt a custom domain.
 
 ## Keep fresh
 

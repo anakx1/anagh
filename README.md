@@ -13,6 +13,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `lab.html` — interactive EX200 command lab and cheat sheet with category filters and search
 - `homelab.html` — KVM lab topology, VM inventory, practice areas, and case studies
 - `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, LVM extend failure, SSH/firewalld hardening, and a custom web root/port on RHEL
+- `log.html` — short dated learning log of lab work and study, newest first
 - `resume.html` — print-friendly résumé (use “Print / Save as PDF”)
 - `404.html` — themed not-found page
 - `assets/styles.css`, `assets/site.js`, `assets/theme.js` — shared styles and behavior
@@ -39,16 +40,17 @@ python3 -m http.server 8000
 # command lab: http://localhost:8000/lab.html
 # homelab: http://localhost:8000/homelab.html
 # writing: http://localhost:8000/writing.html
+# learning log: http://localhost:8000/log.html
 # résumé: http://localhost:8000/resume.html
 ```
 
 ## Check before pushing
 
 ```bash
-npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html
+npx --yes html-validate@11.17.0 index.html lab.html 404.html resume.html homelab.html writing.html log.html
 node --check assets/site.js && node --check assets/resume.js && node --check assets/theme.js
-python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html
-python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html
+python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.html writing.html log.html
+python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html log.html
 test -s assets/fonts/inter-latin-var.woff2 && test -s assets/fonts/jetbrains-mono-latin-var.woff2 && grep -q 'font-display: swap' assets/fonts.css
 test -s assets/icon-maskable-512.png
 python3 -m json.tool site.webmanifest >/dev/null
@@ -64,7 +66,7 @@ Use Node 22+ (html-validate 11 requires it). The same checks run on every push v
 
 The workflow runs on every push and pull request. The validation job checks HTML, JavaScript syntax, Python helpers, local links and anchors, CSP hashes, referrer policy, self-hosted fonts, app icons, and that `sitemap.xml` contains only `<loc>` entries.
 
-A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, and résumé pages. Performance fails below `0.9`; accessibility fails below `0.95`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact, and a score table is written to the workflow summary.
+A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, log, and résumé pages. Performance fails below `0.9`; accessibility fails below `0.95`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact, and a score table is written to the workflow summary.
 
 On screens `900px` wide and narrower the hero terminal is hidden so the mobile page avoids the terminal's paint cost; the Command Lab remains the mobile interface for the same commands.
 
@@ -130,4 +132,4 @@ The site uses the default `anakx1.github.io/anagh` URL, so no `CNAME` file is co
 
 ## Keep fresh
 
-Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Add new entries to `writing.html` and the Selected writing section in `index.html` when a lab produces a reusable lesson. When you add or remove a page, update `sitemap.xml`; keep it to `<loc>` entries only. Keep `docs/github-profile-README.md` in sync with the site.
+Update the “Currently” line in `index.html` whenever your focus changes. Update the cheat sheet cards in `lab.html` when your command references change. Add new entries to `writing.html` and the Selected writing section in `index.html` when a lab produces a reusable lesson. Add dated entries to `log.html`, newest first. When you add or remove a page, update `sitemap.xml`; keep it to `<loc>` entries only. Keep `docs/github-profile-README.md` in sync with the site.

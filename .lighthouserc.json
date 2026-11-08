@@ -7,6 +7,7 @@
         "http://localhost/lab.html",
         "http://localhost/homelab.html",
         "http://localhost/writing.html",
+        "http://localhost/log.html",
         "http://localhost/resume.html"
       ],
       "numberOfRuns": 1

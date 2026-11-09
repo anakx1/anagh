@@ -1765,6 +1765,12 @@ html:not(.js) .lab-tools {
   transform: none;
 }
 
+/* The hero is above the fold; do not wait for site.js to reveal it. */
+.js .hero .reveal {
+  opacity: 1;
+  transform: none;
+}
+
 /* Mobile performance: the interactive terminal is desktop/tablet only. */
 @media (max-width: 900px) {
   .hero-terminal {

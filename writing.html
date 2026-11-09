@@ -6,7 +6,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selected Writing | V P Anagh Uthaman</title>
-  <meta name="description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port: symptom, evidence, root cause, fix, and prevention.">
+  <meta name="description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, a custom web root/port, and an AutoFS busy directory: symptom, evidence, root cause, fix, and prevention.">
   <meta name="author" content="V P Anagh Uthaman">
   <meta name="theme-color" content="#07080b">
   <meta name="color-scheme" content="dark light">
@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="V P Anagh Uthaman">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="Selected Writing | V P Anagh Uthaman">
-  <meta property="og:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port: symptom, evidence, root cause, fix, and prevention.">
+  <meta property="og:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, a custom web root/port, and an AutoFS busy directory: symptom, evidence, root cause, fix, and prevention.">
   <meta property="og:url" content="https://anakx1.github.io/anagh/writing.html">
   <meta property="og:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta property="og:image:type" content="image/png">
@@ -24,7 +24,7 @@
   <meta property="og:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Selected Writing | V P Anagh Uthaman">
-  <meta name="twitter:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, and a custom web root/port.">
+  <meta name="twitter:description" content="Linux lab write-ups on xrdp session failures, SELinux AVC denials, LVM extend failures, SSH/firewalld hardening, a custom web root/port, and AutoFS busy directories.">
   <meta name="twitter:image" content="https://anakx1.github.io/anagh/assets/og-card.png">
   <meta name="twitter:image:alt" content="V P Anagh Uthaman — selected Linux lab writing">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e01e16'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='48' font-weight='700' fill='white' text-anchor='middle'%3EAU%3C/text%3E%3C/svg%3E">
@@ -105,6 +105,7 @@
           <a href="#lvm-extend">03 &middot; LVM extend failure</a>
           <a href="#ssh-firewalld">04 &middot; SSH and firewalld hardening</a>
           <a href="#custom-web-root">05 &middot; Custom web root and port</a>
+          <a href="#autofs-busy">06 &middot; AutoFS busy directory</a>
         </nav>
 
         <article class="post card reveal" id="xrdp">
@@ -380,6 +381,69 @@ sudo firewall-cmd --list-all</code></pre>
               <li><code>semanage fcontext</code> only registers the policy; <code>restorecon</code> applies the label to disk.</li>
               <li><code>semanage port</code> and firewalld are separate controls. Both must allow the new port before the service is reachable.</li>
               <li>Validate with <code>httpd -t</code> before restarting, then verify with <code>curl</code>, <code>ss -tlnp</code>, and <code>firewall-cmd --list-all</code>.</li>
+            </ul>
+
+            <p class="post-related">
+              <a href="homelab.html">Homelab notes</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="post card reveal" id="autofs-busy">
+          <header class="post-head">
+            <p class="post-kicker">AutoFS &middot; RHEL</p>
+            <h2>AutoFS: rmdir says Device or resource busy</h2>
+            <p class="post-deck">The parent <code>/mhome</code> could not be released while the child <code>/mhome/south</code> was still mounted under it. Stopping autofs did not unmount either mount.</p>
+          </header>
+          <div class="post-body">
+            <h3>Symptom</h3>
+            <p>From a root shell inside <code>/mhome/south</code>, <code>systemctl disable --now autofs.service</code> did not free the mount. <code>rmdir /mhome/</code> failed with <code>Device or resource busy</code>.</p>
+            <figure class="post-figure">
+              <img src="assets/img/autofs-busy-1.webp" alt="Terminal at /mhome/south showing systemctl disable --now autofs.service followed by rmdir /mhome/ failing with Device or resource busy" width="842" height="308" loading="lazy" decoding="async">
+              <figcaption>Screenshot 1 &mdash; with the shell still inside the mount, disabling autofs did not make <code>rmdir /mhome/</code> succeed.</figcaption>
+            </figure>
+            <p>After <code>systemctl restart autofs.service</code>, <code>ls /</code> still listed <code>mhome</code>, and <code>rmdir /mhome/</code> failed again.</p>
+            <figure class="post-figure">
+              <img src="assets/img/autofs-busy-2.webp" alt="Terminal at /mhome/south showing systemctl restart autofs.service, ls / listing mhome, and rmdir /mhome/ failing with Device or resource busy" width="1000" height="497" loading="lazy" decoding="async">
+              <figcaption>Screenshot 2 &mdash; after restarting autofs, <code>ls /</code> still showed <code>mhome</code> and <code>rmdir /mhome/</code> still failed.</figcaption>
+            </figure>
+
+            <h3>Evidence</h3>
+            <pre><code>pwd
+findmnt -R /mhome
+ls /etc/auto.master.d/
+sudo automount -m
+sudo fuser -vm /mhome
+sudo lsof +D /mhome</code></pre>
+            <p><code>pwd</code> shows whether the shell is inside the mount or one of its children. <code>findmnt -R /mhome</code> shows the parent mount and any nested child mounts; it is the check that exposes <code>/mhome/south</code> under <code>/mhome</code>. <code>ls /etc/auto.master.d/</code> shows whether a master-map entry still references the base directory, and <code>automount -m</code> shows the maps autofs has loaded. <code>fuser -vm /mhome</code> and <code>lsof +D /mhome</code> identify processes and open files holding the mount.</p>
+
+            <h3>Root cause</h3>
+            <p><strong>My root cause: a nested mount.</strong> <code>/mhome/south</code> was mounted as a child inside the <code>/mhome</code> AutoFS parent. The parent cannot be released or removed while the child remains attached, and stopping autofs does not unmount either one.</p>
+            <p>Other possible causes are a shell standing inside the mount, a stale kernel <code>autofs</code> or <code>nfs4</code> mount after the daemon stops, or another process using the directory. A master-map entry that recreates the directory after a restart is a separate thing to check; it was not the confirmed cause in this lab.</p>
+
+            <h3>Fix</h3>
+            <p><strong>Method 1: my resolved method</strong> &mdash; unmount the child first, then the parent, confirm nothing is mounted, and remove the directory:</p>
+            <pre><code>findmnt -R /mhome
+sudo umount /mhome/south
+sudo umount /mhome
+findmnt /mhome
+sudo rmdir /mhome</code></pre>
+            <p>A parent mount cannot detach while a child mount remains under it, so the order matters: children before parents. This is the method that worked in my lab.</p>
+            <p>Other methods, if Method 1 is not the right fit:</p>
+            <ol start="2">
+              <li><strong>3-check rule:</strong> step out with <code>pwd</code> and <code>cd ~</code>, check <code>findmnt /mhome</code>, run <code>sudo umount -R /mhome</code>, then <code>sudo rmdir /mhome</code> after <code>findmnt</code> is empty.</li>
+              <li><strong>Lazy or force unmount, last resort:</strong> <code>sudo umount -lf /mhome</code> detaches the mount, including an unreachable NFS case, but it does not free the process still holding it.</li>
+              <li><strong>Find the holder:</strong> inspect with <code>sudo fuser -vm /mhome</code> or <code>sudo lsof +D /mhome</code>, then close or stop the holder and retry. <code>sudo fuser -km /mhome</code> kills every process using the mount, possibly including your own shell or SSH session.</li>
+              <li><strong>If the directory comes back after a restart:</strong> check <code>/etc/auto.master.d/*.autofs</code> and remove or comment the matching entry instead of disabling autofs, then restart autofs. This is a thing to check, not the confirmed cause in this lab. Do not disable autofs permanently if later exam tasks need it.</li>
+            </ol>
+
+            <h3>What I learned</h3>
+            <ul>
+              <li>Unmount child mounts before the parent. A parent cannot detach while a child is still attached.</li>
+              <li>Stopping autofs does not unmount the mounts. Check the kernel mount table instead of assuming the daemon state released them.</li>
+              <li>Check with <code>findmnt /mhome</code> before <code>rmdir</code>; no output means the mount is gone.</li>
+              <li><code>findmnt -R /mhome</code> shows the nesting before you start unmounting.</li>
+              <li>A shell inside the mount, a stale kernel mount, or another process can still keep it busy; check those separately.</li>
             </ul>
 
             <p class="post-related">

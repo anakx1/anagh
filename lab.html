@@ -102,9 +102,9 @@
         </div>
 
         <div class="tabs reveal" role="group" aria-label="Filter commands by domain">
-          <button class="tab is-active" type="button" data-cat="all" aria-pressed="true">All <span>48</span></button>
+          <button class="tab is-active" type="button" data-cat="all" aria-pressed="true">All <span>49</span></button>
           <button class="tab" type="button" data-cat="essentials" aria-pressed="false">Essentials <span>5</span></button>
-          <button class="tab" type="button" data-cat="storage" aria-pressed="false">Storage &amp; LVM <span>11</span></button>
+          <button class="tab" type="button" data-cat="storage" aria-pressed="false">Storage &amp; LVM <span>12</span></button>
           <button class="tab" type="button" data-cat="selinux" aria-pressed="false">SELinux <span>5</span></button>
           <button class="tab" type="button" data-cat="systemd" aria-pressed="false">systemd &amp; Boot <span>8</span></button>
           <button class="tab" type="button" data-cat="users" aria-pressed="false">Users <span>3</span></button>
@@ -121,7 +121,7 @@
         <div class="lab-tools reveal">
           <label class="sr-only" for="lab-search">Search commands</label>
           <input class="lab-search" id="lab-search" type="search" placeholder="Search commands, tools, or tasks..." autocomplete="off">
-          <p class="lab-count" id="lab-count" aria-live="polite">Showing 48 of 48</p>
+          <p class="lab-count" id="lab-count" aria-live="polite">Showing 49 of 49</p>
         </div>
 
         <p class="lab-empty" id="lab-empty" hidden>No commands match that search.</p>
@@ -500,6 +500,44 @@ automount -m
 cd /var/db_backups
 findmnt /var/db_backups
 df -hT</code></pre>
+            </div>
+          </article>
+
+          <article class="cheat-card card reveal" data-cat="storage">
+            <div class="cheat-head">
+              <h3>AutoFS: Device or resource busy</h3>
+              <span class="badge badge-red">Storage</span>
+            </div>
+            <p class="cheat-desc">A nested AutoFS mount cannot be released while a child mount is still attached. My method unmounts the child first, then the parent; other fallbacks follow.</p>
+            <div class="code">
+              <button class="copy-btn" type="button" aria-label="Copy AutoFS Device or resource busy fix commands">Copy</button>
+              <pre><code># Method 1: my resolved method - child first, then parent
+findmnt -R /mhome
+umount /mhome/south
+umount /mhome
+findmnt /mhome
+rmdir /mhome
+
+# Method 2: 3-check rule - step out, check, unmount recursively
+pwd
+cd ~
+findmnt /mhome
+umount -R /mhome
+rmdir /mhome
+
+# Method 3: last resort - lazy/force unmount
+umount -lf /mhome   # detaches; does not free the holding process
+
+# Method 4: find the holder before acting
+fuser -vm /mhome
+lsof +D /mhome
+# fuser -km /mhome  # kills every process using the mount
+
+# Method 5: if the directory comes back after restart,
+# check and remove the master-map entry instead of disabling autofs
+ls /etc/auto.master.d/
+# edit the matching .autofs file, then restart autofs
+# Do not disable autofs permanently if later exam tasks need it</code></pre>
             </div>
           </article>
 

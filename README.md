@@ -12,7 +12,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `index.html` — portfolio (hero, about, certifications, skills, projects, selected writing, contact)
 - `lab.html` — interactive EX200 command lab and cheat sheet with category filters and search
 - `homelab.html` — KVM lab topology, VM inventory, practice areas, and case studies
-- `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, LVM extend failure, SSH/firewalld hardening, and a custom web root/port on RHEL
+- `writing.html` — selected lab write-ups: xrdp session failure, SELinux AVC denial, LVM extend failure, SSH/firewalld hardening, a custom web root/port on RHEL, and a nested AutoFS busy directory
 - `log.html` — short dated learning log of lab work and study, newest first
 - `resume.html` — print-friendly résumé (use “Print / Save as PDF”)
 - `404.html` — themed not-found page
@@ -21,6 +21,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `assets/resume.css`, `assets/resume.js` — résumé layout and print action
 - `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons (including the padded maskable icon)
 - `assets/anagh.webp` — profile photo used in the About section
+- `assets/img/*.webp` — AutoFS troubleshooting screenshots used in the writing entry
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
 - `.lighthouserc.json` — Lighthouse CI assertions for accessibility, performance, best practices, and SEO
 - `.github/workflows/ci.yml` — HTML, JS, Python, link, CSP, font, icon, sitemap, and Lighthouse checks

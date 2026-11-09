@@ -709,6 +709,18 @@ Focus Areas   : systemd units, storage (LVM/VDO), SELinux targeted policy, firew
               <a class="text-link" href="writing.html#custom-web-root">Read the write-up &rarr;</a>
             </div>
           </article>
+
+          <article class="project-card card reveal">
+            <div class="project-top">
+              <span class="badge badge-green">Storage</span>
+            </div>
+            <h3 class="project-title"><a href="writing.html#autofs-busy">AutoFS: rmdir says Device or resource busy</a></h3>
+            <p class="project-desc">The parent mount could not be released while the child <code>/mhome/south</code> was still attached. The fix was to unmount the child, then the parent, confirm with <code>findmnt</code>, and remove <code>/mhome</code>.</p>
+            <div class="project-foot">
+              <span class="mono-dim">RHEL / AutoFS</span>
+              <a class="text-link" href="writing.html#autofs-busy">Read the write-up &rarr;</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>

@@ -20,6 +20,7 @@ A static site with no build step, no dependencies, hosted on GitHub Pages:
 - `assets/fonts.css`, `assets/fonts/*.woff2`, `assets/fonts/LICENSE-*.txt` — self-hosted Inter and JetBrains Mono subsets
 - `assets/resume.css`, `assets/resume.js` — résumé layout and print action
 - `assets/og-card.png`, `assets/icon-*.png` — social preview and app icons (including the padded maskable icon)
+- `assets/anagh.webp` — profile photo used in the About section
 - `site.webmanifest`, `sitemap.xml`, `robots.txt` — install metadata and search indexing
 - `.lighthouserc.json` — Lighthouse CI assertions for accessibility, performance, best practices, and SEO
 - `.github/workflows/ci.yml` — HTML, JS, Python, link, CSP, font, icon, sitemap, and Lighthouse checks
@@ -53,6 +54,7 @@ python3 scripts/check_links.py index.html lab.html 404.html resume.html homelab.
 python3 scripts/check_csp.py index.html lab.html 404.html resume.html homelab.html writing.html log.html
 test -s assets/fonts/inter-latin-var.woff2 && test -s assets/fonts/jetbrains-mono-latin-var.woff2 && grep -q 'font-display: swap' assets/fonts.css
 test -s assets/icon-maskable-512.png
+test -s assets/anagh.webp
 python3 -m json.tool site.webmanifest >/dev/null
 python3 -m json.tool .lighthouserc.json >/dev/null
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
@@ -64,7 +66,7 @@ Use Node 22+ (html-validate 11 requires it). The same checks run on every push v
 
 ## CI
 
-The workflow runs on every push and pull request. The validation job checks HTML, JavaScript syntax, Python helpers, local links and anchors, CSP hashes, referrer policy, self-hosted fonts, app icons, and that `sitemap.xml` contains only `<loc>` entries.
+The workflow runs on every push and pull request. The validation job checks HTML, JavaScript syntax, Python helpers, local links and anchors, CSP hashes, referrer policy, self-hosted fonts, app icons, the profile photo, and that `sitemap.xml` contains only `<loc>` entries.
 
 A second job runs Lighthouse CI against a local static server on the homepage, lab, homelab, writing, log, and résumé pages. Performance fails below `0.9`; accessibility fails below `0.95`; best-practices and SEO emit warnings below `0.9`. Reports are uploaded as the `lighthouse-reports` workflow artifact, and a score table is written to the workflow summary.
 

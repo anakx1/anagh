@@ -975,6 +975,39 @@ code {
   font-size: 1rem;
 }
 
+.about-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.about-intro-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.about-photo {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .about-intro {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-intro-text {
+    width: 100%;
+  }
+}
+
 .about-actions {
   display: flex;
   flex-wrap: wrap;

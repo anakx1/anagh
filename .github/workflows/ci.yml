@@ -50,6 +50,8 @@ jobs:
           test -s assets/icon-192.png
           test -s assets/icon-512.png
           test -s assets/icon-maskable-512.png
+      - name: Check profile photo asset
+        run: test -s assets/anagh.webp
 
   lighthouse:
     runs-on: ubuntu-latest
